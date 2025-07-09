@@ -24,11 +24,24 @@ func loadFileIntoYaml(path string) (awesomeList, error) {
 	return awesomelist, nil
 }
 
+func generate(){
+	awesomelist, err := loadFileIntoYaml(awesomeFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(awesomelist)
+}
+
+var (
+	awesomeFile string
+)
+
+func init() {
+	flag.StringVar(&awesomeFile, "f", "", "path to awesome file")
+}
+
 func main() {
 	log.SetFlags(0)
-
-	var awesomeFile string
-	flag.StringVar(&awesomeFile, "f", "", "path to awesome file")
 
 	flag.Usage = func() {
 		fmt.Fprintln(os.Stderr, "Usage: awelist [options] <command> [command-options] [arguments]")
@@ -51,11 +64,7 @@ func main() {
 
 	switch flag.Args()[0] {
 	case "generate":
-		awesomelist, err := loadFileIntoYaml(awesomeFile)
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println(awesomelist)
+		generate()
 	default:
 		fmt.Fprintf(os.Stderr, "Unknown command '%s'\n", flag.Args()[0])
 		flag.Usage()
