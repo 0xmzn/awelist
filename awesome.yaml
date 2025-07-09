@@ -1,0 +1,77 @@
+- title: "Category with Records Only"
+  description: "This category contains records but no subcategories."
+  records:
+    - title: "Record 1 for Category A"
+      description: "Description for record 1."
+      recordData: "Data A1"
+    - title: "Record 2 for Category A"
+      description: "Description for record 2."
+      recordData: "Data A2"
+- title: "Category with Subcategories Only"
+  description: "This category contains subcategories but no direct records."
+  records: [] # Explicitly empty records array
+  subcategories:
+    - title: "Subcategory B.1 (Records Only)"
+      description: "A subcategory with records."
+      records:
+        - title: "Record for B.1.1"
+          description: "Data for subcategory B.1.1."
+          recordData: "Data B1.1"
+    - title: "Subcategory B.2 (Empty)"
+      description: "An empty subcategory."
+      records: []
+      # subcategories: (omitted due to omitempty if empty)
+- title: "Category with Records and Subcategories"
+  description: "This category has both records and subcategories."
+  records:
+    - title: "Main Category Record 1"
+      description: "A record belonging to the main category."
+      recordData: "Main Data 1"
+  subcategories:
+    - title: "Subcategory C.1 (with Records)"
+      description: "First subcategory with its own records."
+      records:
+        - title: "Record C.1.1"
+          description: "Data for C.1.1."
+          recordData: "C.1.1 Data"
+    - title: "Subcategory C.2 (Nested Subcategories)"
+      description: "Second subcategory, which has further nested subcategories."
+      records: []
+      subcategories:
+        - title: "Nested Subcategory C.2.1"
+          description: "A deeply nested subcategory."
+          records:
+            - title: "Record C.2.1.1"
+              description: "Data for the deeply nested record."
+              recordData: "Deep Nested Data"
+        - title: "Nested Subcategory C.2.2 (Empty)"
+          description: "Another deeply nested subcategory, but empty."
+          records: []
+- title: "Empty Category"
+  description: "This category has no records and no subcategories."
+  records: [] # Explicitly empty records array
+  # subcategories: (omitted due to omitempty)
+- title: "Category with Multiple Records"
+  description: "Demonstrates a category with several records."
+  records:
+    - title: "Multi-Record A"
+      description: "First record in a multi-record category."
+      recordData: "Multi-A Data 1"
+    - title: "Multi-Record B"
+      description: "Second record in a multi-record category."
+      recordData: "Multi-A Data 2"
+    - title: "Multi-Record C"
+      description: "Third record in a multi-record category."
+      recordData: "Multi-A Data 3"
+- title: "Category with Only Empty Subcategories"
+  description: "This category has subcategories, but all of them are empty."
+  records: []
+  subcategories:
+    - title: "Empty Subcategory D.1"
+      description: "This subcategory is empty."
+      records: []
+      # subcategories: (omitted due to omitempty)
+    - title: "Empty Subcategory D.2"
+      description: "Another empty subcategory."
+      records: []
+      # subcategories: (omitted due to omitempty)
