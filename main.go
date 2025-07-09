@@ -25,7 +25,7 @@ func loadFileIntoYaml(path string) (awesomeList, error) {
 }
 
 func generate(){
-	awesomelist, err := loadFileIntoYaml(awesomeFile)
+	awesomelist, err := loadFileIntoYaml(_awesomeFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,11 +33,11 @@ func generate(){
 }
 
 var (
-	awesomeFile string
+	_awesomeFile string
 )
 
 func init() {
-	flag.StringVar(&awesomeFile, "f", "", "path to awesome file")
+	flag.StringVar(&_awesomeFile, "f", "", "path to awesome file")
 }
 
 func main() {
@@ -53,8 +53,8 @@ func main() {
 
 	flag.Parse()
 
-	if awesomeFile == "" {
-		awesomeFile = "awesome.yaml"
+	if _awesomeFile == "" {
+		_awesomeFile = "awesome.yaml"
 	}
 
 	if flag.NArg() == 0 {
