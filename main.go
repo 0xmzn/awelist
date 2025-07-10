@@ -9,6 +9,12 @@ import (
 	"github.com/goccy/go-yaml"
 )
 
+func registerGlobalFlags(fset *flag.FlagSet) {
+  flag.VisitAll(func(f *flag.Flag) { 
+    fset.Var(f.Value, f.Name, f.Usage) 
+  })
+}
+
 func loadFileIntoYaml(path string) (awesomeList, error) {
 	var awesomelist awesomeList
 
@@ -22,14 +28,6 @@ func loadFileIntoYaml(path string) (awesomeList, error) {
 	}
 
 	return awesomelist, nil
-}
-
-func generate(){
-	awesomelist, err := loadFileIntoYaml(_awesomeFile)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(awesomelist)
 }
 
 var (
@@ -62,12 +60,16 @@ func main() {
 		return
 	}
 
-	switch flag.Args()[0] {
+	subcmd, args := flag.Args()[0], flag.Args()[1:]
+
+	switch subcmd {
 	case "generate":
-		generate()
+		if err := generate(args); err != nil {
+			log.Fatal(err)
+		}
 	default:
-		fmt.Fprintf(os.Stderr, "Unknown command '%s'\n", flag.Args()[0])
-		flag.Usage()
+		fmt.Fprintf(os.Stderr, "Error: Unknown command '%s'\n", subcmd)
+		fmt.Fprintln(os.Stderr, "Run 'awelist --help' to see available commands.")
 		os.Exit(1)
 	}
 }
