@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"flag"
+	"fmt"
 )
 
 func generate(args []string) error {
@@ -13,7 +13,7 @@ func generate(args []string) error {
 	flag.Parse(args)
 
 	if flag.NArg() != 1 {
-        return fmt.Errorf("generate command requires exactly one argument: <filename>")
+		return fmt.Errorf("generate command requires exactly one argument: <filename>")
 	}
 
 	awesomelist, err := loadFileIntoYaml(_awesomeFile)

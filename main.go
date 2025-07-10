@@ -10,9 +10,9 @@ import (
 )
 
 func registerGlobalFlags(fset *flag.FlagSet) {
-  flag.VisitAll(func(f *flag.Flag) { 
-    fset.Var(f.Value, f.Name, f.Usage) 
-  })
+	flag.VisitAll(func(f *flag.Flag) {
+		fset.Var(f.Value, f.Name, f.Usage)
+	})
 }
 
 func loadFileIntoYaml(path string) (awesomeList, error) {
