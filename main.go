@@ -20,11 +20,11 @@ func loadFileIntoYaml(path string) (awesomeList, error) {
 
 	fcontent, err := os.ReadFile(path)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read file %s: %w", path, err)
+		return nil, fmt.Errorf("failed to read file %q", path)
 	}
 
 	if err := yaml.Unmarshal(fcontent, &awesomelist); err != nil {
-		return nil, fmt.Errorf("failed to parse YAML data in %s", path)
+		return nil, fmt.Errorf("failed to parse YAML data in %q", path)
 	}
 
 	return awesomelist, nil
@@ -65,11 +65,11 @@ func main() {
 	switch subcmd {
 	case "generate":
 		if err := generate(args); err != nil {
-			log.Fatal(err)
+			log.Fatalf("awelist: %s", err)
 		}
 	default:
-		fmt.Fprintf(os.Stderr, "Error: Unknown command '%s'\n", subcmd)
-		fmt.Fprintln(os.Stderr, "Run 'awelist --help' to see available commands.")
+		fmt.Fprintf(os.Stderr, "awelist: Unknown command '%s'\n", subcmd)
+		fmt.Fprintln(os.Stderr, "Try 'awelist -help' for more information.")
 		os.Exit(1)
 	}
 }
