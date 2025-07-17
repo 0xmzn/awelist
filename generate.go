@@ -38,7 +38,7 @@ func generate(args []string) error {
 	flag.Parse(args)
 
 	if flag.NArg() != 1 {
-		return fmt.Errorf("generate command requires exactly one argument: <filename>")
+		return CliErrorf(nil, "generate command requires exactly one argument: <filename>")
 	}
 
 	tmpl_file := flag.Arg(0)
@@ -50,18 +50,18 @@ func generate(args []string) error {
 
 	tmpl_content, err := os.ReadFile(tmpl_file)
 	if err != nil {
-		return fmt.Errorf("failed to read file %q", tmpl_file)
+		return CliErrorf(err, "failed to read file %q", tmpl_file)
 	}
 
 	tmpl, err := newTemplate(htmlOutput, tmpl_file, string(tmpl_content))
 	if err != nil {
-		return fmt.Errorf("invalid template syntax in %q", tmpl_file)
+		return CliErrorf(err, "invalid template syntax in %q", tmpl_file)
 	}
 
 	var buffer bytes.Buffer
 	err = tmpl.Execute(&buffer, awesomelist)
 	if err != nil {
-		return fmt.Errorf("failed while executing template %q", tmpl_file)
+		return CliErrorf(err, "failed while executing template %q", tmpl_file)
 	}
 
 	fmt.Printf("%s", buffer.String())

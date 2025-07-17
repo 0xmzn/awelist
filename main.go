@@ -9,6 +9,16 @@ import (
 	"github.com/goccy/go-yaml"
 )
 
+func CliErrorf(err error, format string, a ...any) error {
+	if _debugMode {
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf(format, a...)
+	}
+	return fmt.Errorf(format, a...)
+}
+
 func registerGlobalFlags(fset *flag.FlagSet) {
 	flag.VisitAll(func(f *flag.Flag) {
 		fset.Var(f.Value, f.Name, f.Usage)
@@ -20,11 +30,11 @@ func loadFileIntoYaml(path string) (awesomeList, error) {
 
 	fcontent, err := os.ReadFile(path)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read file %q", path)
+		return nil, CliErrorf(err, "failed to read file %q", path)
 	}
 
 	if err := yaml.Unmarshal(fcontent, &awesomelist); err != nil {
-		return nil, fmt.Errorf("failed to parse YAML data in %q", path)
+		return nil, CliErrorf(err, "failed to parse YAML data in %q", path)
 	}
 
 	return awesomelist, nil
@@ -32,10 +42,12 @@ func loadFileIntoYaml(path string) (awesomeList, error) {
 
 var (
 	_awesomeFile string
+	_debugMode   bool
 )
 
 func init() {
 	flag.StringVar(&_awesomeFile, "f", "", "path to awesome file")
+	flag.BoolVar(&_debugMode, "debug", false, "print raw error messages on error")
 }
 
 func main() {
