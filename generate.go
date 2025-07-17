@@ -41,27 +41,27 @@ func generate(args []string) error {
 		return CliErrorf(nil, "generate command requires exactly one argument: <filename>")
 	}
 
-	tmpl_file := flag.Arg(0)
+	tmplFile := flag.Arg(0)
 
 	awesomelist, err := loadFileIntoYaml(_awesomeFile)
 	if err != nil {
 		return err
 	}
 
-	tmpl_content, err := os.ReadFile(tmpl_file)
+	tmplContent, err := os.ReadFile(tmplFile)
 	if err != nil {
-		return CliErrorf(err, "failed to read file %q", tmpl_file)
+		return CliErrorf(err, "failed to read file %q", tmplFile)
 	}
 
-	tmpl, err := newTemplate(htmlOutput, tmpl_file, string(tmpl_content))
+	tmpl, err := newTemplate(htmlOutput, tmplFile, string(tmplContent))
 	if err != nil {
-		return CliErrorf(err, "invalid template syntax in %q", tmpl_file)
+		return CliErrorf(err, "invalid template syntax in %q", tmplFile)
 	}
 
 	var buffer bytes.Buffer
 	err = tmpl.Execute(&buffer, awesomelist)
 	if err != nil {
-		return CliErrorf(err, "failed while executing template %q", tmpl_file)
+		return CliErrorf(err, "failed while executing template %q", tmplFile)
 	}
 
 	fmt.Printf("%s", buffer.String())

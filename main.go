@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/goccy/go-yaml"
@@ -51,8 +50,6 @@ func init() {
 }
 
 func main() {
-	log.SetFlags(0)
-
 	flag.Usage = func() {
 		fmt.Fprintln(os.Stderr, "Usage: awelist [options] <command> [command-options] [arguments]")
 		fmt.Fprintln(os.Stderr, "\nMain Options:")
@@ -77,7 +74,8 @@ func main() {
 	switch subcmd {
 	case "generate":
 		if err := generate(args); err != nil {
-			log.Fatalf("awelist: %s", err)
+			fmt.Fprintf(os.Stderr, "awelist: %s\n", err)
+			os.Exit(1)
 		}
 	default:
 		fmt.Fprintf(os.Stderr, "awelist: Unknown command '%s'\n", subcmd)
