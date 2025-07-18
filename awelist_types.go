@@ -3,14 +3,17 @@ package main
 type Category struct {
 	Title         string     `yaml:"title"`
 	Description   string     `yaml:"description,omitempty"`
-	Records       []Record   `yaml:"records"`
+	Link          []Link     `yaml:"links"`
 	Subcategories []Category `yaml:"subcategories,omitempty"`
 }
 
-type Record struct {
+type Link struct {
 	Title       string `yaml:"title"`
-	Description string `yaml:"description,omitempty"`
-	RecordData  string `yaml:"recordData,omitempty"`
+	Description string `yaml:"description"`
+	Url         string `yaml:"url"`
+
+	// derived
+	Stars int `yaml:"-"`
 }
 
 type awesomeList []Category
