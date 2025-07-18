@@ -30,6 +30,26 @@ func newTemplate(isHTML bool, name string, content string) (template, error) {
 	}
 }
 
+func executeTemplate(filename string, isHtml bool, data awesomeList) (bytes.Buffer, error) {
+	tmplContent, err := os.ReadFile(filename)
+	if err != nil {
+		return bytes.Buffer{}, CliErrorf(err, "failed to read file %q", filename)
+	}
+
+	tmpl, err := newTemplate(isHtml, filename, string(tmplContent))
+	if err != nil {
+		return bytes.Buffer{}, CliErrorf(err, "invalid template syntax in %q", filename)
+	}
+
+	var buffer bytes.Buffer
+	err = tmpl.Execute(&buffer, data)
+	if err != nil {
+		return bytes.Buffer{}, CliErrorf(err, "failed while executing template %q", filename)
+	}
+
+	return buffer, nil
+}
+
 func generate(args []string) error {
 	flag := flag.NewFlagSet("generate", flag.ExitOnError)
 	var htmlOutput bool
@@ -48,20 +68,9 @@ func generate(args []string) error {
 		return err
 	}
 
-	tmplContent, err := os.ReadFile(tmplFile)
+	buffer, err := executeTemplate(tmplFile, htmlOutput, awesomelist)
 	if err != nil {
-		return CliErrorf(err, "failed to read file %q", tmplFile)
-	}
-
-	tmpl, err := newTemplate(htmlOutput, tmplFile, string(tmplContent))
-	if err != nil {
-		return CliErrorf(err, "invalid template syntax in %q", tmplFile)
-	}
-
-	var buffer bytes.Buffer
-	err = tmpl.Execute(&buffer, awesomelist)
-	if err != nil {
-		return CliErrorf(err, "failed while executing template %q", tmplFile)
+		return err
 	}
 
 	fmt.Printf("%s", buffer.String())
