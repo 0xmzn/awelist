@@ -32,7 +32,7 @@ func loadFileIntoYaml(path string) (awesomeList, error) {
 		return nil, CliErrorf(err, "failed to read file %q", path)
 	}
 
-	if err := yaml.Unmarshal(fcontent, &awesomelist); err != nil {
+	if err := yaml.UnmarshalWithOptions(fcontent, &awesomelist, yaml.DisallowUnknownField()); err != nil {
 		return nil, CliErrorf(err, "failed to parse YAML data in %q", path)
 	}
 
