@@ -1,77 +1,764 @@
-- title: "Category with links Only"
-  description: "This category contains links but no subcategories."
+- title: Actor Model
+  description: Libraries for building actor-based programs.
   links:
-    - title: "Record 1 for Category A"
-      description: "Description for record 1."
-      url: "Data A1"
-    - title: "Record 2 for Category A"
-      description: "Description for record 2."
-      url: "Data A2"
-- title: "Category with Subcategories Only"
-  description: "This category contains subcategories but no direct links."
-  links: [] # Explicitly empty records array
+    - title: Ergo
+      description: An actor-based Framework with network transparency for creating event-driven
+        architecture in Golang. Inspired by Erlang.
+      url: https://github.com/ergo-services/ergo
+    - title: Goakt
+      description: Fast and Distributed Actor framework using protocol buffers as message
+        for Golang.
+      url: https://github.com/Tochemey/goakt
+    - title: Hollywood
+      description: Blazingly fast and light-weight Actor engine written in Golang.
+      url: https://github.com/anthdm/hollywood
+    - title: ProtoActor
+      description: Proto Actor - Ultra fast distributed actors for Go, C# and Java/Kotlin.
+      url: https://github.com/asynkron/protoactor-go
+- title: Artificial Intelligence
+  description: Libraries for building programs that leverage AI.
+  links:
+    - title: chromem-go
+      description: Embeddable vector database for Go with Chroma-like interface and
+        zero third-party dependencies. In-memory with optional persistence.
+      url: https://github.com/philippgille/chromem-go
+    - title: fun
+      description: The simplest but powerful way to use large language models (LLMs)
+        in Go.
+      url: https://gitlab.com/tozd/go/fun
+    - title: langchaingo
+      description: LangChainGo is a framework for developing applications powered
+        by language models.
+      url: https://github.com/tmc/langchaingo
+    - title: LocalAI
+      description: Open Source OpenAI alternative, self-host AI models.
+      url: https://github.com/mudler/LocalAI
+    - title: Ollama
+      description: Run large language models locally.
+      url: https://github.com/jmorganca/ollama
+    - title: OllamaFarm
+      description: Manage, load-balance, and failover packs of Ollamas
+      url: https://github.com/presbrey/ollamafarm
+- title: Audio and Music
+  description: Libraries for manipulating audio.
+  links:
+    - title: flac
+      description: Native Go FLAC encoder/decoder with support for FLAC streams.
+      url: https://github.com/mewkiz/flac
+    - title: gaad
+      description: Native Go AAC bitstream parser.
+      url: https://github.com/Comcast/gaad
+    - title: GoAudio
+      description: Native Go Audio Processing Library.
+      url: https://github.com/DylanMeeus/GoAudio
+    - title: gosamplerate
+      description: libsamplerate bindings for go.
+      url: https://github.com/dh1tw/gosamplerate
+    - title: id3v2
+      description: ID3 decoding and encoding library for Go.
+      url: https://github.com/bogem/id3v2
+    - title: malgo
+      description: Mini audio library.
+      url: https://github.com/gen2brain/malgo
+    - title: minimp3
+      description: Lightweight MP3 decoder library.
+      url: https://github.com/tosone/minimp3
+    - title: Oto
+      description: A low-level library to play sound on multiple platforms.
+      url: https://github.com/hajimehoshi/oto
+    - title: PortAudio
+      description: Go bindings for the PortAudio audio I/O library.
+      url: https://github.com/gordonklaus/portaudio
+- title: Authentication and OAuth
+  description: Libraries for implementing authentication schemes.
+  links:
+    - title: authboss
+      description: Modular authentication system for the web. It tries to remove
+        as much boilerplate and "hard things" as possible so that each time
+        you start a new web project in Go, you can plug it in, configure
+        it, and start building your app without having to build an authentication
+        system each time.
+      url: https://github.com/volatiletech/authboss
+    - title: branca
+      description: branca token [specification implementation](https://github.com/tuupola/branca-spec)
+        for Golang 1.15+.
+      url: https://github.com/essentialkaos/branca
+    - title: casbin
+      description: Authorization library that supports access control models like
+        ACL, RBAC, and ABAC.
+      url: https://github.com/hsluoyz/casbin
+    - title: cookiestxt
+      description: provides a parser of cookies.txt file format.
+      url: https://github.com/mengzhuo/cookiestxt
+    - title: go-guardian
+      description: Go-Guardian is a golang library that provides a simple, clean,
+        and idiomatic way to create powerful modern API and web authentication
+        that supports LDAP, Basic, Bearer token, and Certificate based authentication.
+      url: https://github.com/shaj13/go-guardian
+    - title: go-jose
+      description: Fairly complete implementation of the JOSE working group's JSON
+        Web Token, JSON Web Signatures, and JSON Web Encryption specs.
+      url: https://github.com/go-jose/go-jose
+    - title: goiabada
+      description: An open-source authentication and authorization server supporting
+        OAuth2 and OpenID Connect.
+      url: https://github.com/leodip/goiabada
+    - title: gologin
+      description: chainable handlers for login with OAuth1 and OAuth2 authentication
+        providers.
+      url: https://github.com/dghubble/gologin
+    - title: gorbac
+      description: provides a lightweight role-based access control (RBAC) implementation
+        in Golang.
+      url: https://github.com/mikespook/gorbac
+    - title: gosession
+      description: This is quick session for net/http in GoLang. This package is
+        perhaps the best implementation of the session mechanism, or at least
+        it tries to become one.
+      url: https://github.com/Kwynto/gosession
+    - title: goth
+      description: provides a simple, clean, and idiomatic way to use OAuth and
+        OAuth2. Handles multiple providers out of the box.
+      url: https://github.com/markbates/goth
+    - title: jeff
+      description: Simple, flexible, secure, and idiomatic web session management
+        with pluggable backends.
+      url: https://github.com/abraithwaite/jeff
+    - title: jwt
+      description: Lightweight JSON Web Token (JWT) library.
+      url: https://github.com/pascaldekloe/jwt
+    - title: jwt
+      description: Safe, simple, and fast JSON Web Tokens for Go.
+      url: https://github.com/cristalhq/jwt
+    - title: jwt-auth
+      description: JWT middleware for Golang http servers with many configuration
+        options.
+      url: https://github.com/adam-hanna/jwt-auth
+    - title: jwt-go
+      description: A full featured implementation of JSON Web Tokens (JWT). This
+        library supports the parsing and verification as well as the generation
+        and signing of JWTs.
+      url: https://github.com/golang-jwt/jwt
+    - title: jwx
+      description: Go module implementing various JWx (JWA/JWE/JWK/JWS/JWT, otherwise
+        known as JOSE) technologies
+      url: https://github.com/lestrrat-go/jwx
+    - title: keto
+      description: |
+        Open Source (Go) implementation of "Zanzibara: Google's Consistent,
+        Global Authorization System". Ships gRPC, REST APIs, newSQL, and an
+        easy and granular permission language. Supports ACL, RBAC, and other
+        access models.
+      url: https://github.com/ory/keto
+    - title: loginsrv
+      description: JWT login microservice with pluggable backends such as OAuth2
+        (Github), htpasswd, osiam.
+      url: https://github.com/tarent/loginsrv
+    - title: oauth2
+      description: Successor of goauth2. Generic OAuth 2.0 package that comes with
+        JWT, Google APIs, Compute Engine, and App Engine support.
+      url: https://github.com/golang/oauth2
+    - title: oidc
+      description: Easy to use OpenID Connect client and server library written
+        for Go and certified by the OpenID Foundation
+      url: https://github.com/zitadel/oidc
+    - title: openfga
+      description: |
+        Implementation of fine-grained authorization based on the "Zanzibar:
+        Google's Consistent, Global Authorization System" paper. Backed by
+        [CNCF](https://www.cncf.io/).
+      url: https://github.com/openfga/openfga
+    - title: osin
+      description: Golang OAuth2 server library.
+      url: https://github.com/openshift/osin
+    - title: otpgen
+      description: Library to generate TOTP/HOTP codes.
+      url: https://github.com/grijul/otpgen
+    - title: otpgo
+      description: Time-Based One-Time Password (TOTP) and HMAC-Based One-Time Password
+        (HOTP) library for Go.
+      url: https://github.com/jltorresm/otpgo
+    - title: paseto
+      description: Golang implementation of Platform-Agnostic Security Tokens (PASETO).
+      url: https://github.com/o1egl/paseto
+    - title: permissions
+      description: Library for keeping track of users, login states, and permissions.
+        Uses secure cookies and bcrypt.
+      url: https://github.com/xyproto/permissions
+    - title: scope
+      description: Easily Manage OAuth2 Scopes In Go.
+      url: https://github.com/SonicRoshan/scope
+    - title: scs
+      description: Session Manager for HTTP servers.
+      url: https://github.com/alexedwards/scs
+    - title: securecookie
+      description: Efficient secure cookie encoding/decoding.
+      url: https://github.com/chmike/securecookie
+    - title: session
+      description: Go session management for web servers (including support for Google
+        App Engine - GAE).
+      url: https://github.com/icza/session
+    - title: sessions
+      description: Dead simple, highly performant, highly customizable sessions
+        service for go http servers.
+      url: https://github.com/adam-hanna/sessions
+    - title: sessionup
+      description: Simple, yet effective HTTP session management and identification
+        package.
+      url: https://github.com/swithek/sessionup
+    - title: sjwt
+      description: Simple jwt generator and parser.
+      url: https://github.com/brianvoe/sjwt
+    - title: x509proxy
+      description: Library to handle X509 proxy certificates.
+      url: https://github.com/vkuznet/x509proxy
+- title: Blockchain
+  description: Tools for building blockchains.
+  links:
+    - title: cometbft
+      description: A distributed, Byzantine fault-tolerant, deterministic state machine
+        replication engine. It is a fork of Tendermint Core and implements the
+        Tendermint consensus algorithm.
+      url: https://github.com/cometbft/cometbft
+    - title: cosmos-sdk
+      description: A Framework for Building Public Blockchains in the Cosmos Ecosystem.
+      url: https://github.com/cosmos/cosmos-sdk
+    - title: gno
+      description: A comprehensive smart contract suite built with Golang and Gnolang,
+        a deterministic, purpose-built Go variant for blockchains.
+      url: https://github.com/gnolang/gno
+    - title: go-ethereum
+      description: Official Go implementation of the Ethereum protocol.
+      url: https://github.com/ethereum/go-ethereum
+    - title: gosemble
+      description: A Go-based framework for building Polkadot/Substrate-compatible
+        runtimes.
+      url: https://github.com/LimeChain/gosemble
+    - title: gossamer
+      description: A Go implementation of the Polkadot Host.
+      url: https://github.com/ChainSafe/gossamer
+    - title: kubo
+      description: A blockchain framework implemented in Go. It provides content-addressable
+        storage which can be used for decentralized storage in DApps. It is
+        based on the IPFS protocol.
+      url: https://github.com/ipfs/kubo
+    - title: lnd
+      description: A complete implementation of a Lightning Network node.
+      url: https://github.com/lightningnetwork/lnd
+    - title: solana-go
+      description: Go library to interface with Solana JSON RPC and WebSocket interfaces.
+      url: https://github.com/gagliardetto/solana-go
+    - title: tendermint
+      description: High-performance middleware for transforming a state machine written
+        in any programming language into a Byzantine Fault Tolerant replicated
+        state machine using the Tendermint consensus and blockchain protocols.
+      url: https://github.com/tendermint/tendermint
+- title: Bot Building
+  description: Libraries for building and working with bots.
+  links:
+    - title: arikawa
+      description: A library and framework for the Discord API.
+      url: https://github.com/diamondburned/arikawa
+    - title: bot
+      description: Zero-dependencies Telegram Bot library with additional UI components
+      url: https://github.com/go-telegram/bot
+    - title: echotron
+      description: An elegant and concurrent library for Telegram Bots in Go.
+      url: https://github.com/NicoNex/echotron
+    - title: go-joe
+      description: A general-purpose bot library inspired by Hubot but written in
+        Go.
+      url: https://joe-bot.net
+    - title: go-sarah
+      description: Framework to build a bot for desired chat services including
+        LINE, Slack, Gitter, and more.
+      url: https://github.com/oklahomer/go-sarah
+    - title: go-tg
+      description: Generated from official docs Go client library for accessing
+        Telegram Bot API, with batteries for building complex bots included.
+      url: https://github.com/mr-linch/go-tg
+    - title: go-twitch-irc
+      description: Library to write bots for twitch.tv chat
+      url: https://github.com/gempir/go-twitch-irc
+    - title: micha
+      description: Go Library for Telegram bot api.
+      url: https://github.com/onrik/micha
+    - title: slack-bot
+      description: 'Ready to use Slack Bot for lazy developers: Custom commands, Jenkins,
+        Jira, Bitbucket, Github...'
+      url: https://github.com/innogames/slack-bot
+    - title: slacker
+      description: Easy to use framework to create Slack bots.
+      url: https://github.com/slack-io/slacker
+    - title: telebot
+      description: Telegram bot framework is written in Go.
+      url: https://github.com/tucnak/telebot
+    - title: telego
+      description: Telegram Bot API library for Golang with full one-to-one API
+        implementation.
+      url: https://github.com/mymmrac/telego
+    - title: telegram-bot-api
+      description: Simple and clean Telegram bot client.
+      url: https://github.com/go-telegram-bot-api/telegram-bot-api
+    - title: wayback
+      description: A bot for Telegram, Mastodon, Slack, and other messaging platforms
+        archives webpages.
+      url: https://github.com/wabarc/wayback
+- title: Command Line
   subcategories:
-    - title: "Subcategory B.1 (links Only)"
-      description: "A subcategory with links."
+    - title: Advanced Console UIs
+      description: Libraries for building Console Applications and Console User Interfaces.
       links:
-        - title: "Record for B.1.1"
-          description: "Data for subcategory B.1.1."
-          url: "Data B1.1"
-    - title: "Subcategory B.2 (Empty)"
-      description: "An empty subcategory."
-      links: []
-      # subcategories: (omitted due to omitempty if empty)
-- title: "Category with links and Subcategories"
-  description: "This category has both links and subcategories."
-  links:
-    - title: "Main Category Record 1"
-      description: "A record belonging to the main category."
-      url: "Main Data 1"
-  subcategories:
-    - title: "Subcategory C.1 (with links)"
-      description: "First subcategory with its own links."
+        - title: asciigraph
+          description: Go package to make lightweight ASCII line graph ╭┈╯ in command
+            line apps with no other dependencies.
+          url: https://github.com/guptarohit/asciigraph
+        - title: aurora
+          description: ANSI terminal colors that support fmt.Printf/Sprintf.
+          url: https://github.com/logrusorgru/aurora
+        - title: box-cli-maker
+          description: Make Highly Customized Boxes for your CLI.
+          url: https://github.com/Delta456/box-cli-maker
+        - title: bubble-table
+          description: An interactive table component for bubbletea.
+          url: https://github.com/Evertras/bubble-table
+        - title: bubbles
+          description: TUI components for bubbletea.
+          url: https://github.com/charmbracelet/bubbles
+        - title: bubbletea
+          description: Go framework to build terminal apps, based on The Elm Architecture.
+          url: https://github.com/charmbracelet/bubbletea
+        - title: cfmt
+          description: Contextual fmt inspired by bootstrap color classes.
+          url: https://github.com/mingrammer/cfmt
+        - title: cfmt
+          description: Simple and convenient formatted stylized output fully compatible
+            with fmt library.
+          url: https://github.com/i582/cfmt
+        - title: chalk
+          description: Intuitive package for prettifying terminal/console output.
+          url: https://github.com/ttacon/chalk
+        - title: crab-config-files-templating
+          description: Dynamic configuration file templating tool for kubernetes
+            manifest or general configuration files.
+          url: https://github.com/alfiankan/crab-config-files-templating
+        - title: ctc
+          description: The non-invasive cross-platform terminal color library does
+            not need to modify the Print method.
+          url: https://github.com/wzshiming/ctc
+        - title: fx
+          description: Terminal JSON viewer & processor.
+          url: https://github.com/antonmedv/fx
+        - title: go-ataman
+          description: Go library for rendering ANSI colored text templates in terminals.
+          url: https://github.com/workanator/go-ataman
+        - title: go-colorable
+          description: Colorable writer for windows.
+          url: https://github.com/mattn/go-colorable
+        - title: go-colortext
+          description: Go library for color output in terminals.
+          url: https://github.com/daviddengcn/go-colortext
+        - title: go-isatty
+          description: isatty for golang.
+          url: https://github.com/mattn/go-isatty
+        - title: go-palette
+          description: Go library that provides elegant and convenient style definitions
+            using ANSI colors. Fully compatible & wraps the [fmt library](https://pkg.go.dev/fmt)
+            for nice terminal layouts.
+          url: https://github.com/abusomani/go-palette
+        - title: go-prompt
+          description: Library for building a powerful interactive prompt, inspired
+            by [python-prompt-toolkit](https://github.com/jonathanslenders/python-prompt-toolkit).
+          url: https://github.com/c-bata/go-prompt
+        - title: gocui
+          description: Minimalist Go library aimed at creating Console User Interfaces.
+          url: https://github.com/jroimartin/gocui
+        - title: gommon/color
+          description: Style terminal text.
+          url: https://github.com/labstack/gommon/tree/master/color
+        - title: gookit/color
+          description: Terminal color rendering tool library, support 16 colors,
+            256 colors, RGB color rendering output, compatible with Windows.
+          url: https://github.com/gookit/color
+        - title: lipgloss
+          description: Declaratively define styles for color, format and layout
+            in the terminal.
+          url: https://github.com/charmbracelet/lipgloss
+        - title: marker
+          description: Easiest way to match and mark strings for colorful terminal
+            outputs.
+          url: https://github.com/cyucelen/marker
+        - title: mpb
+          description: Multi progress bar for terminal applications.
+          url: https://github.com/vbauerster/mpb
+        - title: progressbar
+          description: Basic thread-safe progress bar that works in every OS.
+          url: https://github.com/schollz/progressbar
+        - title: pterm
+          description: A library to beautify console output on every platform with
+            many combinable components.
+          url: https://github.com/pterm/pterm
+        - title: simpletable
+          description: Simple tables in a terminal with Go.
+          url: https://github.com/alexeyco/simpletable
+        - title: spinner
+          description: Go package to easily provide a terminal spinner with options.
+          url: https://github.com/briandowns/spinner
+        - title: tabby
+          description: A tiny library for super simple Golang tables.
+          url: https://github.com/cheynewallace/tabby
+        - title: table
+          description: Small library for terminal color based tables.
+          url: https://github.com/tomlazar/table
+        - title: termbox-go
+          description: Termbox is a library for creating cross-platform text-based
+            interfaces.
+          url: https://github.com/nsf/termbox-go
+        - title: termdash
+          description: Go terminal dashboard based on **termbox-go** and inspired
+            by [termui](https://github.com/gizak/termui).
+          url: https://github.com/mum4k/termdash
+        - title: termenv
+          description: Advanced ANSI style & color support for your terminal applications.
+          url: https://github.com/muesli/termenv
+        - title: termui
+          description: Go terminal dashboard based on **termbox-go** and inspired
+            by [blessed-contrib](https://github.com/yaronn/blessed-contrib).
+          url: https://github.com/gizak/termui
+        - title: uilive
+          description: Library for updating terminal output in real time.
+          url: https://github.com/gosuri/uilive
+        - title: uiprogress
+          description: Flexible library to render progress bars in terminal applications.
+          url: https://github.com/gosuri/uiprogress
+        - title: uitable
+          description: Library to improve readability in terminal apps using tabular
+            data.
+          url: https://github.com/gosuri/uitable
+        - title: yacspin
+          description: Yet Another CLi Spinner package, for working with terminal
+            spinners.
+          url: https://github.com/theckman/yacspin
+    - title: Standard CLI
+      description: Libraries for building standard or basic Command Line applications.
       links:
-        - title: "Record C.1.1"
-          description: "Data for C.1.1."
-          url: "C.1.1 Data"
-    - title: "Subcategory C.2 (Nested Subcategories)"
-      description: "Second subcategory, which has further nested subcategories."
-      links: []
-      subcategories:
-        - title: "Nested Subcategory C.2.1"
-          description: "A deeply nested subcategory."
-          links:
-            - title: "Record C.2.1.1"
-              description: "Data for the deeply nested record."
-              url: "Deep Nested Data"
-        - title: "Nested Subcategory C.2.2 (Empty)"
-          description: "Another deeply nested subcategory, but empty."
-          links: []
-- title: "Empty Category"
-  description: "This category has no links and no subcategories."
-  links: [] # Explicitly empty records array
-  # subcategories: (omitted due to omitempty)
-- title: "Category with Multiple links"
-  description: "Demonstrates a category with several links."
+        - title: acmd
+          description: Simple, useful, and opinionated CLI package in Go.
+          url: https://github.com/cristalhq/acmd
+        - title: argparse
+          description: Command line argument parser inspired by Python's argparse
+            module.
+          url: https://github.com/akamensky/argparse
+        - title: argv
+          description: Go library to split command line string as arguments array
+            using the bash syntax.
+          url: https://github.com/cosiner/argv
+        - title: carapace
+          description: Command argument completion generator for spf13/cobra.
+          url: https://github.com/rsteube/carapace
+        - title: carapace-bin
+          description: Multi-shell multi-command argument completer.
+          url: https://github.com/rsteube/carapace-bin
+        - title: carapace-spec
+          description: Define simple completions using a spec file.
+          url: https://github.com/rsteube/carapace-spec
+        - title: climax
+          description: Alternative CLI with "human face", in spirit of Go command.
+          url: https://github.com/tucnak/climax
+        - title: clîr
+          description: A Simple and Clear CLI library. Dependency free.
+          url: https://github.com/leaanthony/clir
+        - title: cmd
+          description: Extends the standard `flag` package to support sub commands
+            and more in idiomatic way.
+          url: https://github.com/posener/cmd
+        - title: cmdr
+          description: A POSIX/GNU style, getopt-like command-line UI Go library.
+          url: https://github.com/hedzr/cmdr
+        - title: cobra
+          description: Commander for modern Go CLI interactions.
+          url: https://github.com/spf13/cobra
+        - title: command-chain
+          description: A go library for configure and run command chains - such as
+            pipelining in unix shells.
+          url: https://github.com/rainu/go-command-chain
+        - title: commandeer
+          description: 'Dev-friendly CLI apps: sets up flags, defaults, and usage
+            based on struct fields and tags.'
+          url: https://github.com/jaffee/commandeer
+        - title: complete
+          description: Write bash completions in Go + Go command bash completion.
+          url: https://github.com/posener/complete
+        - title: console
+          description: Closed-loop application library for Cobra commands, with oh-my-posh
+            prompts, and more.
+          url: https://github.com/reeflective/console
+        - title: Dnote
+          description: A simple command line notebook with multi-device sync.
+          url: https://github.com/dnote/dnote
+        - title: elvish
+          description: An expressive programming language and a versatile interactive
+            shell.
+          url: https://github.com/elves/elvish
+        - title: env
+          description: Tag-based environment configuration for structs.
+          url: https://github.com/codingconcepts/env
+        - title: flaggy
+          description: A robust and idiomatic flags package with excellent subcommand
+            support.
+          url: https://github.com/integrii/flaggy
+        - title: flagvar
+          description: A collection of flag argument types for Go's standard `flag`
+            package.
+          url: https://github.com/sgreben/flagvar
+        - title: getopt
+          description: An accurate Go `getopt`, validated against the GNU libc implementation.
+          url: https://github.com/jon-codes/getopt
+        - title: go-arg
+          description: Struct-based argument parsing in Go.
+          url: https://github.com/alexflint/go-arg
+        - title: go-flags
+          description: go command line option parser.
+          url: https://github.com/jessevdk/go-flags
+        - title: go-getoptions
+          description: Go option parser inspired by the flexibility of Perl’s GetOpt::Long.
+          url: https://github.com/DavidGamba/go-getoptions
+        - title: go-readline-ny
+          description: A customizable line-editing library with Emacs keybindings,
+            Unicode support, completion, and syntax highlighting. Used in NYAGOS
+            shell.
+          url: https://github.com/nyaosorg/go-readline-ny
+        - title: gocmd
+          description: Go library for building command line applications.
+          url: https://github.com/devfacet/gocmd
+        - title: goopt
+          description: A declarative, struct-tag based CLI framework for Go, with
+            a broad feature set such as hierarchical commands/flags, i18n, shell
+            completion, and validation.
+          url: https://github.com/napalu/goopt
+        - title: hashicorp/cli
+          description: Go library for implementing command-line interfaces.
+          url: https://github.com/hashicorp/cli
+        - title: hiboot cli
+          description: cli application framework with auto configuration and dependency
+            injection.
+          url: https://github.com/hidevopsio/hiboot/tree/master/pkg/app/cli
+        - title: job
+          description: JOB, make your short-term command as a long-term job.
+          url: https://github.com/liujianping/job
+        - title: kingpin
+          description: Command line and flag parser supporting sub commands (superseded
+            by `kong`; see below).
+          url: https://github.com/alecthomas/kingpin
+        - title: liner
+          description: Go readline-like library for command-line interfaces.
+          url: https://github.com/peterh/liner
+        - title: mcli
+          description: A minimal but very powerful cli library for Go.
+          url: https://github.com/jxskiss/mcli
+        - title: mkideal/cli
+          description: Feature-rich and easy to use command-line package based on
+            golang struct tags.
+          url: https://github.com/mkideal/cli
+        - title: mow.cli
+          description: Go library for building CLI applications with sophisticated
+            flag and argument parsing and validation.
+          url: https://github.com/jawher/mow.cli
+        - title: ops
+          description: Unikernel Builder/Orchestrator.
+          url: https://github.com/nanovms/ops
+        - title: pflag
+          description: Drop-in replacement for Go's flag package, implementing POSIX/GNU-style
+            --flags.
+          url: https://github.com/spf13/pflag
+        - title: readline
+          description: Shell library with modern and easy to use UI features.
+          url: https://github.com/reeflective/readline
+        - title: sand
+          description: Simple API for creating interpreters and so much more.
+          url: https://github.com/Zaba505/sand
+        - title: sflags
+          description: Struct based flags generator for flag, urfave/cli, pflag,
+            cobra, kingpin, and other libraries.
+          url: https://github.com/octago/sflags
+        - title: strumt
+          description: Library to create prompt chain.
+          url: https://github.com/antham/strumt
+        - title: subcmd
+          description: Another approach to parsing and running subcommands. Works
+            alongside the standard `flag` package.
+          url: https://github.com/bobg/subcmd
+        - title: teris-io/cli
+          description: Simple and complete API for building command line interfaces
+            in Go.
+          url: https://github.com/teris-io/cli
+        - title: ts
+          description: Timestamp convert & compare tool.
+          url: https://github.com/liujianping/ts
+        - title: ukautz/clif
+          description: Small command line interface framework.
+          url: https://github.com/ukautz/clif
+        - title: urfave/cli
+          description: Simple, fast, and fun package for building command line apps
+            in Go (formerly codegangsta/cli).
+          url: https://github.com/urfave/cli
+        - title: version
+          description: Collects and displays CLI version information in multiple
+            formats along with upgrade notice.
+          url: https://github.com/mszostok/version
+        - title: wlog
+          description: Simple logging interface that supports cross-platform color
+            and concurrency.
+          url: https://github.com/dixonwille/wlog
+        - title: wmenu
+          description: Easy to use menu structure for cli applications that prompt
+            users to make choices.
+          url: https://github.com/dixonwille/wmenu
+- title: Websites
   links:
-    - title: "Multi-Record A"
-      description: "First record in a multi-record category."
-      url: "Multi-A Data 1"
-    - title: "Multi-Record B"
-      description: "Second record in a multi-record category."
-      url: "Multi-A Data 2"
-    - title: "Multi-Record C"
-      description: "Third record in a multi-record category."
-      url: "Multi-A Data 3"
-- title: "Category with Only Empty Subcategories"
-  description: "This category has subcategories, but all of them are empty."
-  links: []
+    - title: Awesome Go @LibHunt
+      description: Your go-to Go Toolbox.
+      url: https://go.libhunt.com
+    - title: Awesome Golang Workshops
+      description: A curated list of awesome golang workshops.
+      url: https://github.com/amit-davidson/awesome-golang-workshops
+    - title: Awesome Remote Job
+      description: Curated list of awesome remote jobs. A lot of them are looking
+        for Go hackers.
+      url: https://github.com/lukasz-madon/awesome-remote-job
+    - title: awesome-awesomeness
+      description: List of other amazingly awesome lists.
+      url: https://github.com/bayandin/awesome-awesomeness
+    - title: awesome-go-extra
+      description: Parse awesome-go README file and generate a new README file with
+        repo info.
+      url: https://github.com/xwjdsh/awesome-go-extra
+    - title: Code with Mukesh
+      description: Software Engineer and Blogs @ codewithmukesh.com.
+      url: https://codewithmukesh.com/categories/golang
+    - title: Coding Mystery
+      description: Solve exciting escape-room-inspired programming challenges using
+        Go.
+      url: https://codingmystery.com
+    - title: CodinGame
+      description: Learn Go by solving interactive tasks using small games as practical
+        examples.
+      url: https://www.codingame.com/
+    - title: Go Blog
+      description: The official Go blog.
+      url: https://blog.golang.org
+    - title: Go Code Club
+      description: A group of Gophers read and discuss a different Go project every
+        week.
+      url: https://www.youtube.com/watch?v=nvoIPQYdx9g&list=PLEcwzBXTPUE_YQR7R0BRtHBYJ0LN3Y0i3
+    - title: Go Community on Hashnode
+      description: Community of Gophers on Hashnode.
+      url: https://hashnode.com/n/go
+    - title: Go Forum
+      description: Forum to discuss Go.
+      url: https://forum.golangbridge.org
+    - title: Go Projects
+      description: List of projects on the Go community wiki.
+      url: https://github.com/golang/go/wiki/Projects
+    - title: Go Proverbs
+      description: Go Proverbs by Rob Pike.
+      url: https://go-proverbs.github.io/
+    - title: Go Report Card
+      description: A report card for your Go package.
+      url: https://goreportcard.com
+    - title: go.dev
+      description: A hub for Go developers.
+      url: https://go.dev/
+    - title: gocryforhelp
+      description: Collection of Go projects that needs help. Good place to start
+        your open-source way in Go.
+      url: https://github.com/ninedraft/gocryforhelp
+    - title: Golang Developer Jobs
+      description: Developer Jobs exclusively for Golang related Roles.
+      url: https://golangjob.xyz
+    - title: Golang News
+      description: Links and news about Go programming.
+      url: https://golangnews.com
+    - title: Golang Nugget
+      description: A weekly roundup of the best Go content, delivered to your inbox
+        every Monday.
+      url: https://golangnugget.com
+    - title: Golang Weekly
+      description: Each monday projects, tutorials and articles about Go.
+      url: https://discu.eu/weekly/golang/
+    - title: golang-nuts
+      description: Go mailing list.
+      url: https://groups.google.com/forum/#!forum/golang-nuts
+    - title: Google Plus Community
+      description: The Google+ community for #golang enthusiasts.
+      url: https://plus.google.com/communities/114112804251407510571
+    - title: Gopher Community Chat
+      description: Join Our New Slack Community For Gophers ([Understand how it came](https://blog.gopheracademy.com/gophers-slack-community/)).
+      url: https://invite.slack.golangbridge.org
+    - title: Gophercises
+      description: Free coding exercises for budding gophers.
+      url: https://gophercises.com/
+    - title: json2go
+      description: Advanced JSON to Go struct conversion - online tool.
+      url: https://m-zajac.github.io/json2go
+    - title: justforfunc
+      description: Youtube channel dedicated to Go programming language tips and
+        tricks, hosted by Francesc Campoy [@francesc](https://twitter.com/francesc).
+      url: https://www.youtube.com/c/justforfunc
+    - title: Learn Go Programming
+      description: Learn Go concepts with illustrations.
+      url: https://blog.learngoprogramming.com
+    - title: Made with Golang
+      description: ''
+      url: https://madewithgolang.com/?ref=awesome-go
+    - title: pkg.go.dev
+      description: Documentation for open source Go packages.
+      url: https://pkg.go.dev/
+    - title: studygolang
+      description: The community of studygolang in China.
+      url: https://studygolang.com
+    - title: Trending Go repositories on GitHub today
+      description: Good place to find new Go libraries.
+      url: https://github.com/trending?l=go
+    - title: 'TutorialEdge - Golang'
+      description: ''
+      url: https://tutorialedge.net/course/golang/
   subcategories:
-    - title: "Empty Subcategory D.1"
-      description: "This subcategory is empty."
-      links: []
-      # subcategories: (omitted due to omitempty)
-    - title: "Empty Subcategory D.2"
-      description: "Another empty subcategory."
-      links: []
-      # subcategories: (omitted due to omitempty)
+    - title: Tutorials
+      links:
+        - title: 50 Shades of Go
+          description: Traps, Gotchas, and Common Mistakes for New Golang Devs.
+          url: https://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/
+        - title: A Comprehensive Guide to Structured Logging in Go
+          description: Delve deep into the world of structured logging in Go with
+            a specific focus on recently accepted slog proposal which aims to
+            bring high performance structured logging with levels to the standard
+            library.
+          url: https://betterstack.com/community/guides/logging/logging-in-go/
+        - title: A Guide to Golang E-Commerce
+          description: Building a Golang site for e-commerce (demo included).
+          url: https://snipcart.com/blog/golang-ecommerce-ponzu-cms-demo?utm_term=golang-ecommerce-ponzu-cms-demo
+        - title: A Tour of Go
+          description: Interactive tour of Go.
+          url: https://tour.golang.org/
+        - title: Build a Database in 1000 lines of code
+          description: Build a NoSQL Database From Zero in 1000 Lines of Code.
+          url: https://link.medium.com/O9YQlx89Htb
+        - title: Build web application with Golang
+          description: Golang ebook intro how to build a web app with golang.
+          url: https://github.com/astaxie/build-web-application-with-golang
+        - title: Building and Testing a REST API in Go with Gorilla Mux and PostgreSQL
+          description: We’ll write an API with the help of the powerful Gorilla Mux.
+          url: https://semaphoreci.com/community/tutorials/building-and-testing-a-rest-api-in-go-with-gorilla-mux-and-postgresql
+        - title: Building Go Web Applications and Microservices Using Gin
+          description: Get familiar with Gin and find out how it can help you reduce
+            boilerplate code and build a request handling pipeline.
+          url: https://semaphoreci.com/community/tutorials/building-go-web-applications-and-microservices-using-gin
+        - title: Caching Slow Database Queries
+          description: How to cache slow database queries.
+          url: https://medium.com/@rocketlaunchr.cloud/caching-slow-database-queries-1085d308a0c9
+        - title: Canceling MySQL
+          description: How to cancel MySQL queries.
+          url: https://medium.com/@rocketlaunchr.cloud/canceling-mysql-in-go-827ed8f83b30
+        - title: CodeCrafters Golang Track
+          description: Achieve mastery in advanced

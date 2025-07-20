@@ -3,7 +3,7 @@ package main
 type Category struct {
 	Title         string     `yaml:"title"`
 	Description   string     `yaml:"description,omitempty"`
-	Link          []Link     `yaml:"links"`
+	Links         []Link     `yaml:"links"`
 	Subcategories []Category `yaml:"subcategories,omitempty"`
 }
 
