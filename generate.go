@@ -63,12 +63,14 @@ func generate(args []string) error {
 
 	tmplFile := flag.Arg(0)
 
-	awesomelist, err := loadFileIntoYaml(_awesomeFile)
+	aweStore := NewAwesomeStore(_awesomeFile)
+	err := aweStore.Load()
+	list := aweStore.List()
 	if err != nil {
 		return err
 	}
 
-	buffer, err := executeTemplate(tmplFile, htmlOutput, awesomelist)
+	buffer, err := executeTemplate(tmplFile, htmlOutput, list)
 	if err != nil {
 		return err
 	}

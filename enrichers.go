@@ -24,7 +24,7 @@ type RemoteRepo interface {
 
 type Slugifier struct {
 	original string
-	slug string
+	slug     string
 }
 
 type githubRepo struct {

@@ -4,8 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-
-	"github.com/goccy/go-yaml"
 )
 
 func CliErrorf(err error, format string, a ...any) error {
@@ -22,21 +20,6 @@ func registerGlobalFlags(fset *flag.FlagSet) {
 	flag.VisitAll(func(f *flag.Flag) {
 		fset.Var(f.Value, f.Name, f.Usage)
 	})
-}
-
-func loadFileIntoYaml(path string) (awesomeList, error) {
-	var awesomelist awesomeList
-
-	fcontent, err := os.ReadFile(path)
-	if err != nil {
-		return nil, CliErrorf(err, "failed to read file %q", path)
-	}
-
-	if err := yaml.UnmarshalWithOptions(fcontent, &awesomelist, yaml.DisallowUnknownField()); err != nil {
-		return nil, CliErrorf(err, "failed to parse YAML data in %q", path)
-	}
-
-	return awesomelist, nil
 }
 
 var (
