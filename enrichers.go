@@ -2,10 +2,13 @@ package main
 
 import (
 	"context"
-	"github.com/google/go-github/github"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
+
+	"github.com/google/go-github/github"
 )
 
 type Enricher interface {
@@ -14,17 +17,20 @@ type Enricher interface {
 
 type RemoteRepo interface {
 	Stars() int
+	LastUpdate() time.Time
 	Enrich() error
 }
 
 type githubRepo struct {
-	url   string
-	stars int
+	url        string
+	stars      int
+	lastUpdate time.Time
 }
 
 type gitlabRepo struct {
-	url   string
-	stars int
+	url        string
+	stars      int
+	lastUpdate time.Time
 }
 
 func NewRemoteRepo(url string) RemoteRepo {
@@ -39,6 +45,10 @@ func NewRemoteRepo(url string) RemoteRepo {
 
 func (repo *githubRepo) Stars() int {
 	return repo.stars
+}
+
+func (repo *githubRepo) LastUpdate() time.Time {
+	return repo.lastUpdate
 }
 
 func (repo *githubRepo) Enrich() error {
@@ -70,11 +80,22 @@ func (repo *githubRepo) Enrich() error {
 		repo.stars = *ghRepo.StargazersCount
 	}
 
+	if ghRepo.UpdatedAt != nil {
+		repo.lastUpdate = ghRepo.UpdatedAt.Time
+	}
+	fmt.Println("Here")
+
+	fmt.Println(ghRepo.String())
+
 	return nil
 }
 
 func (repo *gitlabRepo) Stars() int {
 	return repo.stars
+}
+
+func (repo *gitlabRepo) LastUpdate() time.Time {
+	return time.Time{}
 }
 
 func (repo *gitlabRepo) Enrich() error {
