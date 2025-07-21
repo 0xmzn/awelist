@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/google/go-github/github"
+	"github.com/gosimple/slug"
 )
 
 type Enricher interface {
@@ -19,6 +20,11 @@ type RemoteRepo interface {
 	Stars() int
 	LastUpdate() time.Time
 	Enrich() error
+}
+
+type Slugifier struct {
+	original string
+	slug string
 }
 
 type githubRepo struct {
@@ -41,6 +47,10 @@ func NewRemoteRepo(url string) RemoteRepo {
 		return &gitlabRepo{url: url}
 	}
 	return nil
+}
+
+func NewSlugifier(str string) *Slugifier {
+	return &Slugifier{original: str}
 }
 
 func (repo *githubRepo) Stars() int {
@@ -66,8 +76,7 @@ func (repo *githubRepo) Enrich() error {
 	repoName := pathParts[1]
 
 	ctx := context.Background()
-	var httpClient *http.Client
-	httpClient = http.DefaultClient
+	httpClient := http.DefaultClient
 
 	client := github.NewClient(httpClient)
 
@@ -95,10 +104,19 @@ func (repo *gitlabRepo) Stars() int {
 }
 
 func (repo *gitlabRepo) LastUpdate() time.Time {
-	return time.Time{}
+	return repo.lastUpdate
 }
 
 func (repo *gitlabRepo) Enrich() error {
 	repo.stars = 400
+	return nil
+}
+
+func (s *Slugifier) Slug() string {
+	return s.slug
+}
+
+func (s *Slugifier) Enrich() error {
+	s.slug = slug.Make(s.original)
 	return nil
 }
