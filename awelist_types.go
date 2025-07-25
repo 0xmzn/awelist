@@ -1,19 +1,40 @@
 package main
 
-type Category struct {
-	Title         string     `yaml:"title"`
-	Description   string     `yaml:"description,omitempty"`
-	Links         []Link     `yaml:"links"`
-	Subcategories []Category `yaml:"subcategories,omitempty"`
+import "time"
+
+type BaseCategory struct {
+	Title         string         `yaml:"title"`
+	Description   string         `yaml:"description,omitempty"`
+	Links         []BaseLink     `yaml:"links"`
+	Subcategories []BaseCategory `yaml:"subcategories,omitempty"`
 }
 
-type Link struct {
+type BaseLink struct {
 	Title       string `yaml:"title"`
 	Description string `yaml:"description"`
 	Url         string `yaml:"url"`
-
-	// derived
-	Stars int `yaml:"-"`
 }
 
-type awesomeList []Category
+type baseAwesomelist []BaseCategory
+
+type EnrichedCategory struct {
+	Title         string         `json:"title"`
+	Description   string         `json:"description,omitempty"`
+	Links         []BaseLink     `json:"links"`
+	Subcategories []BaseCategory `json:"subcategories,omitempty"`
+
+	Slug string `json:"slug"`
+}
+
+type EnrichedLink struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Url         string `json:"url"`
+
+	IsRepo     bool      `json:"isRepo"`
+	Stars      int       `json:"stars"`
+	LastUpdate time.Time `json:"lastUpdate"`
+	IsArchived bool      `json:"isArchived"`
+}
+
+type enrichedAwesomelist []EnrichedCategory

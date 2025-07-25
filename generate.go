@@ -30,7 +30,7 @@ func newTemplate(isHTML bool, name string, content string) (template, error) {
 	}
 }
 
-func executeTemplate(filename string, isHtml bool, data awesomeList) (bytes.Buffer, error) {
+func executeTemplate(filename string, isHtml bool, data baseAwesomelist) (bytes.Buffer, error) {
 	tmplContent, err := os.ReadFile(filename)
 	if err != nil {
 		return bytes.Buffer{}, CliErrorf(err, "failed to read file %q", filename)
@@ -65,12 +65,13 @@ func generate(args []string) error {
 
 	aweStore := NewAwesomeStore(_awesomeFile)
 	err := aweStore.Load()
-	list := aweStore.List()
 	if err != nil {
 		return err
 	}
 
-	buffer, err := executeTemplate(tmplFile, htmlOutput, list)
+	awelist := aweStore.GetManager()
+
+	buffer, err := executeTemplate(tmplFile, htmlOutput, awelist.RawList)
 	if err != nil {
 		return err
 	}

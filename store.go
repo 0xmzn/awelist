@@ -1,37 +1,38 @@
 package main
 
 import (
-	"github.com/goccy/go-yaml"
 	"os"
+
+	"github.com/goccy/go-yaml"
 )
 
-type awesomeStore struct {
+type AwesomeStore struct {
 	filename string
-	list     awesomeList
+	manager  *AwesomeListManager
 }
 
-func NewAwesomeStore(filename string) *awesomeStore {
-	store := &awesomeStore{
+func NewAwesomeStore(filename string) *AwesomeStore {
+	store := &AwesomeStore{
 		filename: filename,
-		list:     make(awesomeList, 0),
+		manager:  NewAwesomeDataManager(make(baseAwesomelist, 0), nil),
 	}
 
 	return store
 }
 
-func (store *awesomeStore) Load() error {
+func (store *AwesomeStore) Load() error {
 	fcontent, err := os.ReadFile(store.filename)
 	if err != nil {
 		return CliErrorf(err, "failed to read file %q", store.filename)
 	}
 
-	if err := yaml.UnmarshalWithOptions(fcontent, &store.list, yaml.DisallowUnknownField()); err != nil {
+	if err := yaml.UnmarshalWithOptions(fcontent, &store.manager.RawList, yaml.DisallowUnknownField()); err != nil {
 		return CliErrorf(err, "failed to parse YAML data in %q", store.filename)
 	}
 
 	return nil
 }
 
-func (store *awesomeStore) List() awesomeList {
-	return store.list
+func (store *AwesomeStore) GetManager() *AwesomeListManager {
+	return store.manager
 }
