@@ -39,6 +39,8 @@ func main() {
 		flag.PrintDefaults()
 		fmt.Fprintln(os.Stderr, "\nCommands:")
 		fmt.Fprintln(os.Stderr, "  generate    generate file from template")
+		fmt.Fprintln(os.Stderr, "  enrich      enrich yaml file. On success, a 'awesome-lock.json'")
+		fmt.Fprintln(os.Stderr, "              file will be created.")
 	}
 
 	flag.Parse()
@@ -57,6 +59,11 @@ func main() {
 	switch subcmd {
 	case "generate":
 		if err := generate(args); err != nil {
+			fmt.Fprintf(os.Stderr, "awelist: %s\n", err)
+			os.Exit(1)
+		}
+	case "enrich":
+		if err := enrich(args); err != nil {
 			fmt.Fprintf(os.Stderr, "awelist: %s\n", err)
 			os.Exit(1)
 		}

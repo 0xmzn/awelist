@@ -18,10 +18,10 @@ type BaseLink struct {
 type baseAwesomelist []BaseCategory
 
 type EnrichedCategory struct {
-	Title         string         `json:"title"`
-	Description   string         `json:"description,omitempty"`
-	Links         []BaseLink     `json:"links"`
-	Subcategories []BaseCategory `json:"subcategories,omitempty"`
+	Title         string             `json:"title"`
+	Description   string             `json:"description,omitempty"`
+	Links         []EnrichedLink     `json:"links"`
+	Subcategories []EnrichedCategory `json:"subcategories,omitempty"`
 
 	Slug string `json:"slug"`
 }

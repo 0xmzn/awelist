@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -39,6 +38,7 @@ type gitlabRepo struct {
 	lastUpdate time.Time
 }
 
+// TODO: this will fail if it's anything but a provider.com/user/repo. e.g: https://github.com/trending?l=go
 func NewRemoteRepo(url string) RemoteRepo {
 	if strings.HasPrefix(url, "https://github.com") {
 		return &githubRepo{url: url}
@@ -92,9 +92,6 @@ func (repo *githubRepo) Enrich() error {
 	if ghRepo.UpdatedAt != nil {
 		repo.lastUpdate = ghRepo.UpdatedAt.Time
 	}
-	fmt.Println("Here")
-
-	fmt.Println(ghRepo.String())
 
 	return nil
 }
