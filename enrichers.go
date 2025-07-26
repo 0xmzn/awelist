@@ -4,7 +4,9 @@ import (
 	"context"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/google/go-github/v74/github"
@@ -24,6 +26,36 @@ type RemoteRepo interface {
 type Slugifier struct {
 	original string
 	slug     string
+}
+
+type githubClient struct {
+	apiToken string
+	client   *github.Client
+	once     sync.Once
+	initErr  error
+}
+
+var ghClientSingleton = &githubClient{}
+
+func getGitHubClient() (*github.Client, error) {
+	ghClientSingleton.once.Do(func() {
+		token := os.Getenv("GITHUB_API_KEY")
+		if token == "" {
+			ghClientSingleton.initErr = CliErrorf(nil, "GITHUB_API_KEY environment variable is not set. A token is required for GitHub API calls.")
+			return
+		}
+		ghClientSingleton.apiToken = token
+		ghClientSingleton.client = github.NewClient(http.DefaultClient).WithAuthToken(token)
+	})
+
+	if ghClientSingleton.initErr != nil {
+		return nil, ghClientSingleton.initErr
+	}
+
+	if ghClientSingleton.client == nil {
+		return nil, CliErrorf(nil, "GitHub client failed to initialize for an unknown reason.")
+	}
+	return ghClientSingleton.client, nil
 }
 
 type githubRepo struct {
@@ -61,7 +93,6 @@ func (repo *githubRepo) LastUpdate() time.Time {
 	return repo.lastUpdate
 }
 
-// TODO: this currently establishs a connection with github per repo.
 func (repo *githubRepo) Enrich() error {
 	parsedURL, err := url.Parse(repo.url)
 	if err != nil {
@@ -76,11 +107,12 @@ func (repo *githubRepo) Enrich() error {
 	owner := pathParts[0]
 	repoName := pathParts[1]
 
+	client, err := getGitHubClient()
+	if err != nil {
+		return CliErrorf(err, "failed to get GitHub client for %q", repo.url)
+	}
+
 	ctx := context.Background()
-	httpClient := http.DefaultClient
-
-	client := github.NewClient(httpClient)
-
 	ghRepo, _, err := client.Repositories.Get(ctx, owner, repoName)
 	if err != nil {
 		return CliErrorf(err, "failed to fetch github repo details %q", repo.url)
