@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v74/github"
 	"github.com/gosimple/slug"
 )
 
@@ -61,6 +61,7 @@ func (repo *githubRepo) LastUpdate() time.Time {
 	return repo.lastUpdate
 }
 
+// TODO: this currently establishs a connection with github per repo.
 func (repo *githubRepo) Enrich() error {
 	parsedURL, err := url.Parse(repo.url)
 	if err != nil {
