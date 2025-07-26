@@ -122,6 +122,10 @@ func (repo *githubRepo) Enrich() error {
 		repo.stars = *ghRepo.StargazersCount
 	}
 
+	// TODO: Wrong feild. Figure out how to get the data of the latest commit on default branch.
+	// updated_at will be updated any time the repository object is updated,
+	// e.g. when the description or the primary language of the repository is updated.
+	// stackoverflow: https://stackoverflow.com/questions/15918588/github-api-v3-what-is-the-difference-between-pushed-at-and-updated-at
 	if ghRepo.UpdatedAt != nil {
 		repo.lastUpdate = ghRepo.UpdatedAt.Time
 	}
