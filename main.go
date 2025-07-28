@@ -1,10 +1,25 @@
 package main
 
 import (
-	"flag"
 	"fmt"
+	"github.com/alecthomas/kong"
 	"os"
 )
+
+type CLI struct {
+	AwesomeFile string `kong:"short='f',long='awesome-file',help='path to awesome file',default='awesome.yaml'"`
+	Debug       bool   `kong:"long='debug',help='print raw error messages on error'"`
+
+	Generate GenerateCmd `kong:"cmd,help='generate file from template'"`
+	Enrich   EnrichCmd   `kong:"cmd,help='enrich YAML file. On success, a awesome-lock.json file will be created'"`
+}
+
+type GenerateCmd struct {
+	HTML   bool   `kong:"short='H',help='output HTML'"`
+	TemplateFile string `kong:"arg,required,help='path to template file'"`
+}
+
+type EnrichCmd struct{}
 
 func CliErrorf(err error, format string, a ...any) error {
 	if _debugMode {
@@ -16,60 +31,22 @@ func CliErrorf(err error, format string, a ...any) error {
 	return fmt.Errorf(format, a...)
 }
 
-func registerGlobalFlags(fset *flag.FlagSet) {
-	flag.VisitAll(func(f *flag.Flag) {
-		fset.Var(f.Value, f.Name, f.Usage)
-	})
-}
-
-var (
-	_awesomeFile string
-	_debugMode   bool
-)
-
-func init() {
-	flag.StringVar(&_awesomeFile, "f", "", "path to awesome file")
-	flag.BoolVar(&_debugMode, "debug", false, "print raw error messages on error")
-}
+var _debugMode bool
 
 func main() {
-	flag.Usage = func() {
-		fmt.Fprintln(os.Stderr, "Usage: awelist [options] <command> [command-options] [arguments]")
-		fmt.Fprintln(os.Stderr, "\nMain Options:")
-		flag.PrintDefaults()
-		fmt.Fprintln(os.Stderr, "\nCommands:")
-		fmt.Fprintln(os.Stderr, "  generate    generate file from template")
-		fmt.Fprintln(os.Stderr, "  enrich      enrich yaml file. On success, a 'awesome-lock.json'")
-		fmt.Fprintln(os.Stderr, "              file will be created.")
-	}
+	var cli CLI
+	parser := kong.Parse(
+		&cli,
+		kong.Name("awelist"),
+		kong.Description("A CLI tool for managing awesome lists"),
+		kong.UsageOnError(),
+	)
 
-	flag.Parse()
+	_debugMode = cli.Debug
 
-	if _awesomeFile == "" {
-		_awesomeFile = "awesome.yaml"
-	}
-
-	if flag.NArg() == 0 {
-		flag.Usage()
-		return
-	}
-
-	subcmd, args := flag.Args()[0], flag.Args()[1:]
-
-	switch subcmd {
-	case "generate":
-		if err := generate(args); err != nil {
-			fmt.Fprintf(os.Stderr, "awelist: %s\n", err)
-			os.Exit(1)
-		}
-	case "enrich":
-		if err := enrich(args); err != nil {
-			fmt.Fprintf(os.Stderr, "awelist: %s\n", err)
-			os.Exit(1)
-		}
-	default:
-		fmt.Fprintf(os.Stderr, "awelist: Unknown command '%s'\n", subcmd)
-		fmt.Fprintln(os.Stderr, "Try 'awelist -help' for more information.")
+	err := parser.Run(&cli)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
 	}
 }

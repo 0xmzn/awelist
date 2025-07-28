@@ -14,7 +14,7 @@ type AwesomeStore struct {
 func NewAwesomeStore(filename string) *AwesomeStore {
 	store := &AwesomeStore{
 		filename: filename,
-		manager:  NewAwesomeDataManager(make(baseAwesomelist, 0), nil),
+		manager:  NewAwesomeListManager(make(baseAwesomelist, 0), nil),
 	}
 
 	return store

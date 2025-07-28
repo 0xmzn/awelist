@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	github.com/alecthomas/kong v1.12.1 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/gosimple/unidecode v1.0.1 // indirect
 )

@@ -2,20 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
 	"os"
 )
 
-func enrich(args []string) error {
-	flag := flag.NewFlagSet("enrich", flag.ExitOnError)
-	registerGlobalFlags(flag)
-	flag.Parse(args)
-
-	if flag.NArg() != 0 {
-		return CliErrorf(nil, "enrich command doesn't accept any arguments`")
-	}
-
-	aweStore := NewAwesomeStore(_awesomeFile)
+func (cmd *EnrichCmd) Run(cli *CLI) error {
+	aweStore := NewAwesomeStore(cli.AwesomeFile)
 	err := aweStore.Load()
 	if err != nil {
 		return err
@@ -32,6 +23,7 @@ func enrich(args []string) error {
 	if err != nil {
 		return CliErrorf(err, "failed to marshel json")
 	}
+
 	err = os.WriteFile("awesome-lock.json", []byte(jsonData), 0644)
 	if err != nil {
 		return CliErrorf(err, "failed to write json file")

@@ -11,7 +11,7 @@ type AwesomeListManager struct {
 	EnrichedList enrichedAwesomelist
 }
 
-func NewAwesomeDataManager(raw baseAwesomelist, enriched enrichedAwesomelist) *AwesomeListManager {
+func NewAwesomeListManager(raw baseAwesomelist, enriched enrichedAwesomelist) *AwesomeListManager {
 	return &AwesomeListManager{
 		RawList:      raw,
 		EnrichedList: enriched,

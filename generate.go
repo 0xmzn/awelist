@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"flag"
 	"fmt"
 	html "html/template"
 	"io"
@@ -50,20 +49,8 @@ func executeTemplate(filename string, isHtml bool, data baseAwesomelist) (bytes.
 	return buffer, nil
 }
 
-func generate(args []string) error {
-	flag := flag.NewFlagSet("generate", flag.ExitOnError)
-	var htmlOutput bool
-	flag.BoolVar(&htmlOutput, "html", false, "output html")
-	registerGlobalFlags(flag)
-	flag.Parse(args)
-
-	if flag.NArg() != 1 {
-		return CliErrorf(nil, "generate command requires exactly one argument: <filename>")
-	}
-
-	tmplFile := flag.Arg(0)
-
-	aweStore := NewAwesomeStore(_awesomeFile)
+func (cmd *GenerateCmd) Run(cli *CLI) error {
+	aweStore := NewAwesomeStore(cli.AwesomeFile)
 	err := aweStore.Load()
 	if err != nil {
 		return err
@@ -71,7 +58,7 @@ func generate(args []string) error {
 
 	awelist := aweStore.GetManager()
 
-	buffer, err := executeTemplate(tmplFile, htmlOutput, awelist.RawList)
+	buffer, err := executeTemplate(cmd.TemplateFile, cmd.HTML, awelist.RawList)
 	if err != nil {
 		return err
 	}
