@@ -8,31 +8,22 @@ import (
 
 type AwesomeStore struct {
 	filename string
-	manager  *AwesomeListManager
 }
 
 func NewAwesomeStore(filename string) *AwesomeStore {
-	store := &AwesomeStore{
-		filename: filename,
-		manager:  NewAwesomeListManager(make(baseAwesomelist, 0), nil),
-	}
-
-	return store
+	return &AwesomeStore{filename: filename}
 }
 
-func (store *AwesomeStore) Load() error {
+func (store *AwesomeStore) Load() (baseAwesomelist,error) {
 	fcontent, err := os.ReadFile(store.filename)
 	if err != nil {
-		return CliErrorf(err, "failed to read file %q", store.filename)
+		return nil, CliErrorf(err, "failed to read file %q", store.filename)
 	}
 
-	if err := yaml.UnmarshalWithOptions(fcontent, &store.manager.RawList, yaml.DisallowUnknownField()); err != nil {
-		return CliErrorf(err, "failed to parse YAML data in %q", store.filename)
+	var data baseAwesomelist
+	if err := yaml.UnmarshalWithOptions(fcontent, &data, yaml.DisallowUnknownField()); err != nil {
+		return nil, CliErrorf(err, "failed to parse YAML data in %q", store.filename)
 	}
 
-	return nil
-}
-
-func (store *AwesomeStore) GetManager() *AwesomeListManager {
-	return store.manager
+	return data, nil
 }

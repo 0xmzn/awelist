@@ -7,12 +7,12 @@ import (
 
 func (cmd *EnrichCmd) Run(cli *CLI) error {
 	aweStore := NewAwesomeStore(cli.AwesomeFile)
-	err := aweStore.Load()
+	baseList, err := aweStore.Load()
 	if err != nil {
 		return err
 	}
 
-	awelist := aweStore.GetManager()
+	awelist := NewAwesomeListManager(baseList)
 
 	err = awelist.EnrichList()
 	if err != nil {
