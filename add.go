@@ -9,13 +9,13 @@ type AddLinkCmd struct {
 	Title       string   `kong:"short='t',long='title',help='Title of the link.',required"`
 	Description string   `kong:"short='d',long='description',help='Description of the link.',required"`
 	URL         string   `kong:"short='u',long='url',help='URL of the link.',required"`
-	Path        []string `kong:"short='p',long='path',help='Path to the category where the link should be added.'"`
+	Path        []string `kong:"arg,name='path',help='Path to the parent category.'"`
 }
 
 type AddCategoryCmd struct {
 	Title       string   `kong:"short='t',long='title',help='Title of the new category.'"`
 	Description string   `kong:"short='d',long='description',help='Description of the new category.'"`
-	Path        []string `kong:"short='p',long='path',help='Path to the parent category where the new category should be added.'"`
+	Path        []string `kong:"arg,name='path',help='Path to the parent category. Use a single dot (.) to add to the top level of the list.'"`
 }
 
 func (cmd *AddLinkCmd) Run(cli *CLI) error {
@@ -58,7 +58,12 @@ func (cmd *AddCategoryCmd) Run(cli *CLI) error {
 		Description: cmd.Description,
 	}
 
-	if err = awelist.AddCategory(newCat, cmd.Path); err != nil {
+	args := cmd.Path
+	if len(cmd.Path) == 1 && cmd.Path[0] == "." {
+		args = nil
+	}
+
+	if err = awelist.AddCategory(newCat, args); err != nil {
 		return err
 	}
 
