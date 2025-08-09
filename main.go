@@ -22,8 +22,6 @@ type GenerateCmd struct {
 
 type EnrichCmd struct{}
 
-type AddCmd struct{}
-
 func CliErrorf(err error, format string, a ...any) error {
 	if _debugMode {
 		if err != nil {

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"slices"
 	"time"
 )
 
@@ -13,7 +14,7 @@ type AwesomeListManager struct {
 
 func NewAwesomeListManager(raw baseAwesomelist) *AwesomeListManager {
 	return &AwesomeListManager{
-		RawList:      raw,
+		RawList: raw,
 	}
 }
 
@@ -88,4 +89,33 @@ func enrichLink(baseLink BaseLink) (*EnrichedLink, error) {
 	// enrichedLink.IsArchived = repo.IsArchived()
 
 	return enrichedLink, nil
+}
+
+func (alm *AwesomeListManager) AddLink(newLink BaseLink, pathToLink []string) error {
+	if len(pathToLink) == 0 {
+		return fmt.Errorf("link path cannot be empty")
+	}
+
+	rawListPtr := (*[]BaseCategory)(&alm.RawList)
+
+	return addLinkRecursive(rawListPtr, newLink, pathToLink)
+}
+
+func addLinkRecursive(categories *[]BaseCategory, newLink BaseLink, pathToLink []string) error {
+	titleSlug := slugifiy(pathToLink[0])
+
+	index := slices.IndexFunc(*categories, func(cat BaseCategory) bool {
+		return slugifiy(cat.Title) == titleSlug
+	})
+
+	if index == -1 {
+		return fmt.Errorf("category %q not found", pathToLink[0])
+	}
+
+	if len(pathToLink) == 1 {
+		(*categories)[index].Links = append((*categories)[index].Links, newLink)
+		return nil
+	}
+
+	return addLinkRecursive(&(*categories)[index].Subcategories, newLink, pathToLink[1:])
 }

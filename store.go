@@ -14,7 +14,7 @@ func NewAwesomeStore(filename string) *AwesomeStore {
 	return &AwesomeStore{filename: filename}
 }
 
-func (store *AwesomeStore) Load() (baseAwesomelist,error) {
+func (store *AwesomeStore) Load() (baseAwesomelist, error) {
 	fcontent, err := os.ReadFile(store.filename)
 	if err != nil {
 		return nil, CliErrorf(err, "failed to read file %q", store.filename)
