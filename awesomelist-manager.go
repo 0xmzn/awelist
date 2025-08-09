@@ -101,6 +101,17 @@ func (alm *AwesomeListManager) AddLink(newLink BaseLink, pathToLink []string) er
 	return addLinkRecursive(rawListPtr, newLink, pathToLink)
 }
 
+func (alm *AwesomeListManager) AddCategory(newCategory BaseCategory, pathToLink []string) error {
+	rawListPtr := (*[]BaseCategory)(&alm.RawList)
+
+	if len(pathToLink) == 0 {
+		*rawListPtr = append(*rawListPtr, newCategory)
+		return nil
+	}
+
+	return addCategoryRecursive(rawListPtr, newCategory, pathToLink)
+}
+
 func addLinkRecursive(categories *[]BaseCategory, newLink BaseLink, pathToLink []string) error {
 	titleSlug := slugifiy(pathToLink[0])
 
@@ -118,4 +129,23 @@ func addLinkRecursive(categories *[]BaseCategory, newLink BaseLink, pathToLink [
 	}
 
 	return addLinkRecursive(&(*categories)[index].Subcategories, newLink, pathToLink[1:])
+}
+
+func addCategoryRecursive(categories *[]BaseCategory, newCategory BaseCategory, pathToLink []string) error {
+	titleSlug := slugifiy(pathToLink[0])
+
+	index := slices.IndexFunc(*categories, func(cat BaseCategory) bool {
+		return slugifiy(cat.Title) == titleSlug
+	})
+
+	if index == -1 {
+		return fmt.Errorf("category %q not found", pathToLink[0])
+	}
+
+	if len(pathToLink) == 1 {
+		(*categories)[index].Subcategories = append((*categories)[index].Subcategories, newCategory)
+		return nil
+	}
+
+	return addCategoryRecursive(&(*categories)[index].Subcategories, newCategory, pathToLink[1:])
 }
