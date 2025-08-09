@@ -1,38 +1,69 @@
 package main
 
 import (
+	"encoding/json"
 	"os"
 
 	"github.com/goccy/go-yaml"
 )
 
 type AwesomeStore struct {
-	filename string
-	manager  *AwesomeListManager
+	yamlFile string
+	jsonFile string
 }
 
 func NewAwesomeStore(filename string) *AwesomeStore {
-	store := &AwesomeStore{
-		filename: filename,
-		manager:  NewAwesomeListManager(make(baseAwesomelist, 0), nil),
+	return &AwesomeStore{
+		yamlFile: filename,
+		jsonFile: "awesome-lock.json",
 	}
-
-	return store
 }
 
-func (store *AwesomeStore) Load() error {
-	fcontent, err := os.ReadFile(store.filename)
+func (store *AwesomeStore) Load() (baseAwesomelist, error) {
+	fcontent, err := os.ReadFile(store.yamlFile)
 	if err != nil {
-		return CliErrorf(err, "failed to read file %q", store.filename)
+		return nil, CliErrorf(err, "failed to read file %q", store.yamlFile)
 	}
 
-	if err := yaml.UnmarshalWithOptions(fcontent, &store.manager.RawList, yaml.DisallowUnknownField()); err != nil {
-		return CliErrorf(err, "failed to parse YAML data in %q", store.filename)
+	var data baseAwesomelist
+	if err := yaml.UnmarshalWithOptions(fcontent, &data, yaml.DisallowUnknownField()); err != nil {
+		return nil, CliErrorf(err, "failed to parse YAML data in %q", store.yamlFile)
+	}
+
+	return data, nil
+}
+
+func (store *AwesomeStore) WriteYAML(list baseAwesomelist) error {
+	yamlData, err := yaml.Marshal(list)
+	if err != nil {
+		return CliErrorf(err, "failed to marshel list to YAMl")
+	}
+
+	if store.yamlFile == "" {
+		return CliErrorf(nil, "yaml filename can't be empty")
+	}
+
+	if err := os.WriteFile(store.yamlFile, yamlData, 0644); err != nil {
+		return CliErrorf(err, "failed to write YAML to file %q", store.yamlFile)
 	}
 
 	return nil
 }
 
-func (store *AwesomeStore) GetManager() *AwesomeListManager {
-	return store.manager
+func (store *AwesomeStore) WriteJSON(list enrichedAwesomelist) error {
+	jsonData, err := json.Marshal(list)
+	if err != nil {
+		return CliErrorf(err, "failed to marshel JSON")
+	}
+
+	if store.jsonFile == "" {
+		return CliErrorf(nil, "JSON filename can't be empty")
+	}
+
+	err = os.WriteFile(store.jsonFile, []byte(jsonData), 0644)
+	if err != nil {
+		return CliErrorf(err, "failed to write JSON file %q", store.jsonFile)
+	}
+
+	return nil
 }

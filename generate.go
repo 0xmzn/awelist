@@ -51,12 +51,12 @@ func executeTemplate(filename string, isHtml bool, data baseAwesomelist) (bytes.
 
 func (cmd *GenerateCmd) Run(cli *CLI) error {
 	aweStore := NewAwesomeStore(cli.AwesomeFile)
-	err := aweStore.Load()
+	baseList, err := aweStore.Load()
 	if err != nil {
 		return err
 	}
 
-	awelist := aweStore.GetManager()
+	awelist := NewAwesomeListManager(baseList)
 
 	buffer, err := executeTemplate(cmd.TemplateFile, cmd.HTML, awelist.RawList)
 	if err != nil {

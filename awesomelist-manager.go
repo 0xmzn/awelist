@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"slices"
 	"time"
 )
 
@@ -11,10 +12,9 @@ type AwesomeListManager struct {
 	EnrichedList enrichedAwesomelist
 }
 
-func NewAwesomeListManager(raw baseAwesomelist, enriched enrichedAwesomelist) *AwesomeListManager {
+func NewAwesomeListManager(raw baseAwesomelist) *AwesomeListManager {
 	return &AwesomeListManager{
-		RawList:      raw,
-		EnrichedList: enriched,
+		RawList: raw,
 	}
 }
 
@@ -37,9 +37,7 @@ func enrichCategory(baseCategory BaseCategory) (*EnrichedCategory, error) {
 		Description: baseCategory.Description,
 	}
 
-	sluggifier := NewSlugifier(enrichedCat.Title)
-	sluggifier.Enrich()
-	enrichedCat.Slug = sluggifier.Slug()
+	enrichedCat.Slug = slugifiy(enrichedCat.Title)
 
 	enrichedCat.Links = make([]EnrichedLink, len(baseCategory.Links))
 	for i, baseLink := range baseCategory.Links {
@@ -91,4 +89,63 @@ func enrichLink(baseLink BaseLink) (*EnrichedLink, error) {
 	// enrichedLink.IsArchived = repo.IsArchived()
 
 	return enrichedLink, nil
+}
+
+func (alm *AwesomeListManager) AddLink(newLink BaseLink, pathToLink []string) error {
+	if len(pathToLink) == 0 {
+		return fmt.Errorf("link path cannot be empty")
+	}
+
+	rawListPtr := (*[]BaseCategory)(&alm.RawList)
+
+	return addLinkRecursive(rawListPtr, newLink, pathToLink)
+}
+
+func (alm *AwesomeListManager) AddCategory(newCategory BaseCategory, pathToLink []string) error {
+	rawListPtr := (*[]BaseCategory)(&alm.RawList)
+
+	if len(pathToLink) == 0 {
+		*rawListPtr = append(*rawListPtr, newCategory)
+		return nil
+	}
+
+	return addCategoryRecursive(rawListPtr, newCategory, pathToLink)
+}
+
+func addLinkRecursive(categories *[]BaseCategory, newLink BaseLink, pathToLink []string) error {
+	titleSlug := slugifiy(pathToLink[0])
+
+	index := slices.IndexFunc(*categories, func(cat BaseCategory) bool {
+		return slugifiy(cat.Title) == titleSlug
+	})
+
+	if index == -1 {
+		return fmt.Errorf("category %q not found", pathToLink[0])
+	}
+
+	if len(pathToLink) == 1 {
+		(*categories)[index].Links = append((*categories)[index].Links, newLink)
+		return nil
+	}
+
+	return addLinkRecursive(&(*categories)[index].Subcategories, newLink, pathToLink[1:])
+}
+
+func addCategoryRecursive(categories *[]BaseCategory, newCategory BaseCategory, pathToLink []string) error {
+	titleSlug := slugifiy(pathToLink[0])
+
+	index := slices.IndexFunc(*categories, func(cat BaseCategory) bool {
+		return slugifiy(cat.Title) == titleSlug
+	})
+
+	if index == -1 {
+		return fmt.Errorf("category %q not found", pathToLink[0])
+	}
+
+	if len(pathToLink) == 1 {
+		(*categories)[index].Subcategories = append((*categories)[index].Subcategories, newCategory)
+		return nil
+	}
+
+	return addCategoryRecursive(&(*categories)[index].Subcategories, newCategory, pathToLink[1:])
 }
