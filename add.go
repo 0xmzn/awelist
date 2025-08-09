@@ -33,12 +33,13 @@ func (cmd *AddLinkCmd) Run(cli *CLI) error {
 		Url:         cmd.URL,
 	}
 
-	err = awelist.AddLink(newLink, cmd.Path)
-	if err != nil {
+	if err = awelist.AddLink(newLink, cmd.Path); err != nil {
 		return err
 	}
 
-	aweStore.WriteYaml(awelist.RawList)
+	if err = aweStore.WriteYAML(awelist.RawList); err != nil {
+		return err
+	}
 
 	return nil
 }
