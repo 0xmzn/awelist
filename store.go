@@ -27,3 +27,16 @@ func (store *AwesomeStore) Load() (baseAwesomelist, error) {
 
 	return data, nil
 }
+
+func (store *AwesomeStore) WriteYaml(list baseAwesomelist) error {
+	yamlData, err := yaml.Marshal(list)
+	if err != nil {
+		return CliErrorf(err, "failed to marshel list to YAMl")
+	}
+
+	if err := os.WriteFile(store.filename, yamlData, 0644); err != nil {
+		return CliErrorf(err, "failed to write YAML to file %q: %w", store.filename, err)
+	}
+
+	return nil
+}

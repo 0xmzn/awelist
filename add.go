@@ -38,7 +38,7 @@ func (cmd *AddLinkCmd) Run(cli *CLI) error {
 		return err
 	}
 
-	//TODO: write it using the store back to yaml
+	aweStore.WriteYaml(awelist.RawList)
 
 	return nil
 }
