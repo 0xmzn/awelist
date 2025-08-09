@@ -36,9 +36,7 @@ func enrichCategory(baseCategory BaseCategory) (*EnrichedCategory, error) {
 		Description: baseCategory.Description,
 	}
 
-	sluggifier := NewSlugifier(enrichedCat.Title)
-	sluggifier.Enrich()
-	enrichedCat.Slug = sluggifier.Slug()
+	enrichedCat.Slug = slugifiy(enrichedCat.Title)
 
 	enrichedCat.Links = make([]EnrichedLink, len(baseCategory.Links))
 	for i, baseLink := range baseCategory.Links {
