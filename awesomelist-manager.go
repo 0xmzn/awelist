@@ -105,6 +105,16 @@ func (alm *AwesomeListManager) AddCategory(newCategory BaseCategory, pathToLink 
 	rawListPtr := (*[]BaseCategory)(&alm.RawList)
 
 	if len(pathToLink) == 0 {
+		var foundCatTitle string
+		index := slices.IndexFunc(alm.RawList, func(cat BaseCategory) bool {
+			foundCatTitle = cat.Title
+			return slugifiy(cat.Title) == slugifiy(newCategory.Title)
+		})
+
+		if index != -1 {
+			return fmt.Errorf("category with title %q already exist", foundCatTitle)
+		}
+
 		*rawListPtr = append(*rawListPtr, newCategory)
 		return nil
 	}
@@ -124,6 +134,16 @@ func addLinkRecursive(categories *[]BaseCategory, newLink BaseLink, pathToLink [
 	}
 
 	if len(pathToLink) == 1 {
+		var foundCatTitle string
+		foundIndex := slices.IndexFunc((*categories)[index].Links, func(link BaseLink) bool {
+			foundCatTitle = link.Title
+			return slugifiy(link.Title) == slugifiy(newLink.Title)
+		})
+
+		if foundIndex != -1 {
+			return fmt.Errorf("link with title %q already exist", foundCatTitle)
+		}
+
 		(*categories)[index].Links = append((*categories)[index].Links, newLink)
 		return nil
 	}
@@ -143,6 +163,16 @@ func addCategoryRecursive(categories *[]BaseCategory, newCategory BaseCategory, 
 	}
 
 	if len(pathToLink) == 1 {
+		var foundCatTitle string
+		foundIndex := slices.IndexFunc((*categories)[index].Subcategories, func(cat BaseCategory) bool {
+			foundCatTitle = cat.Title
+			return slugifiy(cat.Title) == slugifiy(newCategory.Title)
+		})
+
+		if foundIndex != -1 {
+			return fmt.Errorf("category with title %q already exist", foundCatTitle)
+		}
+
 		(*categories)[index].Subcategories = append((*categories)[index].Subcategories, newCategory)
 		return nil
 	}
