@@ -95,14 +95,31 @@ type gitlabRepo struct {
 	lastUpdate time.Time
 }
 
-// TODO: this will fail if it's anything but a provider.com/user/repo. e.g: https://github.com/trending?l=go
-func NewRemoteRepo(url string) RemoteRepo {
-	if strings.HasPrefix(url, "https://github.com") {
-		return &githubRepo{url: url}
+func NewRemoteRepo(urlStr string) RemoteRepo {
+	parsedURL, err := url.Parse(urlStr)
+	if err != nil {
+		return nil
 	}
-	if strings.HasPrefix(url, "https://gitlab.com") {
-		return &gitlabRepo{url: url}
+
+	pathParts := strings.Split(strings.Trim(parsedURL.Path, "/"), "/")
+
+	if parsedURL.Host == "" || len(pathParts) < 2 || pathParts[0] == "" || pathParts[1] == "" {
+		return nil
 	}
+
+	switch parsedURL.Host {
+	case "github.com":
+		if len(pathParts) != 2 {
+			return nil
+		}
+		return &githubRepo{url: urlStr}
+	case "gitlab.com":
+		if len(pathParts) < 2 {
+			return nil
+		}
+		return &gitlabRepo{url: urlStr}
+	}
+
 	return nil
 }
 
