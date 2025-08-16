@@ -23,10 +23,9 @@ type RemoteRepo interface {
 }
 
 type githubClient struct {
-	apiToken string
-	client   *github.Client
-	once     sync.Once
-	initErr  error
+	client  *github.Client
+	once    sync.Once
+	initErr error
 }
 
 var ghClientSingleton = &githubClient{}
@@ -38,7 +37,6 @@ func getGitHubClient() (*github.Client, error) {
 			ghClientSingleton.initErr = CliErrorf(nil, "GITHUB_API_KEY environment variable is not set. A token is required for GitHub API calls.")
 			return
 		}
-		ghClientSingleton.apiToken = token
 		ghClientSingleton.client = github.NewClient(http.DefaultClient).WithAuthToken(token)
 	})
 
@@ -112,12 +110,21 @@ func (repo *githubRepo) Enrich() error {
 		repo.stars = *ghRepo.StargazersCount
 	}
 
-	// TODO: Wrong feild. Figure out how to get the data of the latest commit on default branch.
-	// updated_at will be updated any time the repository object is updated,
-	// e.g. when the description or the primary language of the repository is updated.
-	// stackoverflow: https://stackoverflow.com/questions/15918588/github-api-v3-what-is-the-difference-between-pushed-at-and-updated-at
-	if ghRepo.UpdatedAt != nil {
-		repo.lastUpdate = ghRepo.UpdatedAt.Time
+	repo.stars = ghRepo.GetStargazersCount()
+	defaultBranch := ghRepo.GetDefaultBranch()
+
+	commit, _, err := client.Repositories.GetCommit(ctx, owner, repoName, defaultBranch, nil)
+
+	if err != nil {
+		return CliErrorf(err, "failed to fetch latest commit for default branch %q on %q", defaultBranch, repo.url)
+	}
+
+	if commit != nil && commit.Commit != nil && commit.Commit.Committer != nil && commit.Commit.Committer.Date != nil {
+		repo.lastUpdate = commit.Commit.Committer.Date.Time
+	} else {
+		if ghRepo.UpdatedAt != nil {
+			repo.lastUpdate = ghRepo.UpdatedAt.Time
+		}
 	}
 
 	return nil
