@@ -66,6 +66,7 @@ func getGitlabClient() (*gitlab.Client, error) {
 			glClientSingleton.initErr = CliErrorf(nil, "GITLAB_API_KEY environment variable is not set. A token is required for gitlab API calls.")
 			return
 		}
+		// TODO: Deal with this error. It's currenty overriding the previous one
 		client, err := gitlab.NewClient(token)
 
 		glClientSingleton.client = client

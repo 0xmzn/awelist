@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"slices"
+	"sync"
 	"time"
 )
 
@@ -20,14 +21,35 @@ func NewAwesomeListManager(raw baseAwesomelist) *AwesomeListManager {
 
 func (alm *AwesomeListManager) EnrichList() error {
 	alm.EnrichedList = make(enrichedAwesomelist, len(alm.RawList))
+	var wg sync.WaitGroup
+	enrichedCh := make(chan struct {
+		enrichedCat *EnrichedCategory
+		index       int
+	}, len(alm.RawList))
+
 	for i, baseCat := range alm.RawList {
-		enrichedCat, err := enrichCategory(baseCat)
-		if err != nil {
-			log.Printf("Error enriching category '%s': %v", baseCat.Title, err)
-			continue
-		}
-		alm.EnrichedList[i] = *enrichedCat
+		wg.Add(1)
+		go func(index int, category BaseCategory) {
+			defer wg.Done()
+			enrichedCat, err := enrichCategory(category)
+			if err != nil {
+				log.Printf("Error enriching category '%s': %v", category.Title, err)
+				return
+			}
+			enrichedCh <- struct {
+				enrichedCat *EnrichedCategory
+				index       int
+			}{enrichedCat: enrichedCat, index: index}
+		}(i, baseCat)
 	}
+
+	wg.Wait()
+	close(enrichedCh)
+
+	for enriched := range enrichedCh {
+		alm.EnrichedList[enriched.index] = *enriched.enrichedCat
+	}
+
 	return nil
 }
 
@@ -39,24 +61,65 @@ func enrichCategory(baseCategory BaseCategory) (*EnrichedCategory, error) {
 
 	enrichedCat.Slug = slugifiy(enrichedCat.Title)
 
-	enrichedCat.Links = make([]EnrichedLink, len(baseCategory.Links))
+	var wg sync.WaitGroup
+	linkCh := make(chan struct {
+		link  *EnrichedLink
+		index int
+	}, len(baseCategory.Links))
+
 	for i, baseLink := range baseCategory.Links {
-		enrichedLink, err := enrichLink(baseLink)
-		if err != nil {
-			log.Printf("Error enriching link '%s' in category '%s': %v", baseLink.Title, baseCategory.Title, err)
-			continue
+		wg.Add(1)
+		go func(index int, link BaseLink) {
+			defer wg.Done()
+			enrichedLink, err := enrichLink(link)
+			if err != nil {
+				log.Printf("error enriching link '%s' in category '%s': %v", link.Title, baseCategory.Title, err)
+				return
+			}
+			linkCh <- struct {
+				link  *EnrichedLink
+				index int
+			}{link: enrichedLink, index: index}
+		}(i, baseLink)
+	}
+
+	subCatCh := make(chan struct {
+		subCat *EnrichedCategory
+		index  int
+	}, len(baseCategory.Subcategories))
+
+	for i, baseSubCat := range baseCategory.Subcategories {
+		wg.Add(1)
+		go func(index int, subCat BaseCategory) {
+			defer wg.Done()
+			enrichedSubCat, err := enrichCategory(subCat)
+			if err != nil {
+				log.Printf("error enriching subcategory '%s' in category '%s': %v", subCat.Title, baseCategory.Title, err)
+				return
+			}
+			subCatCh <- struct {
+				subCat *EnrichedCategory
+				index  int
+			}{subCat: enrichedSubCat, index: index}
+		}(i, baseSubCat)
+	}
+
+	wg.Wait()
+	close(linkCh)
+	close(subCatCh)
+
+	enrichedCat.Links = make([]EnrichedLink, len(baseCategory.Links))
+	for result := range linkCh {
+		if result.link != nil {
+			enrichedCat.Links[result.index] = *result.link
 		}
-		enrichedCat.Links[i] = *enrichedLink
 	}
 
 	enrichedCat.Subcategories = make([]EnrichedCategory, len(baseCategory.Subcategories))
-	for i, baseSubCat := range baseCategory.Subcategories {
-		enrichedSubCat, err := enrichCategory(baseSubCat)
-		if err != nil {
-			log.Printf("Error enriching subcategory '%s' in category '%s': %v", baseSubCat.Title, baseCategory.Title, err)
-			continue
+	for result := range subCatCh {
+		if result.subCat != nil {
+			enrichedCat.Subcategories[result.index] = *result.subCat
 		}
-		enrichedCat.Subcategories[i] = *enrichedSubCat
 	}
 
 	return enrichedCat, nil
