@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/google/go-github/v74/github"
+	"gitlab.com/gitlab-org/api/client-go"
 )
 
 type Enricher interface {
@@ -48,6 +49,37 @@ func getGitHubClient() (*github.Client, error) {
 		return nil, CliErrorf(nil, "GitHub client failed to initialize for an unknown reason.")
 	}
 	return ghClientSingleton.client, nil
+}
+
+type gitlabClient struct {
+	client  *gitlab.Client
+	once    sync.Once
+	initErr error
+}
+
+var glClientSingleton = &gitlabClient{}
+
+func getGitlabClient() (*gitlab.Client, error) {
+	glClientSingleton.once.Do(func() {
+		token := os.Getenv("GITLAB_API_KEY")
+		if token == "" {
+			glClientSingleton.initErr = CliErrorf(nil, "GITLAB_API_KEY environment variable is not set. A token is required for gitlab API calls.")
+			return
+		}
+		client, err := gitlab.NewClient(token)
+
+		glClientSingleton.client = client
+		glClientSingleton.initErr = err
+	})
+
+	if glClientSingleton.initErr != nil {
+		return nil, glClientSingleton.initErr
+	}
+
+	if glClientSingleton.client == nil {
+		return nil, CliErrorf(nil, "gitlab client failed to initialize for an unknown reason.")
+	}
+	return glClientSingleton.client, nil
 }
 
 type githubRepo struct {
@@ -139,6 +171,50 @@ func (repo *gitlabRepo) LastUpdate() time.Time {
 }
 
 func (repo *gitlabRepo) Enrich() error {
-	repo.stars = 400
+	parsedURL, err := url.Parse(repo.url)
+	if err != nil {
+		return CliErrorf(err, "invalid URL %q", repo.url)
+	}
+
+	pathParts := strings.Split(strings.Trim(parsedURL.Path, "/"), "/")
+	if len(pathParts) < 2 {
+		return CliErrorf(nil, "invalid GitLab URL format (expected owner/repo or group/repo) found %q", repo.url)
+	}
+	projectPath := strings.Join(pathParts, "/")
+
+	client, err := getGitlabClient()
+	if err != nil {
+		return CliErrorf(err, "failed to get GitLab client for %q", repo.url)
+	}
+
+	ctx := context.Background()
+
+	glProject, _, err := client.Projects.GetProject(projectPath, nil, gitlab.WithContext(ctx))
+	if err != nil {
+		return CliErrorf(err, "failed to fetch GitLab project details for %q", repo.url)
+	}
+
+	repo.stars = glProject.StarCount
+
+	defaultBranch := glProject.DefaultBranch
+
+	listCommitOptions := &gitlab.ListCommitsOptions{
+		RefName: gitlab.Ptr(defaultBranch),
+		ListOptions: gitlab.ListOptions{
+			PerPage: 1,
+			Page:    1,
+		},
+	}
+
+	commits, _, err := client.Commits.ListCommits(projectPath, listCommitOptions, gitlab.WithContext(ctx))
+	if err != nil {
+		return CliErrorf(err, "failed to fetch latest commit for default branch %q on %q", defaultBranch, repo.url)
+	}
+
+	if len(commits) > 0 {
+		latestCommit := commits[0]
+		repo.lastUpdate = *latestCommit.CommittedDate
+	}
+
 	return nil
 }
