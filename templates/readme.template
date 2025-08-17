@@ -1,0 +1,39 @@
+{{/*
+    This template is designed to parse the `enrichedAwesomelist` data structure.
+    It iterates through top-level categories, then their subcategories, and
+    finally the links within each.
+*/}}
+{{- range . }}
+## {{ .Title }}
+
+{{- if .Description }}
+{{ .Description }}
+{{- end }}
+
+{{- if .Links }}
+{{- range .Links }}
+* **[{{ .Title }}]({{ .Url }})**: {{ .Description }}
+{{- if .IsRepo }} (Stars: {{ .Stars }}, Last Update: {{ .LastUpdate.Format "2006-01-02" }}){{- end }}
+{{- end }}
+{{- end }}
+
+{{- if .Subcategories }}
+{{- range .Subcategories }}
+### {{ .Title }}
+
+{{- if .Description }}
+{{ .Description }}
+{{- end }}
+
+{{- if .Links }}
+{{- range .Links }}
+* **[{{ .Title }}]({{ .Url }})**: {{ .Description }}
+{{- if .IsRepo }} (Stars: {{ .Stars }}, Last Update: {{ .LastUpdate.Format "2006-01-02" }}){{- end }}
+{{- end }}
+{{- end }}
+
+{{- end }}
+{{- end }}
+
+---
+{{- end }}

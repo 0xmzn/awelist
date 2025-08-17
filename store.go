@@ -19,7 +19,7 @@ func NewAwesomeStore(filename string) *AwesomeStore {
 	}
 }
 
-func (store *AwesomeStore) Load() (baseAwesomelist, error) {
+func (store *AwesomeStore) LoadYAML() (baseAwesomelist, error) {
 	fcontent, err := os.ReadFile(store.yamlFile)
 	if err != nil {
 		return nil, CliErrorf(err, "failed to read file %q", store.yamlFile)
@@ -28,6 +28,20 @@ func (store *AwesomeStore) Load() (baseAwesomelist, error) {
 	var data baseAwesomelist
 	if err := yaml.UnmarshalWithOptions(fcontent, &data, yaml.DisallowUnknownField()); err != nil {
 		return nil, CliErrorf(err, "failed to parse YAML data in %q", store.yamlFile)
+	}
+
+	return data, nil
+}
+
+func (store *AwesomeStore) LoadJSON() (enrichedAwesomelist, error) {
+	fcontent, err := os.ReadFile(store.jsonFile)
+	if err != nil {
+		return nil, CliErrorf(err, "failed to read file %q", store.jsonFile)
+	}
+
+	var data enrichedAwesomelist
+	if err := json.Unmarshal(fcontent, &data); err != nil {
+		return nil, CliErrorf(err, "failed to parse JSON data in %q", store.jsonFile)
 	}
 
 	return data, nil

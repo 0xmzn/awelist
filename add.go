@@ -20,7 +20,7 @@ type AddCategoryCmd struct {
 
 func (cmd *AddLinkCmd) Run(cli *CLI) error {
 	aweStore := NewAwesomeStore(cli.AwesomeFile)
-	baseList, err := aweStore.Load()
+	baseList, err := aweStore.LoadYAML()
 	if err != nil {
 		return err
 	}
@@ -46,7 +46,7 @@ func (cmd *AddLinkCmd) Run(cli *CLI) error {
 
 func (cmd *AddCategoryCmd) Run(cli *CLI) error {
 	aweStore := NewAwesomeStore(cli.AwesomeFile)
-	baseList, err := aweStore.Load()
+	baseList, err := aweStore.LoadYAML()
 	if err != nil {
 		return err
 	}

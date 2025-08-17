@@ -9,6 +9,11 @@ import (
 	text "text/template"
 )
 
+type GenerateCmd struct {
+	HTML         bool   `kong:"short='H',help='output HTML'"`
+	TemplateFile string `kong:"arg,required,help='path to template file.'"`
+}
+
 type template interface {
 	Execute(wr io.Writer, data any) error
 }
@@ -29,7 +34,7 @@ func newTemplate(isHTML bool, name string, content string) (template, error) {
 	}
 }
 
-func executeTemplate(filename string, isHtml bool, data baseAwesomelist) (bytes.Buffer, error) {
+func executeTemplate(filename string, isHtml bool, data enrichedAwesomelist) (bytes.Buffer, error) {
 	tmplContent, err := os.ReadFile(filename)
 	if err != nil {
 		return bytes.Buffer{}, CliErrorf(err, "failed to read file %q", filename)
@@ -51,14 +56,12 @@ func executeTemplate(filename string, isHtml bool, data baseAwesomelist) (bytes.
 
 func (cmd *GenerateCmd) Run(cli *CLI) error {
 	aweStore := NewAwesomeStore(cli.AwesomeFile)
-	baseList, err := aweStore.Load()
+	enrichedList, err := aweStore.LoadJSON()
 	if err != nil {
 		return err
 	}
 
-	awelist := NewAwesomeListManager(baseList)
-
-	buffer, err := executeTemplate(cmd.TemplateFile, cmd.HTML, awelist.RawList)
+	buffer, err := executeTemplate(cmd.TemplateFile, cmd.HTML, enrichedList)
 	if err != nil {
 		return err
 	}
