@@ -8,7 +8,7 @@
         "description": "An actor-based Framework with network transparency for creating event-driven architecture in Golang. Inspired by Erlang.",
         "url": "https://github.com/ergo-services/ergo",
         "isRepo": true,
-        "stars": 4056,
+        "stars": 4057,
         "lastUpdate": "2025-04-29T13:47:24Z",
         "isArchived": false
       },
@@ -18,7 +18,7 @@
         "url": "https://github.com/Tochemey/goakt",
         "isRepo": true,
         "stars": 276,
-        "lastUpdate": "2025-08-11T17:54:34Z",
+        "lastUpdate": "2025-08-17T11:12:39Z",
         "isArchived": false
       },
       {
@@ -51,7 +51,7 @@
         "description": "Embeddable vector database for Go with Chroma-like interface and zero third-party dependencies. In-memory with optional persistence.",
         "url": "https://github.com/philippgille/chromem-go",
         "isRepo": true,
-        "stars": 676,
+        "stars": 678,
         "lastUpdate": "2025-07-20T18:08:57Z",
         "isArchived": false
       },
@@ -69,7 +69,7 @@
         "description": "LangChainGo is a framework for developing applications powered by language models.",
         "url": "https://github.com/tmc/langchaingo",
         "isRepo": true,
-        "stars": 7392,
+        "stars": 7397,
         "lastUpdate": "2025-08-16T18:53:01Z",
         "isArchived": false
       },
@@ -78,8 +78,8 @@
         "description": "Open Source OpenAI alternative, self-host AI models.",
         "url": "https://github.com/mudler/LocalAI",
         "isRepo": true,
-        "stars": 34678,
-        "lastUpdate": "2025-08-16T21:10:03Z",
+        "stars": 34689,
+        "lastUpdate": "2025-08-17T07:41:01Z",
         "isArchived": false
       },
       {
@@ -87,7 +87,7 @@
         "description": "Run large language models locally.",
         "url": "https://github.com/jmorganca/ollama",
         "isRepo": true,
-        "stars": 150336,
+        "stars": 150386,
         "lastUpdate": "2025-08-15T22:01:05Z",
         "isArchived": false
       },
@@ -113,7 +113,7 @@
         "url": "https://github.com/mewkiz/flac",
         "isRepo": true,
         "stars": 339,
-        "lastUpdate": "2025-07-11T15:41:52Z",
+        "lastUpdate": "2025-08-17T13:07:01Z",
         "isArchived": false
       },
       {
@@ -175,7 +175,7 @@
         "description": "A low-level library to play sound on multiple platforms.",
         "url": "https://github.com/hajimehoshi/oto",
         "isRepo": true,
-        "stars": 1756,
+        "stars": 1758,
         "lastUpdate": "2025-08-11T11:16:21Z",
         "isArchived": false
       },
@@ -200,7 +200,7 @@
         "description": "Modular authentication system for the web. It tries to remove as much boilerplate and \"hard things\" as possible so that each time you start a new web project in Go, you can plug it in, configure it, and start building your app without having to build an authentication system each time.",
         "url": "https://github.com/volatiletech/authboss",
         "isRepo": true,
-        "stars": 4033,
+        "stars": 4034,
         "lastUpdate": "2025-07-16T06:26:40Z",
         "isArchived": false
       },
@@ -290,7 +290,7 @@
         "description": "provides a simple, clean, and idiomatic way to use OAuth and OAuth2. Handles multiple providers out of the box.",
         "url": "https://github.com/markbates/goth",
         "isRepo": true,
-        "stars": 6172,
+        "stars": 6173,
         "lastUpdate": "2025-04-04T01:36:03Z",
         "isArchived": false
       },
@@ -335,8 +335,8 @@
         "description": "A full featured implementation of JSON Web Tokens (JWT). This library supports the parsing and verification as well as the generation and signing of JWTs.",
         "url": "https://github.com/golang-jwt/jwt",
         "isRepo": true,
-        "stars": 8390,
-        "lastUpdate": "2025-08-12T15:17:55Z",
+        "stars": 8392,
+        "lastUpdate": "2025-08-17T16:10:56Z",
         "isArchived": false
       },
       {
@@ -344,7 +344,7 @@
         "description": "Go module implementing various JWx (JWA/JWE/JWK/JWS/JWT, otherwise known as JOSE) technologies",
         "url": "https://github.com/lestrrat-go/jwx",
         "isRepo": true,
-        "stars": 2179,
+        "stars": 2180,
         "lastUpdate": "2025-08-15T01:42:06Z",
         "isArchived": false
       },
@@ -353,7 +353,7 @@
         "description": "Open Source (Go) implementation of \"Zanzibara: Google's Consistent,\nGlobal Authorization System\". Ships gRPC, REST APIs, newSQL, and an\neasy and granular permission language. Supports ACL, RBAC, and other\naccess models.\n",
         "url": "https://github.com/ory/keto",
         "isRepo": true,
-        "stars": 5097,
+        "stars": 5096,
         "lastUpdate": "2025-08-15T13:34:03Z",
         "isArchived": false
       },
@@ -371,7 +371,7 @@
         "description": "Successor of goauth2. Generic OAuth 2.0 package that comes with JWT, Google APIs, Compute Engine, and App Engine support.",
         "url": "https://github.com/golang/oauth2",
         "isRepo": true,
-        "stars": 5674,
+        "stars": 5673,
         "lastUpdate": "2025-08-13T14:52:40Z",
         "isArchived": false
       },
@@ -389,7 +389,7 @@
         "description": "Implementation of fine-grained authorization based on the \"Zanzibar:\nGoogle's Consistent, Global Authorization System\" paper. Backed by\n[CNCF](https://www.cncf.io/).\n",
         "url": "https://github.com/openfga/openfga",
         "isRepo": true,
-        "stars": 4003,
+        "stars": 4005,
         "lastUpdate": "2025-08-15T19:53:44Z",
         "isArchived": false
       },
@@ -531,7 +531,7 @@
         "description": "A Framework for Building Public Blockchains in the Cosmos Ecosystem.",
         "url": "https://github.com/cosmos/cosmos-sdk",
         "isRepo": true,
-        "stars": 6694,
+        "stars": 6692,
         "lastUpdate": "2025-08-14T19:35:04Z",
         "isArchived": false
       },
@@ -549,7 +549,7 @@
         "description": "Official Go implementation of the Ethereum protocol.",
         "url": "https://github.com/ethereum/go-ethereum",
         "isRepo": true,
-        "stars": 49546,
+        "stars": 49551,
         "lastUpdate": "2025-08-15T13:58:00Z",
         "isArchived": false
       },
@@ -576,7 +576,7 @@
         "description": "A blockchain framework implemented in Go. It provides content-addressable storage which can be used for decentralized storage in DApps. It is based on the IPFS protocol.",
         "url": "https://github.com/ipfs/kubo",
         "isRepo": true,
-        "stars": 16642,
+        "stars": 16646,
         "lastUpdate": "2025-08-15T21:43:26Z",
         "isArchived": false
       },
@@ -594,7 +594,7 @@
         "description": "Go library to interface with Solana JSON RPC and WebSocket interfaces.",
         "url": "https://github.com/gagliardetto/solana-go",
         "isRepo": true,
-        "stars": 1395,
+        "stars": 1394,
         "lastUpdate": "2025-07-18T19:21:48Z",
         "isArchived": false
       },
@@ -628,7 +628,7 @@
         "description": "Zero-dependencies Telegram Bot library with additional UI components",
         "url": "https://github.com/go-telegram/bot",
         "isRepo": true,
-        "stars": 1289,
+        "stars": 1294,
         "lastUpdate": "2025-08-11T16:08:23Z",
         "isArchived": false
       },
@@ -700,7 +700,7 @@
         "description": "Easy to use framework to create Slack bots.",
         "url": "https://github.com/slack-io/slacker",
         "isRepo": true,
-        "stars": 55,
+        "stars": 56,
         "lastUpdate": "2024-11-16T01:16:59Z",
         "isArchived": false
       },
@@ -709,7 +709,7 @@
         "description": "Telegram bot framework is written in Go.",
         "url": "https://github.com/tucnak/telebot",
         "isRepo": true,
-        "stars": 4419,
+        "stars": 4418,
         "lastUpdate": "2025-05-28T19:37:48Z",
         "isArchived": false
       },
@@ -718,7 +718,7 @@
         "description": "Telegram Bot API library for Golang with full one-to-one API implementation.",
         "url": "https://github.com/mymmrac/telego",
         "isRepo": true,
-        "stars": 755,
+        "stars": 756,
         "lastUpdate": "2025-07-23T07:03:09Z",
         "isArchived": false
       },
@@ -727,7 +727,7 @@
         "description": "Simple and clean Telegram bot client.",
         "url": "https://github.com/go-telegram-bot-api/telegram-bot-api",
         "isRepo": true,
-        "stars": 6230,
+        "stars": 6229,
         "lastUpdate": "2022-10-20T00:35:52Z",
         "isArchived": false
       },
@@ -792,7 +792,7 @@
             "description": "TUI components for bubbletea.",
             "url": "https://github.com/charmbracelet/bubbles",
             "isRepo": true,
-            "stars": 6776,
+            "stars": 6780,
             "lastUpdate": "2025-08-13T12:11:33Z",
             "isArchived": false
           },
@@ -801,7 +801,7 @@
             "description": "Go framework to build terminal apps, based on The Elm Architecture.",
             "url": "https://github.com/charmbracelet/bubbletea",
             "isRepo": true,
-            "stars": 34404,
+            "stars": 34413,
             "lastUpdate": "2025-08-15T23:05:56Z",
             "isArchived": false
           },
@@ -918,7 +918,7 @@
             "description": "Minimalist Go library aimed at creating Console User Interfaces.",
             "url": "https://github.com/jroimartin/gocui",
             "isRepo": true,
-            "stars": 10336,
+            "stars": 10337,
             "lastUpdate": "2025-05-01T12:15:35Z",
             "isArchived": false
           },
@@ -945,7 +945,7 @@
             "description": "Declaratively define styles for color, format and layout in the terminal.",
             "url": "https://github.com/charmbracelet/lipgloss",
             "isRepo": true,
-            "stars": 9466,
+            "stars": 9468,
             "lastUpdate": "2025-08-13T12:12:59Z",
             "isArchived": false
           },
@@ -981,7 +981,7 @@
             "description": "A library to beautify console output on every platform with many combinable components.",
             "url": "https://github.com/pterm/pterm",
             "isRepo": true,
-            "stars": 5211,
+            "stars": 5210,
             "lastUpdate": "2025-06-07T23:05:33Z",
             "isArchived": false
           },
@@ -1008,7 +1008,7 @@
             "description": "A tiny library for super simple Golang tables.",
             "url": "https://github.com/cheynewallace/tabby",
             "isRepo": true,
-            "stars": 360,
+            "stars": 359,
             "lastUpdate": "2020-12-23T01:19:22Z",
             "isArchived": false
           },
@@ -1044,7 +1044,7 @@
             "description": "Advanced ANSI style \u0026 color support for your terminal applications.",
             "url": "https://github.com/muesli/termenv",
             "isRepo": true,
-            "stars": 1881,
+            "stars": 1893,
             "lastUpdate": "2025-04-14T20:25:16Z",
             "isArchived": false
           },
@@ -1053,7 +1053,7 @@
             "description": "Go terminal dashboard based on **termbox-go** and inspired by [blessed-contrib](https://github.com/yaronn/blessed-contrib).",
             "url": "https://github.com/gizak/termui",
             "isRepo": true,
-            "stars": 13411,
+            "stars": 13410,
             "lastUpdate": "2025-07-10T06:33:40Z",
             "isArchived": false
           },
@@ -1141,8 +1141,8 @@
             "description": "Multi-shell multi-command argument completer.",
             "url": "https://github.com/rsteube/carapace-bin",
             "isRepo": true,
-            "stars": 1402,
-            "lastUpdate": "2025-08-16T06:36:57Z",
+            "stars": 1403,
+            "lastUpdate": "2025-08-17T12:45:02Z",
             "isArchived": false
           },
           {
@@ -1195,7 +1195,7 @@
             "description": "Commander for modern Go CLI interactions.",
             "url": "https://github.com/spf13/cobra",
             "isRepo": true,
-            "stars": 41453,
+            "stars": 41457,
             "lastUpdate": "2025-08-11T13:58:23Z",
             "isArchived": false
           },
@@ -1222,7 +1222,7 @@
             "description": "Write bash completions in Go + Go command bash completion.",
             "url": "https://github.com/posener/complete",
             "isRepo": true,
-            "stars": 940,
+            "stars": 939,
             "lastUpdate": "2020-12-08T04:56:21Z",
             "isArchived": false
           },
@@ -1249,7 +1249,7 @@
             "description": "An expressive programming language and a versatile interactive shell.",
             "url": "https://github.com/elves/elvish",
             "isRepo": true,
-            "stars": 6082,
+            "stars": 6084,
             "lastUpdate": "2025-07-14T13:07:57Z",
             "isArchived": false
           },
@@ -1384,7 +1384,7 @@
             "description": "Go readline-like library for command-line interfaces.",
             "url": "https://github.com/peterh/liner",
             "isRepo": true,
-            "stars": 1071,
+            "stars": 1072,
             "lastUpdate": "2022-01-14T22:30:32Z",
             "isArchived": false
           },
@@ -1573,7 +1573,7 @@
         "description": "Curated list of awesome remote jobs. A lot of them are looking for Go hackers.",
         "url": "https://github.com/lukasz-madon/awesome-remote-job",
         "isRepo": true,
-        "stars": 39405,
+        "stars": 39423,
         "lastUpdate": "2025-07-30T18:42:16Z",
         "isArchived": false
       },
@@ -1582,7 +1582,7 @@
         "description": "List of other amazingly awesome lists.",
         "url": "https://github.com/bayandin/awesome-awesomeness",
         "isRepo": true,
-        "stars": 32784,
+        "stars": 32788,
         "lastUpdate": "2022-03-24T09:30:22Z",
         "isArchived": false
       },
@@ -1902,7 +1902,7 @@
             "description": "Golang ebook intro how to build a web app with golang.",
             "url": "https://github.com/astaxie/build-web-application-with-golang",
             "isRepo": true,
-            "stars": 43750,
+            "stars": 43752,
             "lastUpdate": "2022-09-10T14:22:24Z",
             "isArchived": false
           },

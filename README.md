@@ -1,6 +1,11 @@
 # `awelist`: A CLI Tool for Managing Awesome Lists
 
+**WORK IN PROGRESS**
+---
+
 `awelist` is a lightweight command-line tool written in Go that helps you automate the maintenance and publishing of "awesome lists." It streamlines the process of keeping your lists up-to-date by fetching metadata and generating a consistent, well-formatted output file.
+
+The initial proposal that lead to the birth of this tool can be found [here](https://github.com/avelino/awesome-go/issues/5662).  
 
 -----
 
@@ -61,14 +66,14 @@ awelist add category --title "Vehicles" --description "Things that go vroom" .
 
 ### Enrich the list with metadata
 
-The `enrich` command fetches data (like stars and last update dates) and saves an enriched version of your list in a new file, `awesome-lock.json`.
+The `enrich` command fetches data (like stars and last update dates) and saves an enriched version of your list in a new file, `awesome-lock.json`. Take a look at [awesome-lock.json](awesome-lock.json) for example.
 
 ```bash
 awelist enrich
 ```
 By default, it uses `awesome.yaml` file in the current directory. You can specify which file to load data from using `--awesome-file,-f` which is a global flag.
 
-## API Keys:
+#### API Keys:
 
 Awelist reads GitHub & GitLab API keys from environment variables to fetch repositories' metadata. You're only required provide API key for the provider you're using.
 
@@ -77,11 +82,12 @@ Awelist reads GitHub & GitLab API keys from environment variables to fetch repos
 
 ### Generate a new `README.md`
 
-Use the `generate` command with a template file to create your final output.
-
+Use the `generate` command with a template file to create your final output. By default, generate relies on `awesome-lock.json` to generate template files. If the file doesn't exist, awelist will generate an on-the-fly enriched list without any remote calls.
 ```bash
 awelist generate my-template.md > README.md
 ```
+
+Example template can be found under [templates/readme.template](templates/readme.template).
 
 -----
 
@@ -104,4 +110,34 @@ type Link struct {
 }
 
 type AwesomeList []Category
+```
+
+
+## Example `awesome-lock.json`
+
+You can take a look at [awesome-lock.json](awesome-lock.json) for example. It contains an `EnrichedAwesomeList` whose structure follows this:
+
+```go
+type EnrichedCategory struct {
+	Title         string
+	Description   string      // can be omitted
+	Links         []Link
+	Subcategories []Category  // can be omitted
+
+	Slug string
+}
+
+type EnrichedLink struct {
+	Title       string
+	Description string
+	Url         string
+
+	IsRepo     bool     
+	Stars      int      
+	LastUpdate time.Time
+	IsArchived bool     
+}
+
+type enrichedAwesomelist []EnrichedCategory
+
 ```
