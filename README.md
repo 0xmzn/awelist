@@ -64,10 +64,16 @@ awelist add category --title "Vehicles" --description "Things that go vroom" .
 The `enrich` command fetches data (like stars and last update dates) and saves an enriched version of your list in a new file, `awesome-lock.json`.
 
 ```bash
-awelist enrich --awesome-file awesome.yaml
+awelist enrich
 ```
+By default, it uses `awesome.yaml` file in the current directory. You can specify which file to load data from using `--awesome-file,-f` which is a global flag.
 
-**Note:** `awelist` requires a **GitHub API token** to fetch repository metadata. Set it as an environment variable.
+## API Keys:
+
+Awelist reads GitHub & GitLab API keys from environment variables to fetch repositories' metadata. You're only required provide API key for the provider you're using.
+
+- GitHub: `GITHUB_API_KEY`
+- GitLab: `GILAB_API_KEY`
 
 ### Generate a new `README.md`
 
