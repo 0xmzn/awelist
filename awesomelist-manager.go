@@ -6,7 +6,6 @@ import (
 	"os"
 	"slices"
 	"sync"
-	"time"
 )
 
 type AwesomeListManager struct {
@@ -20,158 +19,135 @@ func NewAwesomeListManager(raw baseAwesomelist) *AwesomeListManager {
 	}
 }
 
+func (alm *AwesomeListManager) EnrichListDry() error {
+	alm.EnrichedList = make(enrichedAwesomelist, len(alm.RawList))
+	for i, baseCat := range alm.RawList {
+		alm.EnrichedList[i] = *baseEnrichCategory(baseCat)
+	}
+	return nil
+}
+
 func (alm *AwesomeListManager) EnrichList() error {
 	alm.EnrichedList = make(enrichedAwesomelist, len(alm.RawList))
-	var wg sync.WaitGroup
-	enrichedCh := make(chan struct {
-		enrichedCat *EnrichedCategory
-		index       int
-	}, len(alm.RawList))
+	for i, baseCat := range alm.RawList {
+		alm.EnrichedList[i] = *baseEnrichCategory(baseCat)
+	}
 
+	var wg sync.WaitGroup
 	const maxConcurrency = 100
 	sem := make(chan struct{}, maxConcurrency)
+	errCh := make(chan error, len(alm.EnrichedList))
 
-	for i, baseCat := range alm.RawList {
+	for i := range alm.EnrichedList {
 		wg.Add(1)
-		go func(index int, category BaseCategory) {
+		go func(index int) {
 			sem <- struct{}{}
 			defer func() {
 				<-sem
 				wg.Done()
 			}()
-
-			enrichedCat, err := enrichCategory(category, sem)
-			if err != nil {
-				log.Printf("Error enriching category '%s': %v", category.Title, err)
-				return
+			if err := remoteEnrichCategory(&alm.EnrichedList[index], sem); err != nil {
+				errCh <- err
 			}
-			enrichedCh <- struct {
-				enrichedCat *EnrichedCategory
-				index       int
-			}{enrichedCat: enrichedCat, index: index}
-		}(i, baseCat)
+		}(i)
 	}
 
 	wg.Wait()
-	close(enrichedCh)
+	close(errCh)
 
-	for enriched := range enrichedCh {
-		alm.EnrichedList[enriched.index] = *enriched.enrichedCat
+	for err := range errCh {
+		if err != nil {
+			log.Printf("Error during remote enrichment: %v", err)
+		}
 	}
-
 	return nil
 }
 
-func enrichCategory(baseCategory BaseCategory, sem chan struct{}) (*EnrichedCategory, error) {
+func baseEnrichCategory(baseCategory BaseCategory) *EnrichedCategory {
 	enrichedCat := &EnrichedCategory{
 		Title:       baseCategory.Title,
 		Description: baseCategory.Description,
 	}
-
 	enrichedCat.Slug = slugifiy(enrichedCat.Title)
 
-	var wg sync.WaitGroup
-	linkCh := make(chan struct {
-		link  *EnrichedLink
-		index int
-	}, len(baseCategory.Links))
-
-	for i, baseLink := range baseCategory.Links {
-		wg.Add(1)
-		go func(index int, link BaseLink) {
-			sem <- struct{}{}
-			defer func() {
-				<-sem
-				wg.Done()
-			}()
-
-			enrichedLink, err := enrichLink(link)
-			if err != nil {
-				log.Printf("error enriching link '%s' in category '%s': %v", link.Title, baseCategory.Title, err)
-				return
-			}
-			linkCh <- struct {
-				link  *EnrichedLink
-				index int
-			}{link: enrichedLink, index: index}
-		}(i, baseLink)
-	}
-
-	subCatCh := make(chan struct {
-		subCat *EnrichedCategory
-		index  int
-	}, len(baseCategory.Subcategories))
-
-	for i, baseSubCat := range baseCategory.Subcategories {
-		wg.Add(1)
-		go func(index int, subCat BaseCategory) {
-			sem <- struct{}{}
-			defer func() {
-				<-sem
-				wg.Done()
-			}()
-
-			enrichedSubCat, err := enrichCategory(subCat, sem)
-			if err != nil {
-				log.Printf("error enriching subcategory '%s' in category '%s': %v", subCat.Title, baseCategory.Title, err)
-				return
-			}
-			subCatCh <- struct {
-				subCat *EnrichedCategory
-				index  int
-			}{subCat: enrichedSubCat, index: index}
-		}(i, baseSubCat)
-	}
-
-	wg.Wait()
-	close(linkCh)
-	close(subCatCh)
-
 	enrichedCat.Links = make([]EnrichedLink, len(baseCategory.Links))
-	for result := range linkCh {
-		if result.link != nil {
-			enrichedCat.Links[result.index] = *result.link
-		}
+	for i, link := range baseCategory.Links {
+		enrichedCat.Links[i] = *baseEnrichLink(link)
 	}
 
 	enrichedCat.Subcategories = make([]EnrichedCategory, len(baseCategory.Subcategories))
-	for result := range subCatCh {
-		if result.subCat != nil {
-			enrichedCat.Subcategories[result.index] = *result.subCat
-		}
+	for i, subCat := range baseCategory.Subcategories {
+		enrichedCat.Subcategories[i] = *baseEnrichCategory(subCat)
 	}
 
-	return enrichedCat, nil
+	return enrichedCat
 }
 
-func enrichLink(baseLink BaseLink) (*EnrichedLink, error) {
-	enrichedLink := &EnrichedLink{
+func baseEnrichLink(baseLink BaseLink) *EnrichedLink {
+	return &EnrichedLink{
 		Title:       baseLink.Title,
 		Description: baseLink.Description,
 		Url:         baseLink.Url,
+	}
+}
 
-		IsRepo:     false,
-		Stars:      0,
-		LastUpdate: time.Time{},
-		IsArchived: false,
+func remoteEnrichCategory(enrichedCat *EnrichedCategory, sem chan struct{}) error {
+	var wg sync.WaitGroup
+	errCh := make(chan error, len(enrichedCat.Links)+len(enrichedCat.Subcategories))
+
+	for i := range enrichedCat.Links {
+		wg.Add(1)
+		go func(index int) {
+			sem <- struct{}{}
+			defer func() {
+				<-sem
+				wg.Done()
+			}()
+			if err := remoteEnrichLink(&enrichedCat.Links[index]); err != nil {
+				errCh <- err
+			}
+		}(i)
 	}
 
+	for i := range enrichedCat.Subcategories {
+		wg.Add(1)
+		go func(index int) {
+			sem <- struct{}{}
+			defer func() {
+				<-sem
+				wg.Done()
+			}()
+			if err := remoteEnrichCategory(&enrichedCat.Subcategories[index], sem); err != nil {
+				errCh <- err
+			}
+		}(i)
+	}
+	wg.Wait()
+	close(errCh)
+
+	for err := range errCh {
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func remoteEnrichLink(enrichedLink *EnrichedLink) error {
 	repo := NewRemoteRepo(enrichedLink.Url)
 	if repo == nil {
-		return enrichedLink, nil
+		return nil
 	}
-
 	enrichedLink.IsRepo = true
 	err := repo.Enrich()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "failed to fetch repo data for %s: %v\n", baseLink.Url, err)
-		return enrichedLink, nil
+		fmt.Fprintf(os.Stderr, "failed to fetch repo data for %s: %v\n", enrichedLink.Url, err)
+		return nil
 	}
 	enrichedLink.Stars = repo.Stars()
 	enrichedLink.LastUpdate = repo.LastUpdate()
 	// enrichedLink.IsArchived = repo.IsArchived()
-
-	return enrichedLink, nil
+	return nil
 }
 
 func (alm *AwesomeListManager) AddLink(newLink BaseLink, pathToLink []string) error {

@@ -56,8 +56,24 @@ func executeTemplate(filename string, isHtml bool, data enrichedAwesomelist) (by
 
 func (cmd *GenerateCmd) Run(cli *CLI) error {
 	aweStore := NewAwesomeStore(cli.AwesomeFile)
-	enrichedList, err := aweStore.LoadJSON()
-	if err != nil {
+	var enrichedList enrichedAwesomelist
+	var err error
+
+	enrichedList, err = aweStore.LoadJSON()
+
+	if err != nil && os.IsNotExist(err) {
+		fmt.Fprintf(os.Stderr, "JSON file %q not found, using dry-run data\n", aweStore.jsonFile)
+
+		rawList, loadErr := aweStore.LoadYAML()
+		if loadErr != nil {
+			return loadErr
+		}
+		manager := NewAwesomeListManager(rawList)
+		if dryErr := manager.EnrichListDry(); dryErr != nil {
+			return dryErr
+		}
+		enrichedList = manager.EnrichedList
+	} else if err != nil {
 		return err
 	}
 

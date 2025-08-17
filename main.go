@@ -10,8 +10,8 @@ type CLI struct {
 	AwesomeFile string `kong:"short='f',long='awesome-file',help='path to awesome file.',default='awesome.yaml'"`
 	Debug       bool   `kong:"long='debug',help='print raw error messages on error.'"`
 
-	Generate GenerateCmd `kong:"cmd,help='generate file from template. By default, it uses aweomse-lock.json as a source of truth.'"`
-	Enrich   EnrichCmd   `kong:"cmd,help='enrich YAML file. On success, awesome-lock.json file will be created.'"`
+	Generate GenerateCmd `kong:"cmd,help='generate file from template. uses dry data if awesome-lock.json does not exist.'"`
+	Enrich   EnrichCmd   `kong:"cmd,help='enrich YAML file. on success, awesome-lock.json file will be created.'"`
 	Add      AddCmd      `kong:"cmd,help='Add item to list.'"`
 }
 
