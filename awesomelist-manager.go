@@ -28,11 +28,19 @@ func (alm *AwesomeListManager) EnrichList() error {
 		index       int
 	}, len(alm.RawList))
 
+	const maxConcurrency = 100
+	sem := make(chan struct{}, maxConcurrency)
+
 	for i, baseCat := range alm.RawList {
 		wg.Add(1)
 		go func(index int, category BaseCategory) {
-			defer wg.Done()
-			enrichedCat, err := enrichCategory(category)
+			sem <- struct{}{}
+			defer func() {
+				<-sem
+				wg.Done()
+			}()
+
+			enrichedCat, err := enrichCategory(category, sem)
 			if err != nil {
 				log.Printf("Error enriching category '%s': %v", category.Title, err)
 				return
@@ -54,7 +62,7 @@ func (alm *AwesomeListManager) EnrichList() error {
 	return nil
 }
 
-func enrichCategory(baseCategory BaseCategory) (*EnrichedCategory, error) {
+func enrichCategory(baseCategory BaseCategory, sem chan struct{}) (*EnrichedCategory, error) {
 	enrichedCat := &EnrichedCategory{
 		Title:       baseCategory.Title,
 		Description: baseCategory.Description,
@@ -71,7 +79,12 @@ func enrichCategory(baseCategory BaseCategory) (*EnrichedCategory, error) {
 	for i, baseLink := range baseCategory.Links {
 		wg.Add(1)
 		go func(index int, link BaseLink) {
-			defer wg.Done()
+			sem <- struct{}{}
+			defer func() {
+				<-sem
+				wg.Done()
+			}()
+
 			enrichedLink, err := enrichLink(link)
 			if err != nil {
 				log.Printf("error enriching link '%s' in category '%s': %v", link.Title, baseCategory.Title, err)
@@ -92,8 +105,13 @@ func enrichCategory(baseCategory BaseCategory) (*EnrichedCategory, error) {
 	for i, baseSubCat := range baseCategory.Subcategories {
 		wg.Add(1)
 		go func(index int, subCat BaseCategory) {
-			defer wg.Done()
-			enrichedSubCat, err := enrichCategory(subCat)
+			sem <- struct{}{}
+			defer func() {
+				<-sem
+				wg.Done()
+			}()
+
+			enrichedSubCat, err := enrichCategory(subCat, sem)
 			if err != nil {
 				log.Printf("error enriching subcategory '%s' in category '%s': %v", subCat.Title, baseCategory.Title, err)
 				return
