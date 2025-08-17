@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"slices"
 	"sync"
 	"time"
@@ -145,7 +146,8 @@ func enrichLink(baseLink BaseLink) (*EnrichedLink, error) {
 	enrichedLink.IsRepo = true
 	err := repo.Enrich()
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch repo data for %s: %w", baseLink.Url, err)
+		fmt.Fprintf(os.Stderr, "failed to fetch repo data for %s: %v\n", baseLink.Url, err)
+		return enrichedLink, nil
 	}
 	enrichedLink.Stars = repo.Stars()
 	enrichedLink.LastUpdate = repo.LastUpdate()

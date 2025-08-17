@@ -51,7 +51,7 @@ func (store *AwesomeStore) WriteYAML(list baseAwesomelist) error {
 }
 
 func (store *AwesomeStore) WriteJSON(list enrichedAwesomelist) error {
-	jsonData, err := json.Marshal(list)
+	jsonData, err := json.MarshalIndent(list, "", "  ")
 	if err != nil {
 		return CliErrorf(err, "failed to marshel JSON")
 	}
