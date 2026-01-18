@@ -1,5 +1,7 @@
 package cli
 
+import "github.com/0xmzn/awelist/internal/types"
+
 type AddCmd struct {
 	Link     AddLinkCmd     `kong:"cmd,help='Add a new link to a category.'"`
 	Category AddCategoryCmd `kong:"cmd,help='Add a new subcategory to a category.'"`
@@ -19,17 +21,52 @@ type AddCategoryCmd struct {
 }
 
 func (cmd *AddLinkCmd) Run(deps *Dependencies) error {
-	log := deps.Logger
+	mngr := deps.ListManager
+	store := deps.Store
 
-	log.Info("Running generate")
-	log.Debug("Debugging generate")
+	list, err := store.LoadYAML()
+	if err != nil {
+		return err
+	}
+
+	newLink := types.Link{
+		Title:       cmd.Title,
+		Description: cmd.Description,
+		URL:         cmd.URL,
+	}
+
+	if err = mngr.AddLink(list, &newLink, cmd.Path); err != nil {
+		return err
+	}
+
+	if err = store.WriteYAML(list); err != nil {
+		return err
+	}
+
 	return nil
 }
 
 func (cmd *AddCategoryCmd) Run(deps *Dependencies) error {
-	log := deps.Logger
+	store := deps.Store
+	mngr := deps.ListManager
 
-	log.Info("Running generate")
-	log.Debug("Debugging generate")
+	list, err := store.LoadYAML()
+	if err != nil {
+		return err
+	}
+
+	newCat := types.Category{
+		Title:       cmd.Title,
+		Description: cmd.Description,
+	}
+
+	if err = mngr.AddCategory(&list, &newCat, cmd.Path); err != nil {
+		return err
+	}
+
+	if err = store.WriteYAML(list); err != nil {
+		return err
+	}
+
 	return nil
 }
