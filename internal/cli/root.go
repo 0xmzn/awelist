@@ -4,7 +4,7 @@ import "github.com/alecthomas/kong"
 
 type CLI struct {
 	AwesomeFile string `name:"file" help:"Path to awesome.yaml." default:"awesome.yaml" type:"path"`
-	AwesomeLock   string `name:"lock" help:"Path to awesome-lock.json." default:"awesome-lock.json" type:"path"`
+	AwesomeLock string `name:"lock" help:"Path to awesome-lock.json." default:"awesome-lock.json" type:"path"`
 	Debug       bool   `kong:"long='debug',help='print debug messages.'"`
 
 	Add      AddCmd      `kong:"cmd,help='Add item to list.'"`

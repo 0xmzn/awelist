@@ -1,6 +1,6 @@
 package cli
 
-type EnrichCmd struct {}
+type EnrichCmd struct{}
 
 func (c *EnrichCmd) Run(deps *Dependencies) error {
 	log := deps.Logger
