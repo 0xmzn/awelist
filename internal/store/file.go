@@ -14,35 +14,32 @@ type FileStore struct {
 }
 
 func New(yamlPath, jsonPath string) *FileStore {
-	return &FileStore{
-		yamlPath: yamlPath,
-		jsonPath: jsonPath,
-	}
+	return &FileStore{yamlPath, jsonPath}
 }
 
-func (fs *FileStore) LoadYAML() ([]*types.Category, error) {
+func (fs *FileStore) LoadYAML() (types.AwesomeList, error) {
 	data, err := os.ReadFile(fs.yamlPath)
 	if err != nil {
 		return nil, err
 	}
 
-	var categories []*types.Category
-	if err := yaml.Unmarshal(data, &categories); err != nil {
+	var list types.AwesomeList
+	if err := yaml.Unmarshal(data, &list); err != nil {
 		return nil, err
 	}
-	return categories, nil
+	return list, nil
 }
 
-func (fs *FileStore) WriteYAML(cats []*types.Category) error {
-	data, err := yaml.Marshal(cats)
+func (fs *FileStore) WriteYAML(list types.AwesomeList) error {
+	data, err := yaml.Marshal(list)
 	if err != nil {
 		return err
 	}
 	return os.WriteFile(fs.yamlPath, data, 0644)
 }
 
-func (fs *FileStore) WriteJSON(cats []*types.Category) error {
-	data, err := json.MarshalIndent(cats, "", "  ")
+func (fs *FileStore) WriteJSON(list types.AwesomeList) error {
+	data, err := json.MarshalIndent(list, "", "  ")
 	if err != nil {
 		return err
 	}
