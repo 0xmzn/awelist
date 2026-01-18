@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/0xmzn/awelist/internal/cli"
+	"github.com/0xmzn/awelist/internal/enricher"
 	"github.com/0xmzn/awelist/internal/list"
 	"github.com/0xmzn/awelist/internal/store"
 )
@@ -23,11 +24,13 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stderr, loggerOpts))
 	store := store.New(app.AwesomeFile, app.AwesomeLock)
 	mngr := list.NewManager()
+	enricher := enricher.NewOrchestrator(logger, enricher.NewGithubProvider("string", logger))
 
 	deps := &cli.Dependencies{
 		Logger: logger,
 		Store:  store,
 		ListManager: mngr,
+		Enricher: enricher,
 	}
 
 	err := ctx.Run(deps)
