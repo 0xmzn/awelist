@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/0xmzn/awelist/internal/cli"
 	"log/slog"
 	"os"
+
+	"github.com/0xmzn/awelist/internal/cli"
+	"github.com/0xmzn/awelist/internal/store"
 )
 
 func main() {
@@ -18,8 +20,11 @@ func main() {
 	}
 	logger := slog.New(slog.NewTextHandler(os.Stderr, loggerOpts))
 
+	store := store.New(app.AwesomeFile, app.AwesomeLock)
+
 	deps := &cli.Dependencies{
 		Logger: logger,
+		Store:  store,
 	}
 
 	err := ctx.Run(deps)

@@ -1,7 +1,12 @@
 package cli
 
-import "log/slog"
+import (
+	"log/slog"
+
+	"github.com/0xmzn/awelist/internal/store"
+)
 
 type Dependencies struct {
 	Logger *slog.Logger
+	Store  *store.FileStore
 }

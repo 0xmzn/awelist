@@ -22,3 +22,5 @@ type Category struct {
 	Links         []*Link     `yaml:"links,omitempty" json:"links,omitempty"`
 	Subcategories []*Category `yaml:"subcategories,omitempty" json:"subcategories,omitempty"`
 }
+
+type Awesomelist []Category
