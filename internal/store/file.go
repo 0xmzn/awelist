@@ -20,21 +20,20 @@ func New(yamlPath, jsonPath string) *FileStore {
 	}
 }
 
-func (fs *FileStore) LoadYAML() (types.Awesomelist, error) {
+func (fs *FileStore) LoadYAML() ([]*types.Category, error) {
 	data, err := os.ReadFile(fs.yamlPath)
 	if err != nil {
 		return nil, err
 	}
 
-	var categories types.Awesomelist
+	var categories []*types.Category
 	if err := yaml.Unmarshal(data, &categories); err != nil {
 		return nil, err
 	}
-
 	return categories, nil
 }
 
-func (fs *FileStore) WriteYAML(cats types.Awesomelist) error {
+func (fs *FileStore) WriteYAML(cats []*types.Category) error {
 	data, err := yaml.Marshal(cats)
 	if err != nil {
 		return err
@@ -42,7 +41,7 @@ func (fs *FileStore) WriteYAML(cats types.Awesomelist) error {
 	return os.WriteFile(fs.yamlPath, data, 0644)
 }
 
-func (fs *FileStore) WriteJSON(cats types.Awesomelist) error {
+func (fs *FileStore) WriteJSON(cats []*types.Category) error {
 	data, err := json.MarshalIndent(cats, "", "  ")
 	if err != nil {
 		return err
