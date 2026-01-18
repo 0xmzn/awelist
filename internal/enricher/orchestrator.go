@@ -8,7 +8,7 @@ import (
 
 type Orchestrator struct {
 	providers []Provider
-	logger *slog.Logger
+	logger    *slog.Logger
 }
 
 func NewOrchestrator(logger *slog.Logger, providers ...Provider) *Orchestrator {
@@ -37,7 +37,7 @@ func (o *Orchestrator) EnrichList(list types.AwesomeList) error {
 
 	for p, urls := range providerMap {
 		o.logger.Info("enriching links via provider", "name", p.Name(), "count", len(urls))
-		
+
 		results, err := p.Enrich(urls)
 		if err != nil {
 			o.logger.Error("provider enrichment failed", "name", p.Name(), "error", err)

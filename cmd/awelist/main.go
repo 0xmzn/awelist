@@ -27,10 +27,10 @@ func main() {
 	enricher := enricher.NewOrchestrator(logger, enricher.NewGithubProvider("string", logger))
 
 	deps := &cli.Dependencies{
-		Logger: logger,
-		Store:  store,
+		Logger:      logger,
+		Store:       store,
 		ListManager: mngr,
-		Enricher: enricher,
+		Enricher:    enricher,
 	}
 
 	err := ctx.Run(deps)

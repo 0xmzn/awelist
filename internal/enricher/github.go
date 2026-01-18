@@ -9,16 +9,15 @@ import (
 	"github.com/0xmzn/awelist/internal/types"
 )
 
-
 type GithubProvider struct {
-	token string
+	token  string
 	logger *slog.Logger
 }
 
 func NewGithubProvider(token string, logger *slog.Logger) *GithubProvider {
 	return &GithubProvider{
-		token: token,
-		logger:    logger.With("component", "github-provider"),
+		token:  token,
+		logger: logger.With("component", "github-provider"),
 	}
 }
 
@@ -44,13 +43,13 @@ func (p *GithubProvider) CanHandle(rawURL string) bool {
 	}
 
 	reserved := map[string]bool{
-		"features":  true,
-		"topics":    true,
-		"trending":  true,
-		"search":    true,
-		"settings":  true,
-		"about":     true,
-		"pricing":   true,
+		"features":    true,
+		"topics":      true,
+		"trending":    true,
+		"search":      true,
+		"settings":    true,
+		"about":       true,
+		"pricing":     true,
 		"marketplace": true,
 	}
 
@@ -66,7 +65,7 @@ func (p *GithubProvider) Enrich(urls []string) (map[string]*types.GitRepoMetadat
 
 	for _, u := range urls {
 		p.logger.Debug("fetching metadata", "url", u)
-		
+
 		owner, repo, err := p.parseURL(u)
 		if err != nil {
 			p.logger.Warn("failed to parse github url", "url", u, "error", err)
@@ -83,10 +82,10 @@ func (p *GithubProvider) parseURL(rawURL string) (owner, repo string, err error)
 	u, _ := url.Parse(rawURL)
 	path := strings.Trim(u.Path, "/")
 	parts := strings.Split(path, "/")
-	
+
 	if len(parts) < 2 {
 		return "", "", fmt.Errorf("not a repository URL")
 	}
-	
+
 	return parts[0], parts[1], nil
 }
