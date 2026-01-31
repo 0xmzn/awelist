@@ -1,23 +1,29 @@
 package enricher
 
 import (
+	"context"
 	"fmt"
 	"log/slog"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/0xmzn/awelist/internal/types"
+	"github.com/google/go-github/v82/github"
 )
 
 type GithubProvider struct {
 	token  string
+	client *github.Client
 	logger *slog.Logger
 }
 
 func NewGithubProvider(token string, logger *slog.Logger) *GithubProvider {
+	c := github.NewClient(nil).WithAuthToken(token)
 	return &GithubProvider{
 		token:  token,
 		logger: logger.With("component", "github-provider"),
+		client: c,
 	}
 }
 
@@ -72,7 +78,23 @@ func (p *GithubProvider) Enrich(urls []string) (map[string]*types.GitRepoMetadat
 			continue
 		}
 
-		p.logger.Error("Skipping API", "repo", fmt.Sprintf("%s/%s", owner, repo), "error", err)
+		repoObj, _, err := p.client.Repositories.Get(context.Background(), owner, repo)
+
+		if err != nil {
+			p.logger.Error("Getting repo failed", "repo", repo, "owner", owner, "error", err)
+		}
+
+		stars := *repoObj.StargazersCount
+
+		meta := types.GitRepoMetadata{
+			Stars:      stars,
+			EnrichedAt: time.Now(),
+		}
+
+		results[u] = &meta
+
+		p.logger.Info("Fetched data for", "repo", repo, "owner", owner, "stars", stars)
+
 	}
 
 	return results, nil

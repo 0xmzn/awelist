@@ -4,7 +4,7 @@ import "time"
 
 type GitRepoMetadata struct {
 	Stars      int       `json:"stars"`
-	LastUpdate time.Time `json:"last_update"`
+	EnrichedAt time.Time `json:"enriched_at"`
 }
 
 type Link struct {

@@ -21,10 +21,11 @@ func main() {
 		loggerOpts.Level = slog.LevelDebug
 	}
 
+	token := os.Getenv("GITHUB_TOKEN")
 	logger := slog.New(slog.NewTextHandler(os.Stderr, loggerOpts))
 	store := store.New(app.AwesomeFile, app.AwesomeLock)
 	mngr := list.NewManager()
-	enricher := enricher.NewOrchestrator(logger, enricher.NewGithubProvider("string", logger))
+	enricher := enricher.NewOrchestrator(logger, enricher.NewGithubProvider(token, logger))
 
 	deps := &cli.Dependencies{
 		Logger:      logger,
