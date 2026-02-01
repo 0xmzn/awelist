@@ -2,6 +2,7 @@ package enricher
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"net/url"
@@ -70,21 +71,27 @@ func (p *GithubProvider) Enrich(urls []string) (map[string]*types.GitRepoMetadat
 	results := make(map[string]*types.GitRepoMetadata)
 
 	for _, u := range urls {
-		p.logger.Debug("fetching metadata", "url", u)
+		p.logger.Debug("fetching repositories", "url", u)
 
-		owner, repo, err := p.parseURL(u)
+		ownerName, repoName, err := p.parseURL(u)
 		if err != nil {
 			p.logger.Warn("failed to parse github url", "url", u, "error", err)
 			continue
 		}
 
-		repoObj, _, err := p.client.Repositories.Get(context.Background(), owner, repo)
+		repo, resp, err := p.client.Repositories.Get(context.Background(), ownerName, repoName)
 
-		if err != nil {
-			p.logger.Error("Getting repo failed", "repo", repo, "owner", owner, "error", err)
+		var ratelimitErr *github.RateLimitError
+		if errors.As(err, &ratelimitErr) {
+			return nil, err
 		}
 
-		stars := *repoObj.StargazersCount
+		if err != nil {
+			p.logger.Error("Getting repo failed", "repo_id", fmt.Sprintf("%s/%s", ownerName, repoName), "error", err)
+			continue
+		}
+
+		stars := *repo.StargazersCount
 
 		meta := types.GitRepoMetadata{
 			Stars:      stars,
@@ -93,7 +100,7 @@ func (p *GithubProvider) Enrich(urls []string) (map[string]*types.GitRepoMetadat
 
 		results[u] = &meta
 
-		p.logger.Info("Fetched data for", "repo", repo, "owner", owner, "stars", stars)
+		p.logger.Info("successfully fetched repository", "repo", fmt.Sprintf("%s/%s", ownerName, repoName), "stars", stars, "ratelimit", resp.Rate.Remaining)
 
 	}
 
