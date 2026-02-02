@@ -4,6 +4,7 @@ import "time"
 
 type GitRepoMetadata struct {
 	Stars      int       `json:"stars"`
+	IsArchived bool      `json:"is_archived"`
 	EnrichedAt time.Time `json:"enriched_at"`
 }
 

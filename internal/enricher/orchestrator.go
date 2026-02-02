@@ -1,9 +1,11 @@
 package enricher
 
 import (
+	"errors"
 	"log/slog"
 
 	"github.com/0xmzn/awelist/internal/types"
+	"github.com/google/go-github/v82/github"
 )
 
 type Orchestrator struct {
@@ -39,16 +41,25 @@ func (o *Orchestrator) EnrichList(list types.AwesomeList) error {
 		o.logger.Info("enriching links via provider", "name", p.Name(), "count", len(urls))
 
 		results, err := p.Enrich(urls)
-		if err != nil {
-			o.logger.Error("provider enrichment failed", "name", p.Name(), "error", err)
-			continue
-		}
 
+		// extract enriched links, if any, before handling error
 		for url, meta := range results {
 			if link, ok := linkMap[url]; ok {
 				link.RepoMetadata = meta
 			}
 		}
+
+		var ratelimitErr *github.RateLimitError
+		if errors.As(err, &ratelimitErr) {
+			o.logger.Error("provider rate limit reached", "name", p.Name(), "error", err)
+			continue
+		}
+
+		if err != nil {
+			o.logger.Error("provider enrichment failed", "name", p.Name(), "error", err)
+			continue
+		}
+
 	}
 
 	o.logger.Info("enrichment complete")

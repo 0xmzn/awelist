@@ -20,12 +20,12 @@ func TestGithubProvider_Enrich(t *testing.T) {
 		gock.New("https://api.github.com").
 			Get("/repos/user/repo-a").
 			Reply(200).
-			JSON(map[string]int{"stargazers_count": 150})
+			JSON(map[string]any{"stargazers_count": 150, "archived": false})
 
 		gock.New("https://api.github.com").
 			Get("/repos/user/repo-b").
 			Reply(200).
-			JSON(map[string]int{"stargazers_count": 42})
+			JSON(map[string]any{"stargazers_count": 42, "archived": false})
 
 		httpClient := &http.Client{Transport: &gock.Transport{}}
 		ghClient := github.NewClient(httpClient)
@@ -48,7 +48,7 @@ func TestGithubProvider_Enrich(t *testing.T) {
 		if meta, ok := results[urls[0]]; !ok {
 			t.Errorf("Expected result for %s", urls[0])
 		} else {
-			if meta.Stars != 150 {
+			if meta.Stars != 150 || meta.IsArchived != false {
 				t.Errorf("Expected 150 stars for repo-a, got %d", meta.Stars)
 			}
 			if meta.EnrichedAt.IsZero() {
@@ -59,8 +59,11 @@ func TestGithubProvider_Enrich(t *testing.T) {
 		if meta, ok := results[urls[1]]; !ok {
 			t.Errorf("Expected result for %s", urls[1])
 		} else {
-			if meta.Stars != 42 {
+			if meta.Stars != 42 || meta.IsArchived != false {
 				t.Errorf("Expected 42 stars for repo-b, got %d", meta.Stars)
+			}
+			if meta.EnrichedAt.IsZero() {
+				t.Error("EnrichedAt should be set")
 			}
 		}
 	})
@@ -127,27 +130,83 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			t.Errorf("Expected error to be *github.RateLimitError, got %T: %v", err, err)
 		}
 
-		if results != nil {
+		if len(results) != 0 {
 			t.Errorf("Expected nil results on rate limit error, got map with length %d", len(results))
 		}
 	})
 
-	t.Run("Handle Malformed URLs in Enrich", func(t *testing.T) {
-		ghClient := github.NewClient(nil)
+	t.Run("Handle primary rate limit 2 points left", func(t *testing.T) {
+		defer gock.Off()
+
+		gock.New("https://api.github.com").
+			Get("/repos/user/repo-a").
+			Reply(200).
+			JSON(map[string]any{"stargazers_count": 150, "archived": false})
+
+		gock.New("https://api.github.com").
+			Get("/repos/user/repo-b").
+			Reply(200).
+			JSON(map[string]any{"stargazers_count": 42, "archived": false})
+
+		gock.New("https://api.github.com").
+			Get("/repos/user/repo-fail").
+			Reply(http.StatusForbidden).
+			SetHeader("X-RateLimit-Remaining", "0").
+			SetHeader("X-RateLimit-Reset", "1735689600").
+			JSON(map[string]string{
+				"message": "API rate limit exceeded",
+			})
+
+		httpClient := &http.Client{Transport: &gock.Transport{}}
+		ghClient := github.NewClient(httpClient)
+
 		provider := &GithubProvider{
 			client: ghClient,
 			logger: logger,
 		}
 
-		urls := []string{"https://not-github.com/foo/bar", "invalid-url"}
+		urls := []string{
+			"https://github.com/user/repo-a",
+			"https://github.com/user/repo-b",
+			"https://github.com/user/repo-fail",
+		}
 
 		results, err := provider.Enrich(urls)
-		if err != nil {
-			t.Fatalf("Enrich returned unexpected error: %v", err)
+
+		if err == nil {
+			t.Fatal("Expected an error due to rate limit, got nil")
 		}
 
-		if len(results) != 0 {
-			t.Errorf("Expected 0 results for invalid URLs, got %d", len(results))
+		var rateLimitErr *github.RateLimitError
+		if !errors.As(err, &rateLimitErr) {
+			t.Errorf("Expected error to be *github.RateLimitError, got %T: %v", err, err)
 		}
+
+		if len(results) != 2 {
+			t.Errorf("Expected 2 results on rate limit error, got map with length %d", len(results))
+		}
+
+		if meta, ok := results[urls[0]]; !ok {
+			t.Errorf("Expected result for %s", urls[0])
+		} else {
+			if meta.Stars != 150 || meta.IsArchived != false {
+				t.Errorf("Expected 150 stars for repo-a, got %d", meta.Stars)
+			}
+			if meta.EnrichedAt.IsZero() {
+				t.Error("EnrichedAt should be set")
+			}
+		}
+
+		if meta, ok := results[urls[1]]; !ok {
+			t.Errorf("Expected result for %s", urls[1])
+		} else {
+			if meta.Stars != 42 || meta.IsArchived != false {
+				t.Errorf("Expected 42 stars for repo-b, got %d", meta.Stars)
+			}
+			if meta.EnrichedAt.IsZero() {
+				t.Error("EnrichedAt should be set")
+			}
+		}
+
 	})
 }

@@ -83,7 +83,7 @@ func (p *GithubProvider) Enrich(urls []string) (map[string]*types.GitRepoMetadat
 
 		var ratelimitErr *github.RateLimitError
 		if errors.As(err, &ratelimitErr) {
-			return nil, err
+			return results, err
 		}
 
 		if err != nil {
@@ -92,9 +92,11 @@ func (p *GithubProvider) Enrich(urls []string) (map[string]*types.GitRepoMetadat
 		}
 
 		stars := *repo.StargazersCount
+		isArchived := *repo.Archived
 
 		meta := types.GitRepoMetadata{
 			Stars:      stars,
+			IsArchived: isArchived,
 			EnrichedAt: time.Now(),
 		}
 
