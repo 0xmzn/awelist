@@ -63,10 +63,6 @@ func (m *Manager) AddCategory(list *types.AwesomeList, newCat *types.Category, p
 }
 
 func (m *Manager) findCategory(list types.AwesomeList, path []string) (*types.Category, error) {
-	if len(path) == 0 {
-		return nil, fmt.Errorf("path is empty")
-	}
-
 	targetSlug := slug.Make(path[0])
 	var found *types.Category
 

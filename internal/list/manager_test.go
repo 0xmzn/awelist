@@ -67,6 +67,15 @@ func TestService_AddLink(t *testing.T) {
 			},
 		},
 		{
+			name:        "Add link that already exists with different title but same url",
+			path:        []string{"Category A"},
+			newLink:     &types.Link{Title: "Link A2", URL: "http://example.com/a1"},
+			expectedErr: "link with url \"http://example.com/a1\" already exists in \"Category A\"",
+			expectedLinks: []*types.Link{
+				{Title: "Link A1", URL: "http://example.com/a1"},
+			},
+		},
+		{
 			name: "Add link to a subcategory",
 			path: []string{"Category A", "Subcategory A1"},
 			newLink: &types.Link{
