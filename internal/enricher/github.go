@@ -72,50 +72,56 @@ func (p *GithubProvider) Enrich(urls []string) (*EnrichmentResult, error) {
 	var skipped []string
 
 	for _, u := range urls {
-		p.logger.Debug("fetching repositories", "url", u)
+		meta, err := p.enrichSingle(u)
 
-		ownerName, repoName, err := p.parseURL(u)
 		if err != nil {
-			p.logger.Warn("failed to parse github url", "url", u, "error", err)
+			var ratelimitErr *github.RateLimitError
+			if errors.As(err, &ratelimitErr) {
+				return &EnrichmentResult{results, append(skipped, u)}, err
+			}
+
+			p.logger.Warn("skipping url", "url", u, "error", err)
 			skipped = append(skipped, u)
 			continue
 		}
 
-		repo, resp, err := p.client.Repositories.Get(context.Background(), ownerName, repoName)
-
-		var ratelimitErr *github.RateLimitError
-		if errors.As(err, &ratelimitErr) {
-			skipped = append(skipped, u)
-			return &EnrichmentResult{results, skipped}, err
-		}
-
-		if err != nil {
-			p.logger.Error("Getting repo failed", "repo_id", fmt.Sprintf("%s/%s", ownerName, repoName), "error", err)
-			skipped = append(skipped, u)
-			continue
-		}
-
-		stars := *repo.StargazersCount
-		isArchived := *repo.Archived
-
-		meta := types.GitRepoMetadata{
-			Stars:      stars,
-			IsArchived: isArchived,
-			EnrichedAt: time.Now(),
-		}
-
-		results[u] = &meta
-
-		p.logger.Info("successfully fetched repository", "repo", fmt.Sprintf("%s/%s", ownerName, repoName), "stars", stars, "ratelimit", resp.Rate.Remaining)
-
+		results[u] = meta
 	}
 
-	res := &EnrichmentResult{
-		EnrichedUrls: results,
-		SkippedUrls:  skipped,
+	return &EnrichmentResult{EnrichedUrls: results, SkippedUrls: skipped}, nil
+}
+
+func (p *GithubProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) {
+	owner, name, err := p.parseURL(u)
+	if err != nil {
+		return nil, err
 	}
 
-	return res, nil
+	repo, resp, err := p.client.Repositories.Get(context.Background(), owner, name)
+	if err != nil {
+		return nil, err
+	}
+
+	p.logger.Debug("fetched repository",
+		"repo", fmt.Sprintf("%s/%s", owner, name),
+		"remaining", resp.Rate.Remaining,
+	)
+
+	meta := p.extractMetadataFromRepo(repo)
+	return &meta, nil
+}
+
+func (p *GithubProvider) extractMetadataFromRepo(repo *github.Repository) types.GitRepoMetadata {
+	stars := repo.GetStargazersCount()
+	isArchived := repo.GetArchived()
+
+	meta := types.GitRepoMetadata{
+		Stars:      stars,
+		IsArchived: isArchived,
+		EnrichedAt: time.Now(),
+	}
+
+	return meta
 }
 
 func (p *GithubProvider) parseURL(rawURL string) (owner, repo string, err error) {

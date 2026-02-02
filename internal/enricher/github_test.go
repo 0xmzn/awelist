@@ -214,3 +214,43 @@ func TestGithubProvider_Enrich(t *testing.T) {
 
 	})
 }
+
+func TestGithubProvider_enrichSingle(t *testing.T) {
+	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
+
+	t.Run("Successfully enrich multiple repos", func(t *testing.T) {
+		defer gock.Off()
+
+		gock.New("https://api.github.com").
+			Get("/repos/user/repo-a").
+			Reply(200).
+			JSON(map[string]any{"stargazers_count": 150, "archived": false})
+
+		httpClient := &http.Client{Transport: &gock.Transport{}}
+		ghClient := github.NewClient(httpClient)
+
+		provider := &GithubProvider{
+			client: ghClient,
+			logger: logger,
+		}
+
+		url := "https://github.com/user/repo-a"
+
+		results, err := provider.enrichSingle(url)
+		if err != nil {
+			t.Fatalf("Enrich returned unexpected error: %v", err)
+		}
+
+		if results == nil {
+			t.Errorf("Expected result for %s", url)
+		} else {
+			if results.Stars != 150 || results.IsArchived != false {
+				t.Errorf("Expected 150 stars for repo-a, got %d", results.Stars)
+			}
+			if results.EnrichedAt.IsZero() {
+				t.Error("EnrichedAt should be set")
+			}
+		}
+
+	})
+}
