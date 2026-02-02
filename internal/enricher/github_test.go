@@ -45,7 +45,7 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			t.Fatalf("Enrich returned unexpected error: %v", err)
 		}
 
-		if meta, ok := results[urls[0]]; !ok {
+		if meta, ok := results.EnrichedUrls[urls[0]]; !ok {
 			t.Errorf("Expected result for %s", urls[0])
 		} else {
 			if meta.Stars != 150 || meta.IsArchived != false {
@@ -56,7 +56,7 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			}
 		}
 
-		if meta, ok := results[urls[1]]; !ok {
+		if meta, ok := results.EnrichedUrls[urls[1]]; !ok {
 			t.Errorf("Expected result for %s", urls[1])
 		} else {
 			if meta.Stars != 42 || meta.IsArchived != false {
@@ -92,8 +92,8 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			t.Fatalf("Expected no execution error even on API fail, got: %v", err)
 		}
 
-		if len(results) != 0 {
-			t.Errorf("Expected empty results on API error, got %d items", len(results))
+		if len(results.EnrichedUrls) != 0 {
+			t.Errorf("Expected empty results on API error, got %d items", len(results.EnrichedUrls))
 		}
 	})
 
@@ -130,8 +130,8 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			t.Errorf("Expected error to be *github.RateLimitError, got %T: %v", err, err)
 		}
 
-		if len(results) != 0 {
-			t.Errorf("Expected nil results on rate limit error, got map with length %d", len(results))
+		if len(results.EnrichedUrls) != 0 {
+			t.Errorf("Expected nil results on rate limit error, got map with length %d", len(results.EnrichedUrls))
 		}
 	})
 
@@ -182,11 +182,15 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			t.Errorf("Expected error to be *github.RateLimitError, got %T: %v", err, err)
 		}
 
-		if len(results) != 2 {
-			t.Errorf("Expected 2 results on rate limit error, got map with length %d", len(results))
+		if len(results.EnrichedUrls) != 2 {
+			t.Errorf("Expected 2 results on rate limit error, got map with length %d", len(results.EnrichedUrls))
 		}
 
-		if meta, ok := results[urls[0]]; !ok {
+		if len(results.SkippedUrls) != 1 {
+			t.Errorf("Expected 1 skipped url on rate limit error, got map with length %d", len(results.SkippedUrls))
+		}
+
+		if meta, ok := results.EnrichedUrls[urls[0]]; !ok {
 			t.Errorf("Expected result for %s", urls[0])
 		} else {
 			if meta.Stars != 150 || meta.IsArchived != false {
@@ -197,7 +201,7 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			}
 		}
 
-		if meta, ok := results[urls[1]]; !ok {
+		if meta, ok := results.EnrichedUrls[urls[1]]; !ok {
 			t.Errorf("Expected result for %s", urls[1])
 		} else {
 			if meta.Stars != 42 || meta.IsArchived != false {

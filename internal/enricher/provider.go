@@ -6,5 +6,10 @@ type Provider interface {
 	Name() string
 	CanHandle(url string) bool
 
-	Enrich(urls []string) (map[string]*types.GitRepoMetadata, error)
+	Enrich(urls []string) (*EnrichmentResult, error)
+}
+
+type EnrichmentResult struct {
+	EnrichedUrls map[string]*types.GitRepoMetadata
+	SkippedUrls  []string
 }

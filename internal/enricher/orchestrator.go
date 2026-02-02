@@ -43,7 +43,7 @@ func (o *Orchestrator) EnrichList(list types.AwesomeList) error {
 		results, err := p.Enrich(urls)
 
 		// extract enriched links, if any, before handling error
-		for url, meta := range results {
+		for url, meta := range results.EnrichedUrls {
 			if link, ok := linkMap[url]; ok {
 				link.RepoMetadata = meta
 			}

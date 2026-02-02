@@ -67,8 +67,9 @@ func (p *GithubProvider) CanHandle(rawURL string) bool {
 	return true
 }
 
-func (p *GithubProvider) Enrich(urls []string) (map[string]*types.GitRepoMetadata, error) {
+func (p *GithubProvider) Enrich(urls []string) (*EnrichmentResult, error) {
 	results := make(map[string]*types.GitRepoMetadata)
+	var skipped []string
 
 	for _, u := range urls {
 		p.logger.Debug("fetching repositories", "url", u)
@@ -76,6 +77,7 @@ func (p *GithubProvider) Enrich(urls []string) (map[string]*types.GitRepoMetadat
 		ownerName, repoName, err := p.parseURL(u)
 		if err != nil {
 			p.logger.Warn("failed to parse github url", "url", u, "error", err)
+			skipped = append(skipped, u)
 			continue
 		}
 
@@ -83,11 +85,13 @@ func (p *GithubProvider) Enrich(urls []string) (map[string]*types.GitRepoMetadat
 
 		var ratelimitErr *github.RateLimitError
 		if errors.As(err, &ratelimitErr) {
-			return results, err
+			skipped = append(skipped, u)
+			return &EnrichmentResult{results, skipped}, err
 		}
 
 		if err != nil {
 			p.logger.Error("Getting repo failed", "repo_id", fmt.Sprintf("%s/%s", ownerName, repoName), "error", err)
+			skipped = append(skipped, u)
 			continue
 		}
 
@@ -106,7 +110,12 @@ func (p *GithubProvider) Enrich(urls []string) (map[string]*types.GitRepoMetadat
 
 	}
 
-	return results, nil
+	res := &EnrichmentResult{
+		EnrichedUrls: results,
+		SkippedUrls:  skipped,
+	}
+
+	return res, nil
 }
 
 func (p *GithubProvider) parseURL(rawURL string) (owner, repo string, err error) {
