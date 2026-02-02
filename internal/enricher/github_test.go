@@ -1,34 +1,35 @@
 package enricher
 
 import (
+	"errors"
 	"io"
 	"log/slog"
 	"net/http"
 	"testing"
 
 	"github.com/google/go-github/v82/github"
-	"github.com/migueleliasweb/go-github-mock/src/mock"
+	"github.com/h2non/gock"
 )
 
 func TestGithubProvider_Enrich(t *testing.T) {
 	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
 
 	t.Run("Successfully enrich multiple repos", func(t *testing.T) {
-		mockedHTTPClient := mock.NewMockedHTTPClient(
-			mock.WithRequestMatch(
-				mock.GetReposByOwnerByRepo,
-				github.Repository{
-					StargazersCount: github.Ptr(150),
-					Name:            github.Ptr("repo-a"),
-				},
-				github.Repository{
-					StargazersCount: github.Ptr(42),
-					Name:            github.Ptr("repo-b"),
-				},
-			),
-		)
+		defer gock.Off()
 
-		ghClient := github.NewClient(mockedHTTPClient)
+		gock.New("https://api.github.com").
+			Get("/repos/user/repo-a").
+			Reply(200).
+			JSON(map[string]int{"stargazers_count": 150})
+
+		gock.New("https://api.github.com").
+			Get("/repos/user/repo-b").
+			Reply(200).
+			JSON(map[string]int{"stargazers_count": 42})
+
+		httpClient := &http.Client{Transport: &gock.Transport{}}
+		ghClient := github.NewClient(httpClient)
+
 		provider := &GithubProvider{
 			client: ghClient,
 			logger: logger,
@@ -65,20 +66,16 @@ func TestGithubProvider_Enrich(t *testing.T) {
 	})
 
 	t.Run("Handle API errors gracefully", func(t *testing.T) {
-		mockedHTTPClient := mock.NewMockedHTTPClient(
-			mock.WithRequestMatchHandler(
-				mock.GetReposByOwnerByRepo,
-				http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-					mock.WriteError(
-						w,
-						http.StatusInternalServerError,
-						"github is down",
-					)
-				}),
-			),
-		)
+		defer gock.Off()
 
-		ghClient := github.NewClient(mockedHTTPClient)
+		gock.New("https://api.github.com").
+			Get("/repos/user/error-repo").
+			Reply(http.StatusInternalServerError).
+			JSON(map[string]string{"message": "github is down"})
+
+		httpClient := &http.Client{Transport: &gock.Transport{}}
+		ghClient := github.NewClient(httpClient)
+
 		provider := &GithubProvider{
 			client: ghClient,
 			logger: logger,
@@ -94,6 +91,44 @@ func TestGithubProvider_Enrich(t *testing.T) {
 
 		if len(results) != 0 {
 			t.Errorf("Expected empty results on API error, got %d items", len(results))
+		}
+	})
+
+	t.Run("Handle primary rate limit exceeded", func(t *testing.T) {
+		defer gock.Off()
+
+		gock.New("https://api.github.com").
+			Get("/repos/user/repo").
+			Reply(http.StatusForbidden).
+			SetHeader("X-RateLimit-Remaining", "0").
+			SetHeader("X-RateLimit-Reset", "1735689600").
+			JSON(map[string]string{
+				"message": "API rate limit exceeded",
+			})
+
+		httpClient := &http.Client{Transport: &gock.Transport{}}
+		ghClient := github.NewClient(httpClient)
+
+		provider := &GithubProvider{
+			client: ghClient,
+			logger: logger,
+		}
+
+		urls := []string{"https://github.com/user/repo"}
+
+		results, err := provider.Enrich(urls)
+
+		if err == nil {
+			t.Fatal("Expected an error due to rate limit, got nil")
+		}
+
+		var rateLimitErr *github.RateLimitError
+		if !errors.As(err, &rateLimitErr) {
+			t.Errorf("Expected error to be *github.RateLimitError, got %T: %v", err, err)
+		}
+
+		if results != nil {
+			t.Errorf("Expected nil results on rate limit error, got map with length %d", len(results))
 		}
 	})
 
