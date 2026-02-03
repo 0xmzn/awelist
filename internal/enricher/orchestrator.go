@@ -9,19 +9,21 @@ import (
 )
 
 type Orchestrator struct {
-	providers []Provider
-	logger    *slog.Logger
+	providers  []Provider
+	reconciler Reconciler
+	logger     *slog.Logger
 }
 
-func NewOrchestrator(logger *slog.Logger, providers ...Provider) *Orchestrator {
+func NewOrchestrator(logger *slog.Logger, reconciler Reconciler, providers ...Provider) *Orchestrator {
 	return &Orchestrator{
-		providers: providers,
-		logger:    logger.With("component", "orchestrator"),
+		providers:  providers,
+		reconciler: reconciler,
+		logger:     logger.With("component", "orchestrator"),
 	}
 }
 
-func (o *Orchestrator) EnrichList(list types.AwesomeList) error {
-	allLinks := list.Flatten()
+func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.AwesomeList) error {
+	allLinks := o.reconciler.Reconcile(yamlList, jsonList)
 	o.logger.Info("starting enrichment", "total_links", len(allLinks))
 
 	providerMap := make(map[Provider][]string)

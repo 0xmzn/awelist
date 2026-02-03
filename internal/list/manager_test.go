@@ -45,7 +45,7 @@ func areLinksEqual(a, b []*types.Link) bool {
 	return true
 }
 
-func TestService_AddLink(t *testing.T) {
+func TestManager_AddLink(t *testing.T) {
 	tests := []struct {
 		name          string
 		path          []string
@@ -174,7 +174,7 @@ func TestService_AddLink(t *testing.T) {
 	}
 }
 
-func TestService_AddCategory(t *testing.T) {
+func TestManager_AddCategory(t *testing.T) {
 	tests := []struct {
 		name                string
 		path                []string

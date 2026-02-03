@@ -9,9 +9,9 @@
         "description": "An actor-based Framework with network transparency for creating event-driven architecture in Golang. Inspired by Erlang.",
         "url": "https://github.com/ergo-services/ergo",
         "repo_metadata": {
-          "stars": 4351,
+          "stars": 4350,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:05.564346697+01:00"
+          "enriched_at": "2026-02-03T02:52:25.480185106+01:00"
         }
       },
       {
@@ -21,7 +21,7 @@
         "repo_metadata": {
           "stars": 319,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:05.936579378+01:00"
+          "enriched_at": "2026-02-03T02:52:26.400911143+01:00"
         }
       },
       {
@@ -29,9 +29,9 @@
         "description": "Blazingly fast and light-weight Actor engine written in Golang.",
         "url": "https://github.com/anthdm/hollywood",
         "repo_metadata": {
-          "stars": 2176,
+          "stars": 2175,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:06.141181228+01:00"
+          "enriched_at": "2026-02-03T02:52:26.70805218+01:00"
         }
       },
       {
@@ -41,7 +41,7 @@
         "repo_metadata": {
           "stars": 5419,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:06.368136465+01:00"
+          "enriched_at": "2026-02-03T02:52:27.118782466+01:00"
         }
       }
     ]
@@ -58,7 +58,7 @@
         "repo_metadata": {
           "stars": 837,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:06.580180073+01:00"
+          "enriched_at": "2026-02-03T02:52:27.424637771+01:00"
         }
       },
       {
@@ -71,9 +71,9 @@
         "description": "LangChainGo is a framework for developing applications powered by language models.",
         "url": "https://github.com/tmc/langchaingo",
         "repo_metadata": {
-          "stars": 8565,
+          "stars": 8574,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:06.804440323+01:00"
+          "enriched_at": "2026-02-03T02:52:27.659375242+01:00"
         }
       },
       {
@@ -81,9 +81,9 @@
         "description": "Open Source OpenAI alternative, self-host AI models.",
         "url": "https://github.com/mudler/LocalAI",
         "repo_metadata": {
-          "stars": 42531,
+          "stars": 42550,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:07.168031348+01:00"
+          "enriched_at": "2026-02-03T02:52:27.93684106+01:00"
         }
       },
       {
@@ -91,9 +91,9 @@
         "description": "Run large language models locally.",
         "url": "https://github.com/jmorganca/ollama",
         "repo_metadata": {
-          "stars": 161385,
+          "stars": 161471,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:07.58894351+01:00"
+          "enriched_at": "2026-02-03T02:52:28.550943273+01:00"
         }
       },
       {
@@ -103,7 +103,7 @@
         "repo_metadata": {
           "stars": 94,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:07.792885098+01:00"
+          "enriched_at": "2026-02-03T02:52:28.858382957+01:00"
         }
       }
     ]
@@ -120,7 +120,7 @@
         "repo_metadata": {
           "stars": 350,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:08.02691261+01:00"
+          "enriched_at": "2026-02-03T02:52:29.246346063+01:00"
         }
       },
       {
@@ -130,7 +130,7 @@
         "repo_metadata": {
           "stars": 135,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:08.222481262+01:00"
+          "enriched_at": "2026-02-03T02:52:29.525343595+01:00"
         }
       },
       {
@@ -140,7 +140,7 @@
         "repo_metadata": {
           "stars": 403,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:08.431795879+01:00"
+          "enriched_at": "2026-02-03T02:52:29.882251771+01:00"
         }
       },
       {
@@ -150,7 +150,7 @@
         "repo_metadata": {
           "stars": 38,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:08.6242045+01:00"
+          "enriched_at": "2026-02-03T02:52:30.190883408+01:00"
         }
       },
       {
@@ -160,7 +160,7 @@
         "repo_metadata": {
           "stars": 360,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:09.040590615+01:00"
+          "enriched_at": "2026-02-03T02:52:30.906231284+01:00"
         }
       },
       {
@@ -168,9 +168,9 @@
         "description": "Mini audio library.",
         "url": "https://github.com/gen2brain/malgo",
         "repo_metadata": {
-          "stars": 384,
+          "stars": 385,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:09.246671931+01:00"
+          "enriched_at": "2026-02-03T02:52:31.213392059+01:00"
         }
       },
       {
@@ -180,7 +180,7 @@
         "repo_metadata": {
           "stars": 133,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:09.454278534+01:00"
+          "enriched_at": "2026-02-03T02:52:31.520145404+01:00"
         }
       },
       {
@@ -188,9 +188,9 @@
         "description": "A low-level library to play sound on multiple platforms.",
         "url": "https://github.com/hajimehoshi/oto",
         "repo_metadata": {
-          "stars": 1855,
+          "stars": 1854,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:09.869543497+01:00"
+          "enriched_at": "2026-02-03T02:52:32.034393926+01:00"
         }
       },
       {
@@ -200,7 +200,7 @@
         "repo_metadata": {
           "stars": 824,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:10.076966714+01:00"
+          "enriched_at": "2026-02-03T02:52:32.322834934+01:00"
         }
       }
     ]
@@ -215,9 +215,9 @@
         "description": "Modular authentication system for the web. It tries to remove as much boilerplate and \"hard things\" as possible so that each time you start a new web project in Go, you can plug it in, configure it, and start building your app without having to build an authentication system each time.",
         "url": "https://github.com/volatiletech/authboss",
         "repo_metadata": {
-          "stars": 4143,
+          "stars": 4144,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:10.500601372+01:00"
+          "enriched_at": "2026-02-03T02:52:32.782396138+01:00"
         }
       },
       {
@@ -227,7 +227,7 @@
         "repo_metadata": {
           "stars": 95,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:10.71022817+01:00"
+          "enriched_at": "2026-02-03T02:52:33.158681263+01:00"
         }
       },
       {
@@ -235,9 +235,9 @@
         "description": "Authorization library that supports access control models like ACL, RBAC, and ABAC.",
         "url": "https://github.com/hsluoyz/casbin",
         "repo_metadata": {
-          "stars": 19791,
+          "stars": 19796,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:11.354670726+01:00"
+          "enriched_at": "2026-02-03T02:52:33.773590909+01:00"
         }
       },
       {
@@ -247,7 +247,7 @@
         "repo_metadata": {
           "stars": 22,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:11.730406606+01:00"
+          "enriched_at": "2026-02-03T02:52:34.07475726+01:00"
         }
       },
       {
@@ -257,7 +257,7 @@
         "repo_metadata": {
           "stars": 606,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:12.026656199+01:00"
+          "enriched_at": "2026-02-03T02:52:34.410924281+01:00"
         }
       },
       {
@@ -267,7 +267,7 @@
         "repo_metadata": {
           "stars": 478,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:12.446726817+01:00"
+          "enriched_at": "2026-02-03T02:52:34.695141008+01:00"
         }
       },
       {
@@ -277,7 +277,7 @@
         "repo_metadata": {
           "stars": 183,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:12.633445406+01:00"
+          "enriched_at": "2026-02-03T02:52:34.94765772+01:00"
         }
       },
       {
@@ -287,7 +287,7 @@
         "repo_metadata": {
           "stars": 1945,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:12.888464065+01:00"
+          "enriched_at": "2026-02-03T02:52:35.268265303+01:00"
         }
       },
       {
@@ -297,7 +297,7 @@
         "repo_metadata": {
           "stars": 1657,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:13.265771904+01:00"
+          "enriched_at": "2026-02-03T02:52:35.532862915+01:00"
         }
       },
       {
@@ -307,7 +307,7 @@
         "repo_metadata": {
           "stars": 258,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:13.573104316+01:00"
+          "enriched_at": "2026-02-03T02:52:35.780573206+01:00"
         }
       },
       {
@@ -315,9 +315,9 @@
         "description": "provides a simple, clean, and idiomatic way to use OAuth and OAuth2. Handles multiple providers out of the box.",
         "url": "https://github.com/markbates/goth",
         "repo_metadata": {
-          "stars": 6431,
+          "stars": 6435,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:13.982658369+01:00"
+          "enriched_at": "2026-02-03T02:52:36.037575113+01:00"
         }
       },
       {
@@ -327,7 +327,7 @@
         "repo_metadata": {
           "stars": 270,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:14.289875176+01:00"
+          "enriched_at": "2026-02-03T02:52:36.301999985+01:00"
         }
       },
       {
@@ -337,7 +337,7 @@
         "repo_metadata": {
           "stars": 362,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:14.596267838+01:00"
+          "enriched_at": "2026-02-03T02:52:36.563545051+01:00"
         }
       },
       {
@@ -347,7 +347,7 @@
         "repo_metadata": {
           "stars": 687,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:15.00628791+01:00"
+          "enriched_at": "2026-02-03T02:52:36.834137222+01:00"
         }
       },
       {
@@ -357,7 +357,7 @@
         "repo_metadata": {
           "stars": 237,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:15.313700518+01:00"
+          "enriched_at": "2026-02-03T02:52:37.158380563+01:00"
         }
       },
       {
@@ -365,9 +365,9 @@
         "description": "A full featured implementation of JSON Web Tokens (JWT). This library supports the parsing and verification as well as the generation and signing of JWTs.",
         "url": "https://github.com/golang-jwt/jwt",
         "repo_metadata": {
-          "stars": 8877,
+          "stars": 8881,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:15.723079656+01:00"
+          "enriched_at": "2026-02-03T02:52:37.470188441+01:00"
         }
       },
       {
@@ -377,7 +377,7 @@
         "repo_metadata": {
           "stars": 2309,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:16.030573708+01:00"
+          "enriched_at": "2026-02-03T02:52:37.726346321+01:00"
         }
       },
       {
@@ -387,7 +387,7 @@
         "repo_metadata": {
           "stars": 5262,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:16.439659294+01:00"
+          "enriched_at": "2026-02-03T02:52:38.041029225+01:00"
         }
       },
       {
@@ -397,7 +397,7 @@
         "repo_metadata": {
           "stars": 1927,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:16.954573099+01:00"
+          "enriched_at": "2026-02-03T02:52:38.688444566+01:00"
         }
       },
       {
@@ -407,7 +407,7 @@
         "repo_metadata": {
           "stars": 5813,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:17.173766066+01:00"
+          "enriched_at": "2026-02-03T02:52:39.098376057+01:00"
         }
       },
       {
@@ -417,7 +417,7 @@
         "repo_metadata": {
           "stars": 1759,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:17.566563064+01:00"
+          "enriched_at": "2026-02-03T02:52:39.364889661+01:00"
         }
       },
       {
@@ -425,9 +425,9 @@
         "description": "Implementation of fine-grained authorization based on the \"Zanzibar:\nGoogle's Consistent, Global Authorization System\" paper. Backed by\n[CNCF](https://www.cncf.io/).\n",
         "url": "https://github.com/openfga/openfga",
         "repo_metadata": {
-          "stars": 4695,
+          "stars": 4698,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:17.874556631+01:00"
+          "enriched_at": "2026-02-03T02:52:39.712743364+01:00"
         }
       },
       {
@@ -437,7 +437,7 @@
         "repo_metadata": {
           "stars": 1935,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:18.283007986+01:00"
+          "enriched_at": "2026-02-03T02:52:40.327372163+01:00"
         }
       },
       {
@@ -447,7 +447,7 @@
         "repo_metadata": {
           "stars": 142,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:18.895649605+01:00"
+          "enriched_at": "2026-02-03T02:52:40.941924935+01:00"
         }
       },
       {
@@ -457,7 +457,7 @@
         "repo_metadata": {
           "stars": 76,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:19.078933082+01:00"
+          "enriched_at": "2026-02-03T02:52:41.249041544+01:00"
         }
       },
       {
@@ -467,7 +467,7 @@
         "repo_metadata": {
           "stars": 932,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:19.294947778+01:00"
+          "enriched_at": "2026-02-03T02:52:41.556385784+01:00"
         }
       },
       {
@@ -477,7 +477,7 @@
         "repo_metadata": {
           "stars": 12,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:19.51114698+01:00"
+          "enriched_at": "2026-02-03T02:52:41.863547958+01:00"
         }
       },
       {
@@ -487,7 +487,7 @@
         "repo_metadata": {
           "stars": 42,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:19.919985528+01:00"
+          "enriched_at": "2026-02-03T02:52:42.488632013+01:00"
         }
       },
       {
@@ -497,7 +497,7 @@
         "repo_metadata": {
           "stars": 2515,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:20.120821642+01:00"
+          "enriched_at": "2026-02-03T02:52:42.784383876+01:00"
         }
       },
       {
@@ -507,7 +507,7 @@
         "repo_metadata": {
           "stars": 84,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:20.337169987+01:00"
+          "enriched_at": "2026-02-03T02:52:43.03858528+01:00"
         }
       },
       {
@@ -517,7 +517,7 @@
         "repo_metadata": {
           "stars": 118,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:20.610960418+01:00"
+          "enriched_at": "2026-02-03T02:52:43.313942596+01:00"
         }
       },
       {
@@ -527,7 +527,7 @@
         "repo_metadata": {
           "stars": 79,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:21.009127409+01:00"
+          "enriched_at": "2026-02-03T02:52:43.604977405+01:00"
         }
       },
       {
@@ -535,20 +535,30 @@
         "description": "Simple, yet effective HTTP session management and identification package.",
         "url": "https://github.com/swithek/sessionup",
         "repo_metadata": {
-          "stars": 129,
+          "stars": 130,
           "is_archived": false,
-          "enriched_at": "2026-02-02T05:50:21.420789539+01:00"
+          "enriched_at": "2026-02-03T02:52:44.628705326+01:00"
         }
       },
       {
         "title": "sjwt",
         "description": "Simple jwt generator and parser.",
-        "url": "https://github.com/brianvoe/sjwt"
+        "url": "https://github.com/brianvoe/sjwt",
+        "repo_metadata": {
+          "stars": 122,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:44.873950052+01:00"
+        }
       },
       {
         "title": "x509proxy",
         "description": "Library to handle X509 proxy certificates.",
-        "url": "https://github.com/vkuznet/x509proxy"
+        "url": "https://github.com/vkuznet/x509proxy",
+        "repo_metadata": {
+          "stars": 7,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:45.242189865+01:00"
+        }
       }
     ]
   },
@@ -560,52 +570,102 @@
       {
         "title": "cometbft",
         "description": "A distributed, Byzantine fault-tolerant, deterministic state machine replication engine. It is a fork of Tendermint Core and implements the Tendermint consensus algorithm.",
-        "url": "https://github.com/cometbft/cometbft"
+        "url": "https://github.com/cometbft/cometbft",
+        "repo_metadata": {
+          "stars": 853,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:45.509483513+01:00"
+        }
       },
       {
         "title": "cosmos-sdk",
         "description": "A Framework for Building Public Blockchains in the Cosmos Ecosystem.",
-        "url": "https://github.com/cosmos/cosmos-sdk"
+        "url": "https://github.com/cosmos/cosmos-sdk",
+        "repo_metadata": {
+          "stars": 6926,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:45.959201374+01:00"
+        }
       },
       {
         "title": "gno",
         "description": "A comprehensive smart contract suite built with Golang and Gnolang, a deterministic, purpose-built Go variant for blockchains.",
-        "url": "https://github.com/gnolang/gno"
+        "url": "https://github.com/gnolang/gno",
+        "repo_metadata": {
+          "stars": 1047,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:46.266499973+01:00"
+        }
       },
       {
         "title": "go-ethereum",
         "description": "Official Go implementation of the Ethereum protocol.",
-        "url": "https://github.com/ethereum/go-ethereum"
+        "url": "https://github.com/ethereum/go-ethereum",
+        "repo_metadata": {
+          "stars": 50770,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:46.676015764+01:00"
+        }
       },
       {
         "title": "gosemble",
         "description": "A Go-based framework for building Polkadot/Substrate-compatible runtimes.",
-        "url": "https://github.com/LimeChain/gosemble"
+        "url": "https://github.com/LimeChain/gosemble",
+        "repo_metadata": {
+          "stars": 14,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:47.085535979+01:00"
+        }
       },
       {
         "title": "gossamer",
         "description": "A Go implementation of the Polkadot Host.",
-        "url": "https://github.com/ChainSafe/gossamer"
+        "url": "https://github.com/ChainSafe/gossamer",
+        "repo_metadata": {
+          "stars": 457,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:47.603069281+01:00"
+        }
       },
       {
         "title": "kubo",
         "description": "A blockchain framework implemented in Go. It provides content-addressable storage which can be used for decentralized storage in DApps. It is based on the IPFS protocol.",
-        "url": "https://github.com/ipfs/kubo"
+        "url": "https://github.com/ipfs/kubo",
+        "repo_metadata": {
+          "stars": 16899,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:48.006918992+01:00"
+        }
       },
       {
         "title": "lnd",
         "description": "A complete implementation of a Lightning Network node.",
-        "url": "https://github.com/lightningnetwork/lnd"
+        "url": "https://github.com/lightningnetwork/lnd",
+        "repo_metadata": {
+          "stars": 8097,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:48.301743149+01:00"
+        }
       },
       {
         "title": "solana-go",
         "description": "Go library to interface with Solana JSON RPC and WebSocket interfaces.",
-        "url": "https://github.com/gagliardetto/solana-go"
+        "url": "https://github.com/gagliardetto/solana-go",
+        "repo_metadata": {
+          "stars": 1508,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:48.621544847+01:00"
+        }
       },
       {
         "title": "tendermint",
         "description": "High-performance middleware for transforming a state machine written in any programming language into a Byzantine Fault Tolerant replicated state machine using the Tendermint consensus and blockchain protocols.",
-        "url": "https://github.com/tendermint/tendermint"
+        "url": "https://github.com/tendermint/tendermint",
+        "repo_metadata": {
+          "stars": 5859,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:49.031266955+01:00"
+        }
       }
     ]
   },
@@ -617,17 +677,32 @@
       {
         "title": "arikawa",
         "description": "A library and framework for the Discord API.",
-        "url": "https://github.com/diamondburned/arikawa"
+        "url": "https://github.com/diamondburned/arikawa",
+        "repo_metadata": {
+          "stars": 569,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:49.262012295+01:00"
+        }
       },
       {
         "title": "bot",
         "description": "Zero-dependencies Telegram Bot library with additional UI components",
-        "url": "https://github.com/go-telegram/bot"
+        "url": "https://github.com/go-telegram/bot",
+        "repo_metadata": {
+          "stars": 1563,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:49.646030877+01:00"
+        }
       },
       {
         "title": "echotron",
         "description": "An elegant and concurrent library for Telegram Bots in Go.",
-        "url": "https://github.com/NicoNex/echotron"
+        "url": "https://github.com/NicoNex/echotron",
+        "repo_metadata": {
+          "stars": 416,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:49.953192619+01:00"
+        }
       },
       {
         "title": "go-joe",
@@ -637,52 +712,102 @@
       {
         "title": "go-sarah",
         "description": "Framework to build a bot for desired chat services including LINE, Slack, Gitter, and more.",
-        "url": "https://github.com/oklahomer/go-sarah"
+        "url": "https://github.com/oklahomer/go-sarah",
+        "repo_metadata": {
+          "stars": 266,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:50.260217016+01:00"
+        }
       },
       {
         "title": "go-tg",
         "description": "Generated from official docs Go client library for accessing Telegram Bot API, with batteries for building complex bots included.",
-        "url": "https://github.com/mr-linch/go-tg"
+        "url": "https://github.com/mr-linch/go-tg",
+        "repo_metadata": {
+          "stars": 123,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:50.669553538+01:00"
+        }
       },
       {
         "title": "go-twitch-irc",
         "description": "Library to write bots for twitch.tv chat",
-        "url": "https://github.com/gempir/go-twitch-irc"
+        "url": "https://github.com/gempir/go-twitch-irc",
+        "repo_metadata": {
+          "stars": 389,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:50.97681232+01:00"
+        }
       },
       {
         "title": "micha",
         "description": "Go Library for Telegram bot api.",
-        "url": "https://github.com/onrik/micha"
+        "url": "https://github.com/onrik/micha",
+        "repo_metadata": {
+          "stars": 31,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:51.283976398+01:00"
+        }
       },
       {
         "title": "slack-bot",
         "description": "Ready to use Slack Bot for lazy developers: Custom commands, Jenkins, Jira, Bitbucket, Github...",
-        "url": "https://github.com/innogames/slack-bot"
+        "url": "https://github.com/innogames/slack-bot",
+        "repo_metadata": {
+          "stars": 205,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:51.591432925+01:00"
+        }
       },
       {
         "title": "slacker",
         "description": "Easy to use framework to create Slack bots.",
-        "url": "https://github.com/slack-io/slacker"
+        "url": "https://github.com/slack-io/slacker",
+        "repo_metadata": {
+          "stars": 60,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:52.002064426+01:00"
+        }
       },
       {
         "title": "telebot",
         "description": "Telegram bot framework is written in Go.",
-        "url": "https://github.com/tucnak/telebot"
+        "url": "https://github.com/tucnak/telebot",
+        "repo_metadata": {
+          "stars": 4547,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:52.249922894+01:00"
+        }
       },
       {
         "title": "telego",
         "description": "Telegram Bot API library for Golang with full one-to-one API implementation.",
-        "url": "https://github.com/mymmrac/telego"
+        "url": "https://github.com/mymmrac/telego",
+        "repo_metadata": {
+          "stars": 919,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:52.614819112+01:00"
+        }
       },
       {
         "title": "telegram-bot-api",
         "description": "Simple and clean Telegram bot client.",
-        "url": "https://github.com/go-telegram-bot-api/telegram-bot-api"
+        "url": "https://github.com/go-telegram-bot-api/telegram-bot-api",
+        "repo_metadata": {
+          "stars": 6368,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:53.164315671+01:00"
+        }
       },
       {
         "title": "wayback",
         "description": "A bot for Telegram, Mastodon, Slack, and other messaging platforms archives webpages.",
-        "url": "https://github.com/wabarc/wayback"
+        "url": "https://github.com/wabarc/wayback",
+        "repo_metadata": {
+          "stars": 2132,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:52:53.536418466+01:00"
+        }
       }
     ]
   },
@@ -698,97 +823,192 @@
           {
             "title": "asciigraph",
             "description": "Go package to make lightweight ASCII line graph ╭┈╯ in command line apps with no other dependencies.",
-            "url": "https://github.com/guptarohit/asciigraph"
+            "url": "https://github.com/guptarohit/asciigraph",
+            "repo_metadata": {
+              "stars": 2950,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:53.843802217+01:00"
+            }
           },
           {
             "title": "aurora",
             "description": "ANSI terminal colors that support fmt.Printf/Sprintf.",
-            "url": "https://github.com/logrusorgru/aurora"
+            "url": "https://github.com/logrusorgru/aurora",
+            "repo_metadata": {
+              "stars": 1477,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:54.15098265+01:00"
+            }
           },
           {
             "title": "box-cli-maker",
             "description": "Make Highly Customized Boxes for your CLI.",
-            "url": "https://github.com/Delta456/box-cli-maker"
+            "url": "https://github.com/Delta456/box-cli-maker",
+            "repo_metadata": {
+              "stars": 597,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:54.766522391+01:00"
+            }
           },
           {
             "title": "bubble-table",
             "description": "An interactive table component for bubbletea.",
-            "url": "https://github.com/Evertras/bubble-table"
+            "url": "https://github.com/Evertras/bubble-table",
+            "repo_metadata": {
+              "stars": 547,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:55.072708358+01:00"
+            }
           },
           {
             "title": "bubbles",
             "description": "TUI components for bubbletea.",
-            "url": "https://github.com/charmbracelet/bubbles"
+            "url": "https://github.com/charmbracelet/bubbles",
+            "repo_metadata": {
+              "stars": 7668,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:55.483029752+01:00"
+            }
           },
           {
             "title": "bubbletea",
             "description": "Go framework to build terminal apps, based on The Elm Architecture.",
-            "url": "https://github.com/charmbracelet/bubbletea"
+            "url": "https://github.com/charmbracelet/bubbletea",
+            "repo_metadata": {
+              "stars": 39027,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:55.770618131+01:00"
+            }
           },
           {
             "title": "cfmt",
             "description": "Contextual fmt inspired by bootstrap color classes.",
-            "url": "https://github.com/mingrammer/cfmt"
+            "url": "https://github.com/mingrammer/cfmt",
+            "repo_metadata": {
+              "stars": 107,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:56.097628487+01:00"
+            }
           },
           {
             "title": "cfmt",
             "description": "Simple and convenient formatted stylized output fully compatible with fmt library.",
-            "url": "https://github.com/i582/cfmt"
+            "url": "https://github.com/i582/cfmt",
+            "repo_metadata": {
+              "stars": 69,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:56.404674371+01:00"
+            }
           },
           {
             "title": "chalk",
             "description": "Intuitive package for prettifying terminal/console output.",
-            "url": "https://github.com/ttacon/chalk"
+            "url": "https://github.com/ttacon/chalk",
+            "repo_metadata": {
+              "stars": 474,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:56.711586813+01:00"
+            }
           },
           {
             "title": "crab-config-files-templating",
             "description": "Dynamic configuration file templating tool for kubernetes manifest or general configuration files.",
-            "url": "https://github.com/alfiankan/crab-config-files-templating"
+            "url": "https://github.com/alfiankan/crab-config-files-templating",
+            "repo_metadata": {
+              "stars": 8,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:57.018732136+01:00"
+            }
           },
           {
             "title": "ctc",
             "description": "The non-invasive cross-platform terminal color library does not need to modify the Print method.",
-            "url": "https://github.com/wzshiming/ctc"
+            "url": "https://github.com/wzshiming/ctc",
+            "repo_metadata": {
+              "stars": 52,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:57.261475002+01:00"
+            }
           },
           {
             "title": "fx",
             "description": "Terminal JSON viewer \u0026 processor.",
-            "url": "https://github.com/antonmedv/fx"
+            "url": "https://github.com/antonmedv/fx",
+            "repo_metadata": {
+              "stars": 20231,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:57.530219619+01:00"
+            }
           },
           {
             "title": "go-ataman",
             "description": "Go library for rendering ANSI colored text templates in terminals.",
-            "url": "https://github.com/workanator/go-ataman"
+            "url": "https://github.com/workanator/go-ataman",
+            "repo_metadata": {
+              "stars": 20,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:57.837438971+01:00"
+            }
           },
           {
             "title": "go-colorable",
             "description": "Colorable writer for windows.",
-            "url": "https://github.com/mattn/go-colorable"
+            "url": "https://github.com/mattn/go-colorable",
+            "repo_metadata": {
+              "stars": 803,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:58.266590182+01:00"
+            }
           },
           {
             "title": "go-colortext",
             "description": "Go library for color output in terminals.",
-            "url": "https://github.com/daviddengcn/go-colortext"
+            "url": "https://github.com/daviddengcn/go-colortext",
+            "repo_metadata": {
+              "stars": 215,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:58.554206624+01:00"
+            }
           },
           {
             "title": "go-isatty",
             "description": "isatty for golang.",
-            "url": "https://github.com/mattn/go-isatty"
+            "url": "https://github.com/mattn/go-isatty",
+            "repo_metadata": {
+              "stars": 884,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:58.861315129+01:00"
+            }
           },
           {
             "title": "go-palette",
             "description": "Go library that provides elegant and convenient style definitions using ANSI colors. Fully compatible \u0026 wraps the [fmt library](https://pkg.go.dev/fmt) for nice terminal layouts.",
-            "url": "https://github.com/abusomani/go-palette"
+            "url": "https://github.com/abusomani/go-palette",
+            "repo_metadata": {
+              "stars": 20,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:59.174556901+01:00"
+            }
           },
           {
             "title": "go-prompt",
             "description": "Library for building a powerful interactive prompt, inspired by [python-prompt-toolkit](https://github.com/jonathanslenders/python-prompt-toolkit).",
-            "url": "https://github.com/c-bata/go-prompt"
+            "url": "https://github.com/c-bata/go-prompt",
+            "repo_metadata": {
+              "stars": 5460,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:59.475528481+01:00"
+            }
           },
           {
             "title": "gocui",
             "description": "Minimalist Go library aimed at creating Console User Interfaces.",
-            "url": "https://github.com/jroimartin/gocui"
+            "url": "https://github.com/jroimartin/gocui",
+            "repo_metadata": {
+              "stars": 10501,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:52:59.782814946+01:00"
+            }
           },
           {
             "title": "gommon/color",
@@ -798,92 +1018,182 @@
           {
             "title": "gookit/color",
             "description": "Terminal color rendering tool library, support 16 colors, 256 colors, RGB color rendering output, compatible with Windows.",
-            "url": "https://github.com/gookit/color"
+            "url": "https://github.com/gookit/color",
+            "repo_metadata": {
+              "stars": 1570,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:00.147477054+01:00"
+            }
           },
           {
             "title": "lipgloss",
             "description": "Declaratively define styles for color, format and layout in the terminal.",
-            "url": "https://github.com/charmbracelet/lipgloss"
+            "url": "https://github.com/charmbracelet/lipgloss",
+            "repo_metadata": {
+              "stars": 10446,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:00.499630649+01:00"
+            }
           },
           {
             "title": "marker",
             "description": "Easiest way to match and mark strings for colorful terminal outputs.",
-            "url": "https://github.com/cyucelen/marker"
+            "url": "https://github.com/cyucelen/marker",
+            "repo_metadata": {
+              "stars": 51,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:00.806564479+01:00"
+            }
           },
           {
             "title": "mpb",
             "description": "Multi progress bar for terminal applications.",
-            "url": "https://github.com/vbauerster/mpb"
+            "url": "https://github.com/vbauerster/mpb",
+            "repo_metadata": {
+              "stars": 2474,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:01.113836912+01:00"
+            }
           },
           {
             "title": "progressbar",
             "description": "Basic thread-safe progress bar that works in every OS.",
-            "url": "https://github.com/schollz/progressbar"
+            "url": "https://github.com/schollz/progressbar",
+            "repo_metadata": {
+              "stars": 4635,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:01.428317263+01:00"
+            }
           },
           {
             "title": "pterm",
             "description": "A library to beautify console output on every platform with many combinable components.",
-            "url": "https://github.com/pterm/pterm"
+            "url": "https://github.com/pterm/pterm",
+            "repo_metadata": {
+              "stars": 5354,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:01.831603582+01:00"
+            }
           },
           {
             "title": "simpletable",
             "description": "Simple tables in a terminal with Go.",
-            "url": "https://github.com/alexeyco/simpletable"
+            "url": "https://github.com/alexeyco/simpletable",
+            "repo_metadata": {
+              "stars": 545,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:02.252568158+01:00"
+            }
           },
           {
             "title": "spinner",
             "description": "Go package to easily provide a terminal spinner with options.",
-            "url": "https://github.com/briandowns/spinner"
+            "url": "https://github.com/briandowns/spinner",
+            "repo_metadata": {
+              "stars": 2507,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:02.496436858+01:00"
+            }
           },
           {
             "title": "tabby",
             "description": "A tiny library for super simple Golang tables.",
-            "url": "https://github.com/cheynewallace/tabby"
+            "url": "https://github.com/cheynewallace/tabby",
+            "repo_metadata": {
+              "stars": 367,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:02.854650641+01:00"
+            }
           },
           {
             "title": "table",
             "description": "Small library for terminal color based tables.",
-            "url": "https://github.com/tomlazar/table"
+            "url": "https://github.com/tomlazar/table",
+            "repo_metadata": {
+              "stars": 50,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:03.161560974+01:00"
+            }
           },
           {
             "title": "termbox-go",
             "description": "Termbox is a library for creating cross-platform text-based interfaces.",
-            "url": "https://github.com/nsf/termbox-go"
+            "url": "https://github.com/nsf/termbox-go",
+            "repo_metadata": {
+              "stars": 4764,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:03.468821744+01:00"
+            }
           },
           {
             "title": "termdash",
             "description": "Go terminal dashboard based on **termbox-go** and inspired by [termui](https://github.com/gizak/termui).",
-            "url": "https://github.com/mum4k/termdash"
+            "url": "https://github.com/mum4k/termdash",
+            "repo_metadata": {
+              "stars": 2975,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:03.776094534+01:00"
+            }
           },
           {
             "title": "termenv",
             "description": "Advanced ANSI style \u0026 color support for your terminal applications.",
-            "url": "https://github.com/muesli/termenv"
+            "url": "https://github.com/muesli/termenv",
+            "repo_metadata": {
+              "stars": 1958,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:04.083851273+01:00"
+            }
           },
           {
             "title": "termui",
             "description": "Go terminal dashboard based on **termbox-go** and inspired by [blessed-contrib](https://github.com/yaronn/blessed-contrib).",
-            "url": "https://github.com/gizak/termui"
+            "url": "https://github.com/gizak/termui",
+            "repo_metadata": {
+              "stars": 13518,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:04.335652937+01:00"
+            }
           },
           {
             "title": "uilive",
             "description": "Library for updating terminal output in real time.",
-            "url": "https://github.com/gosuri/uilive"
+            "url": "https://github.com/gosuri/uilive",
+            "repo_metadata": {
+              "stars": 1714,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:04.697557998+01:00"
+            }
           },
           {
             "title": "uiprogress",
             "description": "Flexible library to render progress bars in terminal applications.",
-            "url": "https://github.com/gosuri/uiprogress"
+            "url": "https://github.com/gosuri/uiprogress",
+            "repo_metadata": {
+              "stars": 2138,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:05.004534062+01:00"
+            }
           },
           {
             "title": "uitable",
             "description": "Library to improve readability in terminal apps using tabular data.",
-            "url": "https://github.com/gosuri/uitable"
+            "url": "https://github.com/gosuri/uitable",
+            "repo_metadata": {
+              "stars": 742,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:05.31179979+01:00"
+            }
           },
           {
             "title": "yacspin",
             "description": "Yet Another CLi Spinner package, for working with terminal spinners.",
-            "url": "https://github.com/theckman/yacspin"
+            "url": "https://github.com/theckman/yacspin",
+            "repo_metadata": {
+              "stars": 455,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:05.619001956+01:00"
+            }
           }
         ]
       },
@@ -895,142 +1205,282 @@
           {
             "title": "acmd",
             "description": "Simple, useful, and opinionated CLI package in Go.",
-            "url": "https://github.com/cristalhq/acmd"
+            "url": "https://github.com/cristalhq/acmd",
+            "repo_metadata": {
+              "stars": 137,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:05.981739824+01:00"
+            }
           },
           {
             "title": "argparse",
             "description": "Command line argument parser inspired by Python's argparse module.",
-            "url": "https://github.com/akamensky/argparse"
+            "url": "https://github.com/akamensky/argparse",
+            "repo_metadata": {
+              "stars": 635,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:06.25492441+01:00"
+            }
           },
           {
             "title": "argv",
             "description": "Go library to split command line string as arguments array using the bash syntax.",
-            "url": "https://github.com/cosiner/argv"
+            "url": "https://github.com/cosiner/argv",
+            "repo_metadata": {
+              "stars": 42,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:06.540450689+01:00"
+            }
           },
           {
             "title": "carapace",
             "description": "Command argument completion generator for spf13/cobra.",
-            "url": "https://github.com/rsteube/carapace"
+            "url": "https://github.com/rsteube/carapace",
+            "repo_metadata": {
+              "stars": 1137,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:07.154608515+01:00"
+            }
           },
           {
             "title": "carapace-bin",
             "description": "Multi-shell multi-command argument completer.",
-            "url": "https://github.com/rsteube/carapace-bin"
+            "url": "https://github.com/rsteube/carapace-bin",
+            "repo_metadata": {
+              "stars": 1679,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:07.973946835+01:00"
+            }
           },
           {
             "title": "carapace-spec",
             "description": "Define simple completions using a spec file.",
-            "url": "https://github.com/rsteube/carapace-spec"
+            "url": "https://github.com/rsteube/carapace-spec",
+            "repo_metadata": {
+              "stars": 29,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:08.792740277+01:00"
+            }
           },
           {
             "title": "climax",
             "description": "Alternative CLI with \"human face\", in spirit of Go command.",
-            "url": "https://github.com/tucnak/climax"
+            "url": "https://github.com/tucnak/climax",
+            "repo_metadata": {
+              "stars": 217,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:09.100406966+01:00"
+            }
           },
           {
             "title": "clîr",
             "description": "A Simple and Clear CLI library. Dependency free.",
-            "url": "https://github.com/leaanthony/clir"
+            "url": "https://github.com/leaanthony/clir",
+            "repo_metadata": {
+              "stars": 197,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:09.413787158+01:00"
+            }
           },
           {
             "title": "cmd",
             "description": "Extends the standard `flag` package to support sub commands and more in idiomatic way.",
-            "url": "https://github.com/posener/cmd"
+            "url": "https://github.com/posener/cmd",
+            "repo_metadata": {
+              "stars": 46,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:09.714260916+01:00"
+            }
           },
           {
             "title": "cmdr",
             "description": "A POSIX/GNU style, getopt-like command-line UI Go library.",
-            "url": "https://github.com/hedzr/cmdr"
+            "url": "https://github.com/hedzr/cmdr",
+            "repo_metadata": {
+              "stars": 142,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:10.02164374+01:00"
+            }
           },
           {
             "title": "cobra",
             "description": "Commander for modern Go CLI interactions.",
-            "url": "https://github.com/spf13/cobra"
+            "url": "https://github.com/spf13/cobra",
+            "repo_metadata": {
+              "stars": 43057,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:10.328972684+01:00"
+            }
           },
           {
             "title": "command-chain",
             "description": "A go library for configure and run command chains - such as pipelining in unix shells.",
-            "url": "https://github.com/rainu/go-command-chain"
+            "url": "https://github.com/rainu/go-command-chain",
+            "repo_metadata": {
+              "stars": 70,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:10.636111464+01:00"
+            }
           },
           {
             "title": "commandeer",
             "description": "Dev-friendly CLI apps: sets up flags, defaults, and usage based on struct fields and tags.",
-            "url": "https://github.com/jaffee/commandeer"
+            "url": "https://github.com/jaffee/commandeer",
+            "repo_metadata": {
+              "stars": 176,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:10.967273688+01:00"
+            }
           },
           {
             "title": "complete",
             "description": "Write bash completions in Go + Go command bash completion.",
-            "url": "https://github.com/posener/complete"
+            "url": "https://github.com/posener/complete",
+            "repo_metadata": {
+              "stars": 951,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:11.250855804+01:00"
+            }
           },
           {
             "title": "console",
             "description": "Closed-loop application library for Cobra commands, with oh-my-posh prompts, and more.",
-            "url": "https://github.com/reeflective/console"
+            "url": "https://github.com/reeflective/console",
+            "repo_metadata": {
+              "stars": 101,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:11.557580272+01:00"
+            }
           },
           {
             "title": "Dnote",
             "description": "A simple command line notebook with multi-device sync.",
-            "url": "https://github.com/dnote/dnote"
+            "url": "https://github.com/dnote/dnote",
+            "repo_metadata": {
+              "stars": 3002,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:11.864518298+01:00"
+            }
           },
           {
             "title": "elvish",
             "description": "An expressive programming language and a versatile interactive shell.",
-            "url": "https://github.com/elves/elvish"
+            "url": "https://github.com/elves/elvish",
+            "repo_metadata": {
+              "stars": 6221,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:12.208333748+01:00"
+            }
           },
           {
             "title": "env",
             "description": "Tag-based environment configuration for structs.",
-            "url": "https://github.com/codingconcepts/env"
+            "url": "https://github.com/codingconcepts/env",
+            "repo_metadata": {
+              "stars": 126,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:12.581889461+01:00"
+            }
           },
           {
             "title": "flaggy",
             "description": "A robust and idiomatic flags package with excellent subcommand support.",
-            "url": "https://github.com/integrii/flaggy"
+            "url": "https://github.com/integrii/flaggy",
+            "repo_metadata": {
+              "stars": 946,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:12.991024757+01:00"
+            }
           },
           {
             "title": "flagvar",
             "description": "A collection of flag argument types for Go's standard `flag` package.",
-            "url": "https://github.com/sgreben/flagvar"
+            "url": "https://github.com/sgreben/flagvar",
+            "repo_metadata": {
+              "stars": 48,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:13.259535838+01:00"
+            }
           },
           {
             "title": "getopt",
             "description": "An accurate Go `getopt`, validated against the GNU libc implementation.",
-            "url": "https://github.com/jon-codes/getopt"
+            "url": "https://github.com/jon-codes/getopt",
+            "repo_metadata": {
+              "stars": 7,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:13.815768302+01:00"
+            }
           },
           {
             "title": "go-arg",
             "description": "Struct-based argument parsing in Go.",
-            "url": "https://github.com/alexflint/go-arg"
+            "url": "https://github.com/alexflint/go-arg",
+            "repo_metadata": {
+              "stars": 2225,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:14.118031861+01:00"
+            }
           },
           {
             "title": "go-flags",
             "description": "go command line option parser.",
-            "url": "https://github.com/jessevdk/go-flags"
+            "url": "https://github.com/jessevdk/go-flags",
+            "repo_metadata": {
+              "stars": 2689,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:14.424453314+01:00"
+            }
           },
           {
             "title": "go-getoptions",
             "description": "Go option parser inspired by the flexibility of Perl’s GetOpt::Long.",
-            "url": "https://github.com/DavidGamba/go-getoptions"
+            "url": "https://github.com/DavidGamba/go-getoptions",
+            "repo_metadata": {
+              "stars": 61,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:14.731629172+01:00"
+            }
           },
           {
             "title": "go-readline-ny",
             "description": "A customizable line-editing library with Emacs keybindings, Unicode support, completion, and syntax highlighting. Used in NYAGOS shell.",
-            "url": "https://github.com/nyaosorg/go-readline-ny"
+            "url": "https://github.com/nyaosorg/go-readline-ny",
+            "repo_metadata": {
+              "stars": 32,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:15.141315357+01:00"
+            }
           },
           {
             "title": "gocmd",
             "description": "Go library for building command line applications.",
-            "url": "https://github.com/devfacet/gocmd"
+            "url": "https://github.com/devfacet/gocmd",
+            "repo_metadata": {
+              "stars": 67,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:15.448400059+01:00"
+            }
           },
           {
             "title": "goopt",
             "description": "A declarative, struct-tag based CLI framework for Go, with a broad feature set such as hierarchical commands/flags, i18n, shell completion, and validation.",
-            "url": "https://github.com/napalu/goopt"
+            "url": "https://github.com/napalu/goopt",
+            "repo_metadata": {
+              "stars": 5,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:15.755651669+01:00"
+            }
           },
           {
             "title": "hashicorp/cli",
             "description": "Go library for implementing command-line interfaces.",
-            "url": "https://github.com/hashicorp/cli"
+            "url": "https://github.com/hashicorp/cli",
+            "repo_metadata": {
+              "stars": 35,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:16.224357689+01:00"
+            }
           },
           {
             "title": "hiboot cli",
@@ -1040,102 +1490,202 @@
           {
             "title": "job",
             "description": "JOB, make your short-term command as a long-term job.",
-            "url": "https://github.com/liujianping/job"
+            "url": "https://github.com/liujianping/job",
+            "repo_metadata": {
+              "stars": 149,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:16.575395123+01:00"
+            }
           },
           {
             "title": "kingpin",
             "description": "Command line and flag parser supporting sub commands (superseded by `kong`; see below).",
-            "url": "https://github.com/alecthomas/kingpin"
+            "url": "https://github.com/alecthomas/kingpin",
+            "repo_metadata": {
+              "stars": 3559,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:16.882499441+01:00"
+            }
           },
           {
             "title": "liner",
             "description": "Go readline-like library for command-line interfaces.",
-            "url": "https://github.com/peterh/liner"
+            "url": "https://github.com/peterh/liner",
+            "repo_metadata": {
+              "stars": 1086,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:17.189600388+01:00"
+            }
           },
           {
             "title": "mcli",
             "description": "A minimal but very powerful cli library for Go.",
-            "url": "https://github.com/jxskiss/mcli"
+            "url": "https://github.com/jxskiss/mcli",
+            "repo_metadata": {
+              "stars": 42,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:17.497182543+01:00"
+            }
           },
           {
             "title": "mkideal/cli",
             "description": "Feature-rich and easy to use command-line package based on golang struct tags.",
-            "url": "https://github.com/mkideal/cli"
+            "url": "https://github.com/mkideal/cli",
+            "repo_metadata": {
+              "stars": 730,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:17.804094211+01:00"
+            }
           },
           {
             "title": "mow.cli",
             "description": "Go library for building CLI applications with sophisticated flag and argument parsing and validation.",
-            "url": "https://github.com/jawher/mow.cli"
+            "url": "https://github.com/jawher/mow.cli",
+            "repo_metadata": {
+              "stars": 884,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:18.110979475+01:00"
+            }
           },
           {
             "title": "ops",
             "description": "Unikernel Builder/Orchestrator.",
-            "url": "https://github.com/nanovms/ops"
+            "url": "https://github.com/nanovms/ops",
+            "repo_metadata": {
+              "stars": 1458,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:18.520826794+01:00"
+            }
           },
           {
             "title": "pflag",
             "description": "Drop-in replacement for Go's flag package, implementing POSIX/GNU-style --flags.",
-            "url": "https://github.com/spf13/pflag"
+            "url": "https://github.com/spf13/pflag",
+            "repo_metadata": {
+              "stars": 2692,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:18.930197812+01:00"
+            }
           },
           {
             "title": "readline",
             "description": "Shell library with modern and easy to use UI features.",
-            "url": "https://github.com/reeflective/readline"
+            "url": "https://github.com/reeflective/readline",
+            "repo_metadata": {
+              "stars": 133,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:19.249811557+01:00"
+            }
           },
           {
             "title": "sand",
             "description": "Simple API for creating interpreters and so much more.",
-            "url": "https://github.com/Zaba505/sand"
+            "url": "https://github.com/Zaba505/sand",
+            "repo_metadata": {
+              "stars": 29,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:19.544825906+01:00"
+            }
           },
           {
             "title": "sflags",
             "description": "Struct based flags generator for flag, urfave/cli, pflag, cobra, kingpin, and other libraries.",
-            "url": "https://github.com/octago/sflags"
+            "url": "https://github.com/octago/sflags",
+            "repo_metadata": {
+              "stars": 166,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:20.158613718+01:00"
+            }
           },
           {
             "title": "strumt",
             "description": "Library to create prompt chain.",
-            "url": "https://github.com/antham/strumt"
+            "url": "https://github.com/antham/strumt",
+            "repo_metadata": {
+              "stars": 63,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:20.466242164+01:00"
+            }
           },
           {
             "title": "subcmd",
             "description": "Another approach to parsing and running subcommands. Works alongside the standard `flag` package.",
-            "url": "https://github.com/bobg/subcmd"
+            "url": "https://github.com/bobg/subcmd",
+            "repo_metadata": {
+              "stars": 9,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:20.773353527+01:00"
+            }
           },
           {
             "title": "teris-io/cli",
             "description": "Simple and complete API for building command line interfaces in Go.",
-            "url": "https://github.com/teris-io/cli"
+            "url": "https://github.com/teris-io/cli",
+            "repo_metadata": {
+              "stars": 131,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:21.182675996+01:00"
+            }
           },
           {
             "title": "ts",
             "description": "Timestamp convert \u0026 compare tool.",
-            "url": "https://github.com/liujianping/ts"
+            "url": "https://github.com/liujianping/ts",
+            "repo_metadata": {
+              "stars": 22,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:21.490210214+01:00"
+            }
           },
           {
             "title": "ukautz/clif",
             "description": "Small command line interface framework.",
-            "url": "https://github.com/ukautz/clif"
+            "url": "https://github.com/ukautz/clif",
+            "repo_metadata": {
+              "stars": 128,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:58:19.305457534+01:00"
+            }
           },
           {
             "title": "urfave/cli",
             "description": "Simple, fast, and fun package for building command line apps in Go (formerly codegangsta/cli).",
-            "url": "https://github.com/urfave/cli"
+            "url": "https://github.com/urfave/cli",
+            "repo_metadata": {
+              "stars": 23863,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:22.210179955+01:00"
+            }
           },
           {
             "title": "version",
             "description": "Collects and displays CLI version information in multiple formats along with upgrade notice.",
-            "url": "https://github.com/mszostok/version"
+            "url": "https://github.com/mszostok/version",
+            "repo_metadata": {
+              "stars": 110,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:58:19.736062043+01:00"
+            }
           },
           {
             "title": "wlog",
             "description": "Simple logging interface that supports cross-platform color and concurrency.",
-            "url": "https://github.com/dixonwille/wlog"
+            "url": "https://github.com/dixonwille/wlog",
+            "repo_metadata": {
+              "stars": 67,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:22.821410537+01:00"
+            }
           },
           {
             "title": "wmenu",
             "description": "Easy to use menu structure for cli applications that prompt users to make choices.",
-            "url": "https://github.com/dixonwille/wmenu"
+            "url": "https://github.com/dixonwille/wmenu",
+            "repo_metadata": {
+              "stars": 228,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:23.128579508+01:00"
+            }
           }
         ]
       }
@@ -1153,22 +1703,42 @@
       {
         "title": "Awesome Golang Workshops",
         "description": "A curated list of awesome golang workshops.",
-        "url": "https://github.com/amit-davidson/awesome-golang-workshops"
+        "url": "https://github.com/amit-davidson/awesome-golang-workshops",
+        "repo_metadata": {
+          "stars": 524,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:53:23.435814367+01:00"
+        }
       },
       {
         "title": "Awesome Remote Job",
         "description": "Curated list of awesome remote jobs. A lot of them are looking for Go hackers.",
-        "url": "https://github.com/lukasz-madon/awesome-remote-job"
+        "url": "https://github.com/lukasz-madon/awesome-remote-job",
+        "repo_metadata": {
+          "stars": 43270,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:53:23.742770346+01:00"
+        }
       },
       {
         "title": "awesome-awesomeness",
         "description": "List of other amazingly awesome lists.",
-        "url": "https://github.com/bayandin/awesome-awesomeness"
+        "url": "https://github.com/bayandin/awesome-awesomeness",
+        "repo_metadata": {
+          "stars": 33184,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:53:24.050179491+01:00"
+        }
       },
       {
         "title": "awesome-go-extra",
         "description": "Parse awesome-go README file and generate a new README file with repo info.",
-        "url": "https://github.com/xwjdsh/awesome-go-extra"
+        "url": "https://github.com/xwjdsh/awesome-go-extra",
+        "repo_metadata": {
+          "stars": 26,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:53:24.281790805+01:00"
+        }
       },
       {
         "title": "Code with Mukesh",
@@ -1228,7 +1798,12 @@
       {
         "title": "gocryforhelp",
         "description": "Collection of Go projects that needs help. Good place to start your open-source way in Go.",
-        "url": "https://github.com/ninedraft/gocryforhelp"
+        "url": "https://github.com/ninedraft/gocryforhelp",
+        "repo_metadata": {
+          "stars": 39,
+          "is_archived": false,
+          "enriched_at": "2026-02-03T02:53:24.562127595+01:00"
+        }
       },
       {
         "title": "Golang Developer Jobs",
@@ -1344,7 +1919,12 @@
           {
             "title": "Build web application with Golang",
             "description": "Golang ebook intro how to build a web app with golang.",
-            "url": "https://github.com/astaxie/build-web-application-with-golang"
+            "url": "https://github.com/astaxie/build-web-application-with-golang",
+            "repo_metadata": {
+              "stars": 44181,
+              "is_archived": false,
+              "enriched_at": "2026-02-03T02:53:24.869290905+01:00"
+            }
           },
           {
             "title": "Building and Testing a REST API in Go with Gorilla Mux and PostgreSQL",

@@ -25,7 +25,7 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stderr, loggerOpts))
 	store := store.New(app.AwesomeFile, app.AwesomeLock)
 	mngr := list.NewManager()
-	enricher := enricher.NewOrchestrator(logger, enricher.NewGithubProvider(token, logger))
+	enricher := enricher.NewOrchestrator(logger, enricher.NewReconciler(), enricher.NewGithubProvider(token, logger))
 
 	deps := &cli.Dependencies{
 		Logger:      logger,

@@ -102,7 +102,7 @@ func (p *GithubProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) 
 		return nil, err
 	}
 
-	p.logger.Debug("fetched repository",
+	p.logger.Info("fetched repository",
 		"repo", fmt.Sprintf("%s/%s", owner, name),
 		"remaining", resp.Rate.Remaining,
 	)

@@ -10,7 +10,12 @@ func (c *EnrichCmd) Run(deps *Dependencies) error {
 		return err
 	}
 
-	err = enricher.EnrichList(list)
+	jsonList, err := deps.Store.LoadJson()
+	if err != nil {
+		return err
+	}
+
+	err = enricher.EnrichList(list, jsonList)
 	if err != nil {
 		return err
 	}
