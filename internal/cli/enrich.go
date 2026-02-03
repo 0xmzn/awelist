@@ -1,5 +1,10 @@
 package cli
 
+import (
+	"errors"
+	"os"
+)
+
 type EnrichCmd struct{}
 
 func (c *EnrichCmd) Run(deps *Dependencies) error {
@@ -12,7 +17,12 @@ func (c *EnrichCmd) Run(deps *Dependencies) error {
 
 	jsonList, err := deps.Store.LoadJson()
 	if err != nil {
-		return err
+		if errors.Is(err, os.ErrNotExist) {
+			deps.Logger.Info("no lock file found, performing full enrichment")
+			err = nil
+		} else {
+			return err
+		}
 	}
 
 	err = enricher.EnrichList(list, jsonList)
