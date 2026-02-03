@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"bytes"
 	"fmt"
 	html "html/template"
 	"io"
@@ -13,6 +12,7 @@ import (
 
 type GenerateCmd struct {
 	HTML         bool   `kong:"short='H',help='output HTML.'"`
+	OutputFile   string `kong:"short='o',long='output',help='path to output file. defaults to stdout.'"`
 	TemplateFile string `kong:"arg,required,help='path to template file.'"`
 }
 
@@ -20,25 +20,32 @@ func (cmd *GenerateCmd) Run(deps *Dependencies) error {
 	log := deps.Logger
 	store := deps.Store
 
-	log.Info("Running generate")
-	log.Debug("Debugging generate")
+	log.Info("Running generate", "template", cmd.TemplateFile)
 
-	var enrichedList types.AwesomeList
+	var list types.AwesomeList
+	var err error
 
-	enrichedList, err := store.LoadJson()
-
+	list, err = store.LoadJson()
 	if err != nil {
-		return err
+		log.Warn("lock file not found, using raw yaml", "error", err)
+		list, err = store.LoadYAML()
+		if err != nil {
+			return fmt.Errorf("failed to load any data source: %w", err)
+		}
 	}
 
-	buffer, err := executeTemplate(cmd.TemplateFile, cmd.HTML, enrichedList)
-	if err != nil {
-		return err
+	var writer io.Writer = os.Stdout
+	if cmd.OutputFile != "" {
+		f, err := os.Create(cmd.OutputFile)
+		if err != nil {
+			return fmt.Errorf("could not create output file: %w", err)
+		}
+		defer f.Close()
+		writer = f
+		log.Info("writing output to file", "path", cmd.OutputFile)
 	}
 
-	fmt.Printf("%s", buffer.String())
-	return nil
-
+	return writeTemplate(writer, cmd.TemplateFile, cmd.HTML, list)
 }
 
 type template interface {
@@ -47,36 +54,25 @@ type template interface {
 
 func newTemplate(isHTML bool, name string, content string) (template, error) {
 	if isHTML {
-		tmpl, err := html.New(name).Parse(content)
-		if err != nil {
-			return nil, err
-		}
-		return tmpl, nil
-	} else {
-		tmpl, err := text.New(name).Parse(content)
-		if err != nil {
-			return nil, err
-		}
-		return tmpl, nil
+		return html.New(name).Parse(content)
 	}
+	return text.New(name).Parse(content)
 }
 
-func executeTemplate(filename string, isHtml bool, data types.AwesomeList) (bytes.Buffer, error) {
+func writeTemplate(w io.Writer, filename string, isHtml bool, data types.AwesomeList) error {
 	tmplContent, err := os.ReadFile(filename)
 	if err != nil {
-		return bytes.Buffer{}, err
+		return fmt.Errorf("could not read template file: %w", err)
 	}
 
 	tmpl, err := newTemplate(isHtml, filename, string(tmplContent))
 	if err != nil {
-		return bytes.Buffer{}, err
+		return err
 	}
 
-	var buffer bytes.Buffer
-	err = tmpl.Execute(&buffer, data)
-	if err != nil {
-		return bytes.Buffer{}, err
+	if err := tmpl.Execute(w, data); err != nil {
+		return fmt.Errorf("template execution failed: %w", err)
 	}
 
-	return buffer, nil
+	return nil
 }
