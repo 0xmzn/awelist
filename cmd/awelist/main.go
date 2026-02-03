@@ -21,11 +21,12 @@ func main() {
 		loggerOpts.Level = slog.LevelDebug
 	}
 
-	token := os.Getenv("GITHUB_TOKEN")
+	ghToken := os.Getenv("GITHUB_TOKEN")
+	glToken := os.Getenv("GITLAB_TOKEN")
 	logger := slog.New(slog.NewTextHandler(os.Stderr, loggerOpts))
 	store := store.New(app.AwesomeFile, app.AwesomeLock)
 	mngr := list.NewManager()
-	enricher := enricher.NewOrchestrator(logger, enricher.NewReconciler(), enricher.NewGithubProvider(token, logger))
+	enricher := enricher.NewOrchestrator(logger, enricher.NewReconciler(), enricher.NewGithubProvider(ghToken, logger), enricher.NewGitlabProvider(glToken, logger))
 
 	deps := &cli.Dependencies{
 		Logger:      logger,
@@ -33,6 +34,8 @@ func main() {
 		ListManager: mngr,
 		Enricher:    enricher,
 	}
+
+	// real    17m38.780s
 
 	err := ctx.Run(deps)
 	if err != nil {
