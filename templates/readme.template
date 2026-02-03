@@ -1,8 +1,3 @@
-{{/*
-    This template is designed to parse the `enrichedAwesomelist` data structure.
-    It iterates through top-level categories, then their subcategories, and
-    finally the links within each.
-*/}}
 {{- range . }}
 ## {{ .Title }}
 
@@ -11,9 +6,9 @@
 {{- end }}
 
 {{- if .Links }}
-{{- range .Links }}
-* **[{{ .Title }}]({{ .Url }})**: {{ .Description }}
-{{- if .IsRepo }} (Stars: {{ .Stars }}, Last Update: {{ .LastUpdate.Format "2006-01-02" }}){{- end }}
+{{ range .Links }}
+* [{{ .Title }}]({{ .URL }}) - {{ .Description }}
+{{- if .RepoMetadata }} (★ {{ .RepoMetadata.Stars }}){{- end }}
 {{- end }}
 {{- end }}
 
@@ -26,9 +21,9 @@
 {{- end }}
 
 {{- if .Links }}
-{{- range .Links }}
-* **[{{ .Title }}]({{ .Url }})**: {{ .Description }}
-{{- if .IsRepo }} (Stars: {{ .Stars }}, Last Update: {{ .LastUpdate.Format "2006-01-02" }}){{- end }}
+{{ range .Links }}
+* [{{ .Title }}]({{ .URL }}) - {{ .Description }}
+{{- if .RepoMetadata }} ({{ .RepoMetadata.Stars }}){{- end }}
 {{- end }}
 {{- end }}
 
