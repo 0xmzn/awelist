@@ -2,11 +2,10 @@ package cli
 
 import (
 	"fmt"
-	html "html/template"
 	"io"
 	"os"
-	text "text/template"
 
+	"github.com/0xmzn/awelist/internal/generator"
 	"github.com/0xmzn/awelist/internal/types"
 )
 
@@ -45,34 +44,5 @@ func (cmd *GenerateCmd) Run(deps *Dependencies) error {
 		log.Info("writing output to file", "path", cmd.OutputFile)
 	}
 
-	return writeTemplate(writer, cmd.TemplateFile, cmd.HTML, list)
-}
-
-type template interface {
-	Execute(wr io.Writer, data any) error
-}
-
-func newTemplate(isHTML bool, name string, content string) (template, error) {
-	if isHTML {
-		return html.New(name).Parse(content)
-	}
-	return text.New(name).Parse(content)
-}
-
-func writeTemplate(w io.Writer, filename string, isHtml bool, data types.AwesomeList) error {
-	tmplContent, err := os.ReadFile(filename)
-	if err != nil {
-		return fmt.Errorf("could not read template file: %w", err)
-	}
-
-	tmpl, err := newTemplate(isHtml, filename, string(tmplContent))
-	if err != nil {
-		return err
-	}
-
-	if err := tmpl.Execute(w, data); err != nil {
-		return fmt.Errorf("template execution failed: %w", err)
-	}
-
-	return nil
+	return generator.GenerateOutput(writer, cmd.TemplateFile, cmd.HTML, list)
 }
