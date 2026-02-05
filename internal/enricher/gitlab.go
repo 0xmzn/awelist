@@ -1,9 +1,12 @@
 package enricher
 
 import (
+	"errors"
 	"fmt"
 	"log/slog"
+	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 
@@ -72,6 +75,16 @@ func (p *GitlabProvider) Enrich(urls []string) (*EnrichmentResult, error) {
 	for _, u := range urls {
 		meta, err := p.enrichSingle(u)
 		if err != nil {
+			var rateLimitErr *ProviderRateLimitError
+			if errors.As(err, &rateLimitErr) {
+				skipped = append(skipped, u)
+
+				return &EnrichmentResult{
+					EnrichedUrls: results,
+					SkippedUrls:  skipped,
+				}, rateLimitErr
+			}
+
 			p.logger.Warn("skipping url", "url", u, "error", err)
 			skipped = append(skipped, u)
 			continue
@@ -89,16 +102,34 @@ func (p *GitlabProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) 
 	}
 
 	project, resp, err := p.client.Projects.GetProject(projectPath, nil)
+
 	if err != nil {
+		if resp != nil && resp.StatusCode == http.StatusTooManyRequests {
+			limitStr := resp.Header.Get("RateLimit-Limit")
+			remainingStr := resp.Header.Get("RateLimit-Remaining")
+			resetStr := resp.Header.Get("RateLimit-Reset")
+
+			limit, _ := strconv.Atoi(limitStr)
+			remaining, _ := strconv.Atoi(remainingStr)
+			resetEpoch, _ := strconv.ParseInt(resetStr, 10, 64)
+
+			return nil, &ProviderRateLimitError{
+				ID:        p.Name(),
+				Limit:     limit,
+				Remaining: remaining,
+				ResetAt:   time.Unix(resetEpoch, 0),
+			}
+		}
 		return nil, err
 	}
 
-	remaining := resp.Header.Get("RateLimit-Remaining")
-
-	p.logger.Info("fetched repository",
-		"repo", projectPath,
-		"remaining_api_calls", remaining,
-	)
+	if resp != nil {
+		remaining := resp.Header.Get("RateLimit-Remaining")
+		p.logger.Info("fetched repository",
+			"repo", projectPath,
+			"remaining_api_calls", remaining,
+		)
+	}
 
 	meta := p.extractMetadataFromProject(project)
 	return &meta, nil

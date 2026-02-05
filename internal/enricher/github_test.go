@@ -125,7 +125,7 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			t.Fatal("Expected an error due to rate limit, got nil")
 		}
 
-		var rateLimitErr *github.RateLimitError
+		var rateLimitErr *ProviderRateLimitError
 		if !errors.As(err, &rateLimitErr) {
 			t.Errorf("Expected error to be *github.RateLimitError, got %T: %v", err, err)
 		}
@@ -177,7 +177,7 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			t.Fatal("Expected an error due to rate limit, got nil")
 		}
 
-		var rateLimitErr *github.RateLimitError
+		var rateLimitErr *ProviderRateLimitError
 		if !errors.As(err, &rateLimitErr) {
 			t.Errorf("Expected error to be *github.RateLimitError, got %T: %v", err, err)
 		}

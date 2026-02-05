@@ -35,8 +35,6 @@ func main() {
 		Enricher:    enricher,
 	}
 
-	// real    17m38.780s
-
 	err := ctx.Run(deps)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)

@@ -5,7 +5,6 @@ import (
 	"log/slog"
 
 	"github.com/0xmzn/awelist/internal/types"
-	"github.com/google/go-github/v82/github"
 )
 
 type Orchestrator struct {
@@ -51,7 +50,7 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 			}
 		}
 
-		var ratelimitErr *github.RateLimitError
+		var ratelimitErr *ProviderRateLimitError
 		if errors.As(err, &ratelimitErr) {
 			o.logger.Error("provider rate limit reached", "name", p.Name(), "error", err)
 			continue

@@ -75,9 +75,15 @@ func (p *GithubProvider) Enrich(urls []string) (*EnrichmentResult, error) {
 		meta, err := p.enrichSingle(u)
 
 		if err != nil {
-			var ratelimitErr *github.RateLimitError
-			if errors.As(err, &ratelimitErr) {
-				return &EnrichmentResult{results, append(skipped, u)}, err
+			var ghRatelimitErr *github.RateLimitError
+			if errors.As(err, &ghRatelimitErr) {
+				rateLimitErr := ProviderRateLimitError{
+					ID:        p.Name(),
+					Limit:     ghRatelimitErr.Rate.Limit,
+					Remaining: ghRatelimitErr.Rate.Remaining,
+					ResetAt:   ghRatelimitErr.Rate.Reset.Time,
+				}
+				return &EnrichmentResult{results, append(skipped, u)}, &rateLimitErr
 			}
 
 			p.logger.Warn("skipping url", "url", u, "error", err)
