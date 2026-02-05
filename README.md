@@ -46,6 +46,8 @@ The tool has three main commands: `add`, `enrich`, and `generate`.
 
 Use the `add` command to quickly append new items to your list.
 
+**CAUTION:** The `add` command rewrites the `awesome.yaml` file, which causes **all comments to be lost**. If you rely on comments in your YAML file, please add items manually instead.
+
 #### Adding a link
 
 ```bash
