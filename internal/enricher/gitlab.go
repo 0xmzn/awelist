@@ -75,7 +75,7 @@ func (p *GitlabProvider) Enrich(urls []string) (*EnrichmentResult, error) {
 	for _, u := range urls {
 		meta, err := p.enrichSingle(u)
 		if err != nil {
-			var rateLimitErr *ProviderRateLimitError
+			var rateLimitErr *ErrProviderRateLimit
 			if errors.As(err, &rateLimitErr) {
 				skipped = append(skipped, u)
 
@@ -113,7 +113,7 @@ func (p *GitlabProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) 
 			remaining, _ := strconv.Atoi(remainingStr)
 			resetEpoch, _ := strconv.ParseInt(resetStr, 10, 64)
 
-			return nil, &ProviderRateLimitError{
+			return nil, &ErrProviderRateLimit{
 				ID:        p.Name(),
 				Limit:     limit,
 				Remaining: remaining,

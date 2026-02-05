@@ -77,7 +77,7 @@ func (p *GithubProvider) Enrich(urls []string) (*EnrichmentResult, error) {
 		if err != nil {
 			var ghRatelimitErr *github.RateLimitError
 			if errors.As(err, &ghRatelimitErr) {
-				rateLimitErr := ProviderRateLimitError{
+				rateLimitErr := ErrProviderRateLimit{
 					ID:        p.Name(),
 					Limit:     ghRatelimitErr.Rate.Limit,
 					Remaining: ghRatelimitErr.Rate.Remaining,

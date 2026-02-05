@@ -53,7 +53,7 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 			}
 		}
 
-		var ratelimitErr *ProviderRateLimitError
+		var ratelimitErr *ErrProviderRateLimit
 		if errors.As(err, &ratelimitErr) {
 			o.logger.Error("provider rate limit reached", "name", p.Name(), "error", err)
 			continue

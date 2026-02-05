@@ -23,6 +23,7 @@ func main() {
 
 	ghToken := os.Getenv("GITHUB_TOKEN")
 	glToken := os.Getenv("GITLAB_TOKEN")
+
 	logger := slog.New(slog.NewTextHandler(os.Stderr, loggerOpts))
 	store := store.New(app.AwesomeFile, app.AwesomeLock)
 	mngr := list.NewManager()
