@@ -5,6 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/0xmzn/awelist/internal/types"
+	"github.com/gosimple/slug"
 )
 
 type Orchestrator struct {
@@ -22,6 +23,8 @@ func NewOrchestrator(logger *slog.Logger, reconciler Reconciler, providers ...Pr
 }
 
 func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.AwesomeList) error {
+	o.setSlugs(yamlList)
+
 	allLinks := o.reconciler.Reconcile(yamlList, jsonList)
 	o.logger.Info("starting enrichment", "total_links", len(allLinks))
 
@@ -65,4 +68,18 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 
 	o.logger.Info("enrichment complete")
 	return nil
+}
+
+func (o *Orchestrator) setSlugs(list types.AwesomeList) {
+	var setSlugRecursive func(cat *types.Category)
+	setSlugRecursive = func(cat *types.Category) {
+		cat.Slug = slug.Make(cat.Title)
+		for _, sub := range cat.Subcategories {
+			setSlugRecursive(sub)
+		}
+	}
+
+	for _, c := range list {
+		setSlugRecursive(c)
+	}
 }
