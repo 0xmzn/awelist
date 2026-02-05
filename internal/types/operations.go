@@ -1,0 +1,33 @@
+package types
+
+func (l AwesomeList) TotalCount() int {
+	count := 0
+	for _, c := range l {
+		count += c.countRecursive()
+	}
+	return count
+}
+
+func (l AwesomeList) Flatten() []*Link {
+	var links []*Link
+	for _, c := range l {
+		links = append(links, c.collectRecursive()...)
+	}
+	return links
+}
+
+func (c *Category) countRecursive() int {
+	n := len(c.Links)
+	for _, sub := range c.Subcategories {
+		n += sub.countRecursive()
+	}
+	return n
+}
+
+func (c *Category) collectRecursive() []*Link {
+	all := c.Links
+	for _, sub := range c.Subcategories {
+		all = append(all, sub.collectRecursive()...)
+	}
+	return all
+}

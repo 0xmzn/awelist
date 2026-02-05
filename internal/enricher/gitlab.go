@@ -139,6 +139,7 @@ func (p *GitlabProvider) extractMetadataFromProject(project *gitlab.Project) typ
 	return types.GitRepoMetadata{
 		Stars:      int(project.StarCount),
 		IsArchived: project.Archived,
+		LastUpdate: *project.LastActivityAt,
 		EnrichedAt: time.Now(),
 	}
 }

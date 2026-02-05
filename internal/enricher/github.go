@@ -120,10 +120,12 @@ func (p *GithubProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) 
 func (p *GithubProvider) extractMetadataFromRepo(repo *github.Repository) types.GitRepoMetadata {
 	stars := repo.GetStargazersCount()
 	isArchived := repo.GetArchived()
+	lastUpdate := repo.GetPushedAt()
 
 	meta := types.GitRepoMetadata{
 		Stars:      stars,
 		IsArchived: isArchived,
+		LastUpdate: lastUpdate.Time,
 		EnrichedAt: time.Now(),
 	}
 

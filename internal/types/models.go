@@ -5,6 +5,7 @@ import "time"
 type GitRepoMetadata struct {
 	Stars      int       `json:"stars"`
 	IsArchived bool      `json:"is_archived"`
+	LastUpdate time.Time `json:"last_update"`
 	EnrichedAt time.Time `json:"enriched_at"`
 }
 
@@ -25,35 +26,3 @@ type Category struct {
 }
 
 type AwesomeList []*Category
-
-func (l AwesomeList) TotalCount() int {
-	count := 0
-	for _, c := range l {
-		count += c.countRecursive()
-	}
-	return count
-}
-
-func (l AwesomeList) Flatten() []*Link {
-	var links []*Link
-	for _, c := range l {
-		links = append(links, c.collectRecursive()...)
-	}
-	return links
-}
-
-func (c *Category) countRecursive() int {
-	n := len(c.Links)
-	for _, sub := range c.Subcategories {
-		n += sub.countRecursive()
-	}
-	return n
-}
-
-func (c *Category) collectRecursive() []*Link {
-	all := c.Links
-	for _, sub := range c.Subcategories {
-		all = append(all, sub.collectRecursive()...)
-	}
-	return all
-}
