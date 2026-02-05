@@ -36,11 +36,6 @@ go mod tidy
 go build ./cmd/awelist
 ```
 
-### Install via go-install
-```bash
-go install github.com/0xmzn/awelist@latest
-```
-
 -----
 
 ## Usage
