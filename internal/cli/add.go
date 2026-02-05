@@ -1,4 +1,6 @@
-package main
+package cli
+
+import "github.com/0xmzn/awelist/internal/types"
 
 type AddCmd struct {
 	Link     AddLinkCmd     `kong:"cmd,help='Add a new link to a category.'"`
@@ -18,56 +20,51 @@ type AddCategoryCmd struct {
 	Path        []string `kong:"arg,name='path',help='Path to the parent category. Use a single dot (.) to add to the top level of the list.'"`
 }
 
-func (cmd *AddLinkCmd) Run(cli *CLI) error {
-	aweStore := NewAwesomeStore(cli.AwesomeFile)
-	baseList, err := aweStore.LoadYAML()
+func (cmd *AddLinkCmd) Run(deps *Dependencies) error {
+	mngr := deps.ListManager
+	store := deps.Store
+
+	list, err := store.LoadYAML()
 	if err != nil {
 		return err
 	}
 
-	awelist := NewAwesomeListManager(baseList)
-
-	newLink := BaseLink{
+	newLink := types.Link{
 		Title:       cmd.Title,
 		Description: cmd.Description,
-		Url:         cmd.URL,
+		URL:         cmd.URL,
 	}
 
-	if err = awelist.AddLink(newLink, cmd.Path); err != nil {
+	if err = mngr.AddLink(list, &newLink, cmd.Path); err != nil {
 		return err
 	}
 
-	if err = aweStore.WriteYAML(awelist.RawList); err != nil {
+	if err = store.WriteYAML(list); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (cmd *AddCategoryCmd) Run(cli *CLI) error {
-	aweStore := NewAwesomeStore(cli.AwesomeFile)
-	baseList, err := aweStore.LoadYAML()
+func (cmd *AddCategoryCmd) Run(deps *Dependencies) error {
+	store := deps.Store
+	mngr := deps.ListManager
+
+	list, err := store.LoadYAML()
 	if err != nil {
 		return err
 	}
 
-	awelist := NewAwesomeListManager(baseList)
-
-	newCat := BaseCategory{
+	newCat := types.Category{
 		Title:       cmd.Title,
 		Description: cmd.Description,
 	}
 
-	args := cmd.Path
-	if len(cmd.Path) == 1 && cmd.Path[0] == "." {
-		args = nil
-	}
-
-	if err = awelist.AddCategory(newCat, args); err != nil {
+	if err = mngr.AddCategory(&list, &newCat, cmd.Path); err != nil {
 		return err
 	}
 
-	if err = aweStore.WriteYAML(awelist.RawList); err != nil {
+	if err = store.WriteYAML(list); err != nil {
 		return err
 	}
 
