@@ -70,14 +70,14 @@ func (p *GitlabProvider) CanHandle(rawURL string) bool {
 
 func (p *GitlabProvider) Enrich(urls []string) (*EnrichmentResult, error) {
 	results := make(map[string]*types.GitRepoMetadata)
-	var skipped []string
+	skipped := make(map[string]string)
 
 	for _, u := range urls {
 		meta, err := p.enrichSingle(u)
 		if err != nil {
 			var rateLimitErr *ErrProviderRateLimit
 			if errors.As(err, &rateLimitErr) {
-				skipped = append(skipped, u)
+				skipped[u] = rateLimitErr.Error()
 
 				return &EnrichmentResult{
 					EnrichedUrls: results,
@@ -86,7 +86,7 @@ func (p *GitlabProvider) Enrich(urls []string) (*EnrichmentResult, error) {
 			}
 
 			p.logger.Warn("skipping url", "url", u, "error", err)
-			skipped = append(skipped, u)
+			skipped[u] = err.Error()
 			continue
 		}
 		results[u] = meta

@@ -11,5 +11,5 @@ type Provider interface {
 
 type EnrichmentResult struct {
 	EnrichedUrls map[string]*types.GitRepoMetadata
-	SkippedUrls  []string
+	SkippedUrls  map[string]string
 }

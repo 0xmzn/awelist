@@ -69,7 +69,7 @@ func (p *GithubProvider) CanHandle(rawURL string) bool {
 
 func (p *GithubProvider) Enrich(urls []string) (*EnrichmentResult, error) {
 	results := make(map[string]*types.GitRepoMetadata)
-	var skipped []string
+	skipped := make(map[string]string)
 
 	for _, u := range urls {
 		meta, err := p.enrichSingle(u)
@@ -83,11 +83,12 @@ func (p *GithubProvider) Enrich(urls []string) (*EnrichmentResult, error) {
 					Remaining: ghRatelimitErr.Rate.Remaining,
 					ResetAt:   ghRatelimitErr.Rate.Reset.Time,
 				}
-				return &EnrichmentResult{results, append(skipped, u)}, &rateLimitErr
+				skipped[u] = rateLimitErr.Error()
+				return &EnrichmentResult{results, skipped}, &rateLimitErr
 			}
 
 			p.logger.Warn("skipping url", "url", u, "error", err)
-			skipped = append(skipped, u)
+			skipped[u] = err.Error()
 			continue
 		}
 
