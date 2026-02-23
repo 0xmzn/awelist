@@ -47,7 +47,7 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		}
 
 		orch := NewOrchestrator(logger, reconciler, ghProvider, glProvider)
-		err := orch.EnrichList(yamlList, nil)
+		_, err := orch.EnrichList(yamlList, nil)
 
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
@@ -74,7 +74,7 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		}
 
 		orch := NewOrchestrator(logger, reconciler, p)
-		err := orch.EnrichList(yamlList, nil)
+		_, err := orch.EnrichList(yamlList, nil)
 
 		if err != nil {
 			t.Errorf("Orchestrator should swallow rate limit errors, but returned: %v", err)
@@ -98,7 +98,7 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		}
 
 		orch := NewOrchestrator(logger, reconciler, p)
-		_ = orch.EnrichList(yamlList, nil)
+		orch.EnrichList(yamlList, nil)
 
 		if yamlList[0].Links[0].RepoMetadata == nil {
 			t.Error("expected link1 to have metadata despite subsequent error")
@@ -130,7 +130,7 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		}
 
 		orch := NewOrchestrator(logger, reconciler, p)
-		_ = orch.EnrichList(yamlList, nil)
+		orch.EnrichList(yamlList, nil)
 
 		meta := yamlList[0].Subcategories[0].Links[0].RepoMetadata
 		if meta == nil || meta.Stars != 123 {
@@ -147,7 +147,7 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		}
 
 		orch := NewOrchestrator(logger, reconciler, p)
-		err := orch.EnrichList(yamlList, nil)
+		_, err := orch.EnrichList(yamlList, nil)
 
 		if err != nil {
 			t.Errorf("unexpected error: %v", err)

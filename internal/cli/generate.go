@@ -24,13 +24,15 @@ func (cmd *GenerateCmd) Run(deps *Dependencies) error {
 	var list types.AwesomeList
 	var err error
 
-	list, err = store.LoadJson()
+	lock, err := store.LoadLockFile()
 	if err != nil {
-		log.Warn("lock file not found, using raw yaml", "error", err)
-		list, err = store.LoadYAML()
+		log.Warn("lock file not found or invalid, using raw yaml", "error", err)
+		list, err = store.LoadAwesomeFile()
 		if err != nil {
 			return fmt.Errorf("failed to load any data source: %w", err)
 		}
+	} else {
+		list = lock.List
 	}
 
 	var writer io.Writer = os.Stdout

@@ -10,6 +10,7 @@ type CLI struct {
 	Add      AddCmd      `kong:"cmd,help='Add item to list.'"`
 	Enrich   EnrichCmd   `kong:"cmd,help='Enrich YAML file. on success, awesome-lock.json file will be created.'"`
 	Generate GenerateCmd `kong:"cmd,help='Generate file from template. uses dry data if awesome-lock.json does not exist.'"`
+	Report   ReportCmd   `kong:"cmd,help='Show report about last enrichment.'"`
 }
 
 func Parse(args []string) (*kong.Context, *CLI) {

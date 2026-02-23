@@ -22,7 +22,7 @@ func NewOrchestrator(logger *slog.Logger, reconciler Reconciler, providers ...Pr
 	}
 }
 
-func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.AwesomeList) error {
+func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.AwesomeList) (map[string]string, error) {
 	o.setSlugs(yamlList)
 
 	allLinks := o.reconciler.Reconcile(yamlList, jsonList)
@@ -30,6 +30,7 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 
 	providerMap := make(map[Provider][]string)
 	linkMap := make(map[string]*types.Link)
+	failedLinks := make(map[string]string)
 
 	for _, link := range allLinks {
 		linkMap[link.URL] = link
@@ -45,6 +46,10 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 		o.logger.Info("enriching links via provider", "name", p.Name(), "count", len(urls))
 
 		results, err := p.Enrich(urls)
+
+		for skippedURL, reason := range results.SkippedUrls {
+			failedLinks[skippedURL] = reason
+		}
 
 		// extract enriched links, if any, before handling error
 		for url, meta := range results.EnrichedUrls {
@@ -67,7 +72,7 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 	}
 
 	o.logger.Info("enrichment complete")
-	return nil
+	return failedLinks, nil
 }
 
 func (o *Orchestrator) setSlugs(list types.AwesomeList) {
