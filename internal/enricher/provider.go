@@ -6,10 +6,13 @@ type Provider interface {
 	Name() string
 	CanHandle(url string) bool
 
-	Enrich(urls []string) (*EnrichmentResult, error)
+	Enrich(urls []string) (*ProviderAttemptResult, error)
 }
 
-type EnrichmentResult struct {
-	EnrichedUrls map[string]*types.GitRepoMetadata
-	SkippedUrls  map[string]string
+type ProviderAttemptResult struct {
+	TotalAttemptedLinks int
+	SuccessfulAttempts  int
+	FailedAttempts      int
+	EnrichedUrls        map[string]*types.GitRepoMetadata
+	SkippedUrls         map[string]string
 }

@@ -29,8 +29,8 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		ghProvider := &mockProvider{
 			name:          "github",
 			canHandleFunc: func(u string) bool { return u == urlGH },
-			enrichFunc: func(urls []string) (*EnrichmentResult, error) {
-				return &EnrichmentResult{
+			enrichFunc: func(urls []string) (*ProviderAttemptResult, error) {
+				return &ProviderAttemptResult{
 					EnrichedUrls: map[string]*types.GitRepoMetadata{urlGH: {Stars: 10}},
 				}, nil
 			},
@@ -39,8 +39,8 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		glProvider := &mockProvider{
 			name:          "gitlab",
 			canHandleFunc: func(u string) bool { return u == urlGL },
-			enrichFunc: func(urls []string) (*EnrichmentResult, error) {
-				return &EnrichmentResult{
+			enrichFunc: func(urls []string) (*ProviderAttemptResult, error) {
+				return &ProviderAttemptResult{
 					EnrichedUrls: map[string]*types.GitRepoMetadata{urlGL: {Stars: 20}},
 				}, nil
 			},
@@ -68,8 +68,8 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		p := &mockProvider{
 			name:          "github",
 			canHandleFunc: func(u string) bool { return true },
-			enrichFunc: func(urls []string) (*EnrichmentResult, error) {
-				return &EnrichmentResult{EnrichedUrls: nil}, &github.RateLimitError{Message: "limit reached"}
+			enrichFunc: func(urls []string) (*ProviderAttemptResult, error) {
+				return &ProviderAttemptResult{EnrichedUrls: nil}, &github.RateLimitError{Message: "limit reached"}
 			},
 		}
 
@@ -89,8 +89,8 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		p := &mockProvider{
 			name:          "mixed",
 			canHandleFunc: func(u string) bool { return true },
-			enrichFunc: func(urls []string) (*EnrichmentResult, error) {
-				res := &EnrichmentResult{
+			enrichFunc: func(urls []string) (*ProviderAttemptResult, error) {
+				res := &ProviderAttemptResult{
 					EnrichedUrls: map[string]*types.GitRepoMetadata{url1: {Stars: 5}},
 				}
 				return res, errors.New("something went wrong")
@@ -122,8 +122,8 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		p := &mockProvider{
 			name:          "any",
 			canHandleFunc: func(u string) bool { return true },
-			enrichFunc: func(urls []string) (*EnrichmentResult, error) {
-				return &EnrichmentResult{
+			enrichFunc: func(urls []string) (*ProviderAttemptResult, error) {
+				return &ProviderAttemptResult{
 					EnrichedUrls: map[string]*types.GitRepoMetadata{url: {Stars: 123}},
 				}, nil
 			},
@@ -161,14 +161,14 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 type mockProvider struct {
 	name          string
 	canHandleFunc func(string) bool
-	enrichFunc    func([]string) (*EnrichmentResult, error)
+	enrichFunc    func([]string) (*ProviderAttemptResult, error)
 }
 
 func (m *mockProvider) Name() string            { return m.name }
 func (m *mockProvider) CanHandle(u string) bool { return m.canHandleFunc(u) }
-func (m *mockProvider) Enrich(urls []string) (*EnrichmentResult, error) {
+func (m *mockProvider) Enrich(urls []string) (*ProviderAttemptResult, error) {
 	if m.enrichFunc != nil {
 		return m.enrichFunc(urls)
 	}
-	return &EnrichmentResult{}, nil
+	return &ProviderAttemptResult{}, nil
 }

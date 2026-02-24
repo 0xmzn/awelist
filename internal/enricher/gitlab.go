@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/0xmzn/awelist/internal/types"
-	"gitlab.com/gitlab-org/api/client-go"
+	gitlab "gitlab.com/gitlab-org/api/client-go"
 )
 
 type GitlabProvider struct {
@@ -68,20 +68,27 @@ func (p *GitlabProvider) CanHandle(rawURL string) bool {
 	return true
 }
 
-func (p *GitlabProvider) Enrich(urls []string) (*EnrichmentResult, error) {
+func (p *GitlabProvider) Enrich(urls []string) (*ProviderAttemptResult, error) {
 	results := make(map[string]*types.GitRepoMetadata)
 	skipped := make(map[string]string)
+	totalLinkCount := len(urls)
+	successfulLinks := 0
+	failedLinks := 0
 
 	for _, u := range urls {
 		meta, err := p.enrichSingle(u)
 		if err != nil {
+			failedLinks++
 			var rateLimitErr *ErrProviderRateLimit
 			if errors.As(err, &rateLimitErr) {
 				skipped[u] = rateLimitErr.Error()
 
-				return &EnrichmentResult{
-					EnrichedUrls: results,
-					SkippedUrls:  skipped,
+				return &ProviderAttemptResult{
+					TotalAttemptedLinks: totalLinkCount,
+					SuccessfulAttempts:  successfulLinks,
+					FailedAttempts:      failedLinks,
+					EnrichedUrls:        results,
+					SkippedUrls:         skipped,
 				}, rateLimitErr
 			}
 
@@ -89,10 +96,17 @@ func (p *GitlabProvider) Enrich(urls []string) (*EnrichmentResult, error) {
 			skipped[u] = err.Error()
 			continue
 		}
+		successfulLinks++
 		results[u] = meta
 	}
 
-	return &EnrichmentResult{EnrichedUrls: results, SkippedUrls: skipped}, nil
+	return &ProviderAttemptResult{
+		TotalAttemptedLinks: totalLinkCount,
+		SuccessfulAttempts:  successfulLinks,
+		FailedAttempts:      failedLinks,
+		EnrichedUrls:        results,
+		SkippedUrls:         skipped,
+	}, nil
 }
 
 func (p *GitlabProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) {
