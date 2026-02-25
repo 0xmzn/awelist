@@ -45,14 +45,14 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			t.Fatalf("Enrich returned unexpected error: %v", err)
 		}
 
-		if results.TotalAttemptedLinks != 2 {
-			t.Errorf("Expected 2 total attempted, got %d", results.TotalAttemptedLinks)
+		if results.Metrics.Attempted != 2 {
+			t.Errorf("Expected 2 total attempted, got %d", results.Metrics.Attempted)
 		}
-		if results.SuccessfulAttempts != 2 {
-			t.Errorf("Expected 2 successful attempts, got %d", results.SuccessfulAttempts)
+		if results.Metrics.Successful != 2 {
+			t.Errorf("Expected 2 successful attempts, got %d", results.Metrics.Successful)
 		}
-		if results.FailedAttempts != 0 {
-			t.Errorf("Expected 0 failed attempts, got %d", results.FailedAttempts)
+		if results.Metrics.Failed != 0 {
+			t.Errorf("Expected 0 failed attempts, got %d", results.Metrics.Failed)
 		}
 		if len(results.EnrichedUrls) != 2 {
 			t.Errorf("Expected 2 successfully enriched URLs, got %d", len(results.SkippedUrls))
@@ -108,14 +108,14 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			t.Fatalf("Expected no execution error even on API fail, got: %v", err)
 		}
 
-		if results.TotalAttemptedLinks != 1 {
-			t.Errorf("Expected 1 total attempted, got %d", results.TotalAttemptedLinks)
+		if results.Metrics.Attempted != 1 {
+			t.Errorf("Expected 1 total attempted, got %d", results.Metrics.Attempted)
 		}
-		if results.FailedAttempts != 1 {
-			t.Errorf("Expected 1 failed attempt, got %d", results.FailedAttempts)
+		if results.Metrics.Failed != 1 {
+			t.Errorf("Expected 1 failed attempt, got %d", results.Metrics.Failed)
 		}
-		if results.SuccessfulAttempts != 0 {
-			t.Errorf("Expected 0 successful attempts, got %d", results.SuccessfulAttempts)
+		if results.Metrics.Successful != 0 {
+			t.Errorf("Expected 0 successful attempts, got %d", results.Metrics.Successful)
 		}
 		if len(results.EnrichedUrls) != 0 {
 			t.Errorf("Expected empty results on API error, got %d items", len(results.EnrichedUrls))
@@ -162,14 +162,14 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			t.Errorf("Expected error to be *github.RateLimitError, got %T: %v", err, err)
 		}
 
-		if results.TotalAttemptedLinks != 1 {
-			t.Errorf("Expected 1 total attempted, got %d", results.TotalAttemptedLinks)
+		if results.Metrics.Attempted != 1 {
+			t.Errorf("Expected 1 total attempted, got %d", results.Metrics.Attempted)
 		}
-		if results.SuccessfulAttempts != 0 {
-			t.Errorf("Expected 0 successful attempts, got %d", results.SuccessfulAttempts)
+		if results.Metrics.Successful != 0 {
+			t.Errorf("Expected 0 successful attempts, got %d", results.Metrics.Successful)
 		}
-		if results.FailedAttempts != 1 {
-			t.Errorf("Expected 1 failed attempt, got %d", results.FailedAttempts)
+		if results.Metrics.Failed != 1 {
+			t.Errorf("Expected 1 failed attempt, got %d", results.Metrics.Failed)
 		}
 		if len(results.EnrichedUrls) != 0 {
 			t.Errorf("Expected 0 enriched URLs, got %d", len(results.EnrichedUrls))
@@ -226,14 +226,14 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			t.Errorf("Expected error to be *github.RateLimitError, got %T: %v", err, err)
 		}
 
-		if results.TotalAttemptedLinks != 3 {
-			t.Errorf("Expected 3 total attempted, got %d", results.TotalAttemptedLinks)
+		if results.Metrics.Attempted != 3 {
+			t.Errorf("Expected 3 total attempted, got %d", results.Metrics.Attempted)
 		}
-		if results.SuccessfulAttempts != 2 {
-			t.Errorf("Expected 2 successful attempts, got %d", results.SuccessfulAttempts)
+		if results.Metrics.Successful != 2 {
+			t.Errorf("Expected 2 successful attempts, got %d", results.Metrics.Successful)
 		}
-		if results.FailedAttempts != 1 {
-			t.Errorf("Expected 1 failed attempt, got %d", results.FailedAttempts)
+		if results.Metrics.Failed != 1 {
+			t.Errorf("Expected 1 failed attempt, got %d", results.Metrics.Failed)
 		}
 		if len(results.EnrichedUrls) != 2 {
 			t.Errorf("Expected 2 enriched URLs, got %d", len(results.EnrichedUrls))

@@ -47,7 +47,7 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		}
 
 		orch := NewOrchestrator(logger, reconciler, ghProvider, glProvider)
-		_, err := orch.EnrichList(yamlList, nil)
+		_, _, err := orch.EnrichList(yamlList, nil)
 
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
@@ -74,7 +74,7 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		}
 
 		orch := NewOrchestrator(logger, reconciler, p)
-		_, err := orch.EnrichList(yamlList, nil)
+		_, _, err := orch.EnrichList(yamlList, nil)
 
 		if err != nil {
 			t.Errorf("Orchestrator should swallow rate limit errors, but returned: %v", err)
@@ -147,7 +147,7 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 		}
 
 		orch := NewOrchestrator(logger, reconciler, p)
-		_, err := orch.EnrichList(yamlList, nil)
+		_, _, err := orch.EnrichList(yamlList, nil)
 
 		if err != nil {
 			t.Errorf("unexpected error: %v", err)

@@ -10,9 +10,7 @@ type Provider interface {
 }
 
 type ProviderAttemptResult struct {
-	TotalAttemptedLinks int
-	SuccessfulAttempts  int
-	FailedAttempts      int
-	EnrichedUrls        map[string]*types.GitRepoMetadata
-	SkippedUrls         map[string]string
+	Metrics      types.ProviderMetrics
+	EnrichedUrls map[string]*types.GitRepoMetadata
+	SkippedUrls  map[string]string
 }

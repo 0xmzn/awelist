@@ -89,11 +89,14 @@ func (p *GithubProvider) Enrich(urls []string) (*ProviderAttemptResult, error) {
 				}
 				skipped[u] = rateLimitErr.Error()
 				return &ProviderAttemptResult{
-					TotalAttemptedLinks: totalLinkCount,
-					SuccessfulAttempts:  successfulLinks,
-					FailedAttempts:      failedLinks,
-					EnrichedUrls:        results,
-					SkippedUrls:         skipped,
+					Metrics: types.ProviderMetrics{
+						Provider:   p.Name(),
+						Attempted:  totalLinkCount,
+						Successful: successfulLinks,
+						Failed:     failedLinks,
+					},
+					EnrichedUrls: results,
+					SkippedUrls:  skipped,
 				}, &rateLimitErr
 			}
 
@@ -106,11 +109,14 @@ func (p *GithubProvider) Enrich(urls []string) (*ProviderAttemptResult, error) {
 	}
 
 	return &ProviderAttemptResult{
-		TotalAttemptedLinks: totalLinkCount,
-		SuccessfulAttempts:  successfulLinks,
-		FailedAttempts:      failedLinks,
-		EnrichedUrls:        results,
-		SkippedUrls:         skipped,
+		Metrics: types.ProviderMetrics{
+			Provider:   p.Name(),
+			Attempted:  totalLinkCount,
+			Successful: successfulLinks,
+			Failed:     failedLinks,
+		},
+		EnrichedUrls: results,
+		SkippedUrls:  skipped,
 	}, nil
 }
 

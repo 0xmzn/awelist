@@ -22,7 +22,7 @@ func NewOrchestrator(logger *slog.Logger, reconciler Reconciler, providers ...Pr
 	}
 }
 
-func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.AwesomeList) (map[string]string, error) {
+func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.AwesomeList) ([]types.ProviderMetrics, map[string]string, error) {
 	o.setSlugs(yamlList)
 
 	allLinks := o.reconciler.Reconcile(yamlList, jsonList)
@@ -31,6 +31,7 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 	providerMap := make(map[Provider][]string)
 	linkMap := make(map[string]*types.Link)
 	failedLinks := make(map[string]string)
+	var allMetrics []types.ProviderMetrics
 
 	for _, link := range allLinks {
 		linkMap[link.URL] = link
@@ -47,14 +48,17 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 
 		results, err := p.Enrich(urls)
 
-		for skippedURL, reason := range results.SkippedUrls {
-			failedLinks[skippedURL] = reason
-		}
+		if results != nil {
+			allMetrics = append(allMetrics, results.Metrics)
 
-		// extract enriched links, if any, before handling error
-		for url, meta := range results.EnrichedUrls {
-			if link, ok := linkMap[url]; ok {
-				link.RepoMetadata = meta
+			for skippedURL, reason := range results.SkippedUrls {
+				failedLinks[skippedURL] = reason
+			}
+
+			for url, meta := range results.EnrichedUrls {
+				if link, ok := linkMap[url]; ok {
+					link.RepoMetadata = meta
+				}
 			}
 		}
 
@@ -72,7 +76,7 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 	}
 
 	o.logger.Info("enrichment complete")
-	return failedLinks, nil
+	return allMetrics, failedLinks, nil
 }
 
 func (o *Orchestrator) setSlugs(list types.AwesomeList) {

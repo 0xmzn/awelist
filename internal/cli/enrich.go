@@ -30,15 +30,16 @@ func (c *EnrichCmd) Run(deps *Dependencies) error {
 		jsonList = lock.List
 	}
 
-	failedLinks, err := enricher.EnrichList(list, jsonList)
+	metrics, failedLinks, err := enricher.EnrichList(list, jsonList)
 	if err != nil {
 		return err
 	}
 
 	newLock := &types.LockFile{
 		Metadata: types.LockMetadata{
-			UpdatedAt:   time.Now(),
-			FailedLinks: failedLinks,
+			UpdatedAt:       time.Now(),
+			ProviderMetrics: metrics,
+			FailedLinks:     failedLinks,
 		},
 		List: list,
 	}
