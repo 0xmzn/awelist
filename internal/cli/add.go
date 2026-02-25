@@ -24,7 +24,7 @@ func (cmd *AddLinkCmd) Run(deps *Dependencies) error {
 	mngr := deps.ListManager
 	store := deps.Store
 
-	list, err := store.LoadYAML()
+	list, err := store.LoadAwesomeFile()
 	if err != nil {
 		return err
 	}
@@ -39,7 +39,7 @@ func (cmd *AddLinkCmd) Run(deps *Dependencies) error {
 		return err
 	}
 
-	if err = store.WriteYAML(list); err != nil {
+	if err = store.WriteAwesomeFile(list); err != nil {
 		return err
 	}
 
@@ -50,7 +50,7 @@ func (cmd *AddCategoryCmd) Run(deps *Dependencies) error {
 	store := deps.Store
 	mngr := deps.ListManager
 
-	list, err := store.LoadYAML()
+	list, err := store.LoadAwesomeFile()
 	if err != nil {
 		return err
 	}
@@ -64,7 +64,7 @@ func (cmd *AddCategoryCmd) Run(deps *Dependencies) error {
 		return err
 	}
 
-	if err = store.WriteYAML(list); err != nil {
+	if err = store.WriteAwesomeFile(list); err != nil {
 		return err
 	}
 

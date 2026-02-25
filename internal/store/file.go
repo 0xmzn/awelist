@@ -1,6 +1,7 @@
 package store
 
 import (
+	"bytes"
 	"encoding/json"
 	"os"
 
@@ -9,16 +10,16 @@ import (
 )
 
 type FileStore struct {
-	yamlPath string
-	jsonPath string
+	awesomeFilePath string
+	lockFilePath    string
 }
 
 func New(yamlPath, jsonPath string) *FileStore {
 	return &FileStore{yamlPath, jsonPath}
 }
 
-func (fs *FileStore) LoadYAML() (types.AwesomeList, error) {
-	data, err := os.ReadFile(fs.yamlPath)
+func (fs *FileStore) LoadAwesomeFile() (types.AwesomeList, error) {
+	data, err := os.ReadFile(fs.awesomeFilePath)
 	if err != nil {
 		return nil, err
 	}
@@ -30,32 +31,34 @@ func (fs *FileStore) LoadYAML() (types.AwesomeList, error) {
 	return list, nil
 }
 
-func (fs *FileStore) LoadJson() (types.AwesomeList, error) {
-	data, err := os.ReadFile(fs.jsonPath)
+func (fs *FileStore) LoadLockFile() (*types.LockFile, error) {
+	data, err := os.ReadFile(fs.lockFilePath)
 	if err != nil {
 		return nil, err
 	}
 
-	var list types.AwesomeList
-	if err := json.Unmarshal(data, &list); err != nil {
+	data = bytes.TrimSpace(data)
+
+	var lock types.LockFile
+	if err := json.Unmarshal(data, &lock); err != nil {
 		return nil, err
 	}
 
-	return list, nil
+	return &lock, nil
 }
 
-func (fs *FileStore) WriteYAML(list types.AwesomeList) error {
+func (fs *FileStore) WriteAwesomeFile(list types.AwesomeList) error {
 	data, err := yaml.Marshal(list)
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(fs.yamlPath, data, 0644)
+	return os.WriteFile(fs.awesomeFilePath, data, 0644)
 }
 
-func (fs *FileStore) WriteJSON(list types.AwesomeList) error {
-	data, err := json.MarshalIndent(list, "", "  ")
+func (fs *FileStore) WriteLockFile(lock *types.LockFile) error {
+	data, err := json.MarshalIndent(lock, "", "  ")
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(fs.jsonPath, data, 0644)
+	return os.WriteFile(fs.lockFilePath, data, 0644)
 }

@@ -67,14 +67,18 @@ func (p *GithubProvider) CanHandle(rawURL string) bool {
 	return true
 }
 
-func (p *GithubProvider) Enrich(urls []string) (*EnrichmentResult, error) {
+func (p *GithubProvider) Enrich(urls []string) (*ProviderAttemptResult, error) {
 	results := make(map[string]*types.GitRepoMetadata)
-	var skipped []string
+	skipped := make(map[string]string)
+	totalLinkCount := len(urls)
+	successfulLinks := 0
+	failedLinks := 0
 
 	for _, u := range urls {
 		meta, err := p.enrichSingle(u)
 
 		if err != nil {
+			failedLinks++
 			var ghRatelimitErr *github.RateLimitError
 			if errors.As(err, &ghRatelimitErr) {
 				rateLimitErr := ErrProviderRateLimit{
@@ -83,18 +87,37 @@ func (p *GithubProvider) Enrich(urls []string) (*EnrichmentResult, error) {
 					Remaining: ghRatelimitErr.Rate.Remaining,
 					ResetAt:   ghRatelimitErr.Rate.Reset.Time,
 				}
-				return &EnrichmentResult{results, append(skipped, u)}, &rateLimitErr
+				skipped[u] = rateLimitErr.Error()
+				return &ProviderAttemptResult{
+					Metrics: types.ProviderMetrics{
+						Provider:   p.Name(),
+						Attempted:  totalLinkCount,
+						Successful: successfulLinks,
+						Failed:     failedLinks,
+					},
+					EnrichedUrls: results,
+					SkippedUrls:  skipped,
+				}, &rateLimitErr
 			}
 
 			p.logger.Warn("skipping url", "url", u, "error", err)
-			skipped = append(skipped, u)
+			skipped[u] = err.Error()
 			continue
 		}
-
+		successfulLinks++
 		results[u] = meta
 	}
 
-	return &EnrichmentResult{EnrichedUrls: results, SkippedUrls: skipped}, nil
+	return &ProviderAttemptResult{
+		Metrics: types.ProviderMetrics{
+			Provider:   p.Name(),
+			Attempted:  totalLinkCount,
+			Successful: successfulLinks,
+			Failed:     failedLinks,
+		},
+		EnrichedUrls: results,
+		SkippedUrls:  skipped,
+	}, nil
 }
 
 func (p *GithubProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) {

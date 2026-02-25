@@ -26,3 +26,21 @@ type Category struct {
 }
 
 type AwesomeList []*Category
+
+type LockFile struct {
+	Metadata LockMetadata `json:"metadata"`
+	List     AwesomeList  `json:"list"`
+}
+
+type ProviderMetrics struct {
+	Provider   string `json:"provider"`
+	Attempted  int    `json:"attempted"`
+	Successful int    `json:"successful"`
+	Failed     int    `json:"failed"`
+}
+
+type LockMetadata struct {
+	UpdatedAt       time.Time         `json:"updated_at"`
+	ProviderMetrics []ProviderMetrics `json:"provider_metrics,omitempty"`
+	FailedLinks     map[string]string `json:"failed_links,omitempty"`
+}

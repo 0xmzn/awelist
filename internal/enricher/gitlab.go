@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/0xmzn/awelist/internal/types"
-	"gitlab.com/gitlab-org/api/client-go"
+	gitlab "gitlab.com/gitlab-org/api/client-go"
 )
 
 type GitlabProvider struct {
@@ -68,31 +68,51 @@ func (p *GitlabProvider) CanHandle(rawURL string) bool {
 	return true
 }
 
-func (p *GitlabProvider) Enrich(urls []string) (*EnrichmentResult, error) {
+func (p *GitlabProvider) Enrich(urls []string) (*ProviderAttemptResult, error) {
 	results := make(map[string]*types.GitRepoMetadata)
-	var skipped []string
+	skipped := make(map[string]string)
+	totalLinkCount := len(urls)
+	successfulLinks := 0
+	failedLinks := 0
 
 	for _, u := range urls {
 		meta, err := p.enrichSingle(u)
 		if err != nil {
+			failedLinks++
 			var rateLimitErr *ErrProviderRateLimit
 			if errors.As(err, &rateLimitErr) {
-				skipped = append(skipped, u)
+				skipped[u] = rateLimitErr.Error()
 
-				return &EnrichmentResult{
+				return &ProviderAttemptResult{
+					Metrics: types.ProviderMetrics{
+						Provider:   p.Name(),
+						Attempted:  totalLinkCount,
+						Successful: successfulLinks,
+						Failed:     failedLinks,
+					},
 					EnrichedUrls: results,
 					SkippedUrls:  skipped,
 				}, rateLimitErr
 			}
 
 			p.logger.Warn("skipping url", "url", u, "error", err)
-			skipped = append(skipped, u)
+			skipped[u] = err.Error()
 			continue
 		}
+		successfulLinks++
 		results[u] = meta
 	}
 
-	return &EnrichmentResult{EnrichedUrls: results, SkippedUrls: skipped}, nil
+	return &ProviderAttemptResult{
+		Metrics: types.ProviderMetrics{
+			Provider:   p.Name(),
+			Attempted:  totalLinkCount,
+			Successful: successfulLinks,
+			Failed:     failedLinks,
+		},
+		EnrichedUrls: results,
+		SkippedUrls:  skipped,
+	}, nil
 }
 
 func (p *GitlabProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) {
@@ -145,15 +165,13 @@ func (p *GitlabProvider) extractMetadataFromProject(project *gitlab.Project) typ
 }
 
 func (p *GitlabProvider) getPath(rawURL string) (string, error) {
-	u, err := url.Parse(rawURL)
-	if err != nil {
-		return "", err
-	}
-
+	u, _ := url.Parse(rawURL)
 	path := strings.Trim(u.Path, "/")
-	if path == "" {
-		return "", fmt.Errorf("invalid gitlab path")
+	parts := strings.Split(path, "/")
+
+	if len(parts) < 2 {
+		return "", fmt.Errorf("not a repository URL")
 	}
 
-	return path, nil
+	return fmt.Sprintf("%s/%s", parts[0], parts[1]), nil
 }
