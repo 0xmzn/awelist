@@ -159,15 +159,13 @@ func (p *GitlabProvider) extractMetadataFromProject(project *gitlab.Project) typ
 }
 
 func (p *GitlabProvider) getPath(rawURL string) (string, error) {
-	u, err := url.Parse(rawURL)
-	if err != nil {
-		return "", err
-	}
-
+	u, _ := url.Parse(rawURL)
 	path := strings.Trim(u.Path, "/")
-	if path == "" {
-		return "", fmt.Errorf("invalid gitlab path")
+	parts := strings.Split(path, "/")
+
+	if len(parts) < 2 {
+		return "", fmt.Errorf("not a repository URL")
 	}
 
-	return path, nil
+	return fmt.Sprintf("%s/%s", parts[0], parts[1]), nil
 }
