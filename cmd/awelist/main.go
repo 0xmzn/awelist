@@ -15,7 +15,7 @@ func main() {
 	ctx, app := cli.Parse(os.Args[1:])
 
 	loggerOpts := &slog.HandlerOptions{
-		Level: slog.LevelInfo,
+		Level: slog.LevelWarn,
 	}
 	if app.Debug {
 		loggerOpts.Level = slog.LevelDebug

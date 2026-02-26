@@ -2,6 +2,7 @@ package enricher
 
 import (
 	"errors"
+	"fmt"
 	"log/slog"
 
 	"github.com/0xmzn/awelist/internal/types"
@@ -26,7 +27,7 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 	o.setSlugs(yamlList)
 
 	allLinks := o.reconciler.Reconcile(yamlList, jsonList)
-	o.logger.Info("starting enrichment", "total_links", len(allLinks))
+	fmt.Printf("Attempting to enrich %d links\n", len(allLinks))
 
 	providerMap := make(map[Provider][]string)
 	linkMap := make(map[string]*types.Link)
@@ -44,7 +45,8 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 	}
 
 	for p, urls := range providerMap {
-		o.logger.Info("enriching links via provider", "name", p.Name(), "count", len(urls))
+		o.logger.Debug("enriching links via provider", "name", p.Name(), "count", len(urls))
+		fmt.Printf("Attempting to enrich %d links via %s\n", len(urls), p.Name())
 
 		results, err := p.Enrich(urls)
 
@@ -75,7 +77,7 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 
 	}
 
-	o.logger.Info("enrichment complete")
+	fmt.Println("Enrichment attempts completed. Run 'awelist report' for more information")
 	return allMetrics, failedLinks, nil
 }
 

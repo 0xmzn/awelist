@@ -1,6 +1,10 @@
 package cli
 
-import "github.com/0xmzn/awelist/internal/types"
+import (
+	"fmt"
+
+	"github.com/0xmzn/awelist/internal/types"
+)
 
 type AddCmd struct {
 	Link     AddLinkCmd     `kong:"cmd,help='Add a new link to a category.'"`
@@ -43,6 +47,7 @@ func (cmd *AddLinkCmd) Run(deps *Dependencies) error {
 		return err
 	}
 
+	fmt.Printf("Link %s added\n", newLink.Title)
 	return nil
 }
 
@@ -68,5 +73,6 @@ func (cmd *AddCategoryCmd) Run(deps *Dependencies) error {
 		return err
 	}
 
+	fmt.Printf("Category %s added\n", newCat.Title)
 	return nil
 }

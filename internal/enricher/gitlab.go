@@ -95,7 +95,7 @@ func (p *GitlabProvider) Enrich(urls []string) (*ProviderAttemptResult, error) {
 				}, rateLimitErr
 			}
 
-			p.logger.Warn("skipping url", "url", u, "error", err)
+			p.logger.Debug("skipping url", "url", u, "error", err)
 			skipped[u] = err.Error()
 			continue
 		}
@@ -145,7 +145,7 @@ func (p *GitlabProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) 
 
 	if resp != nil {
 		remaining := resp.Header.Get("RateLimit-Remaining")
-		p.logger.Info("fetched repository",
+		p.logger.Debug("fetched repository",
 			"repo", projectPath,
 			"remaining_api_calls", remaining,
 		)

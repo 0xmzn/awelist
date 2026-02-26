@@ -19,14 +19,14 @@ func (cmd *GenerateCmd) Run(deps *Dependencies) error {
 	log := deps.Logger
 	store := deps.Store
 
-	log.Info("Running generate", "template", cmd.TemplateFile)
+	log.Debug("Running generate", "template", cmd.TemplateFile)
 
 	var list types.AwesomeList
 	var err error
 
 	lock, err := store.LoadLockFile()
 	if err != nil {
-		log.Warn("lock file not found or invalid, using raw yaml", "error", err)
+		fmt.Println("no lock file found, performing generation without enrichment")
 		list, err = store.LoadAwesomeFile()
 		if err != nil {
 			return fmt.Errorf("failed to load any data source: %w", err)
@@ -43,7 +43,7 @@ func (cmd *GenerateCmd) Run(deps *Dependencies) error {
 		}
 		defer f.Close()
 		writer = f
-		log.Info("writing output to file", "path", cmd.OutputFile)
+		log.Debug("writing output to file", "path", cmd.OutputFile)
 	}
 
 	return generator.GenerateOutput(writer, cmd.TemplateFile, cmd.HTML, list)

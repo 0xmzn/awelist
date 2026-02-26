@@ -2,6 +2,7 @@ package cli
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"time"
 
@@ -22,7 +23,7 @@ func (c *EnrichCmd) Run(deps *Dependencies) error {
 	lock, err := deps.Store.LoadLockFile()
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
-			deps.Logger.Info("no lock file found, performing full enrichment")
+			fmt.Println("no lock file found, performing full enrichment")
 		} else {
 			return err
 		}

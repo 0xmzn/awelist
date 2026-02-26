@@ -100,7 +100,7 @@ func (p *GithubProvider) Enrich(urls []string) (*ProviderAttemptResult, error) {
 				}, &rateLimitErr
 			}
 
-			p.logger.Warn("skipping url", "url", u, "error", err)
+			p.logger.Debug("skipping url", "url", u, "error", err)
 			skipped[u] = err.Error()
 			continue
 		}
@@ -131,7 +131,7 @@ func (p *GithubProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) 
 		return nil, err
 	}
 
-	p.logger.Info("fetched repository",
+	p.logger.Debug("fetched repository",
 		"repo", fmt.Sprintf("%s/%s", owner, name),
 		"remaining", resp.Rate.Remaining,
 	)
