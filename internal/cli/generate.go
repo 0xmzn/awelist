@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -26,13 +27,18 @@ func (cmd *GenerateCmd) Run(deps *Dependencies) error {
 
 	lock, err := store.LoadLockFile()
 	if err != nil {
-		fmt.Println("no lock file found, performing generation without enrichment")
+		fmt.Fprintf(os.Stderr, "No lock file found, performing generation without enrichment\n")
 		list, err = store.LoadAwesomeFile()
 		if err != nil {
 			return fmt.Errorf("failed to load any data source: %w", err)
 		}
 	} else {
 		list = lock.List
+	}
+
+	var buf bytes.Buffer
+	if err := generator.GenerateOutput(&buf, cmd.TemplateFile, cmd.HTML, list); err != nil {
+		return err
 	}
 
 	var writer io.Writer = os.Stdout
@@ -46,5 +52,6 @@ func (cmd *GenerateCmd) Run(deps *Dependencies) error {
 		log.Debug("writing output to file", "path", cmd.OutputFile)
 	}
 
-	return generator.GenerateOutput(writer, cmd.TemplateFile, cmd.HTML, list)
+	_, err = io.Copy(writer, &buf)
+	return err
 }
