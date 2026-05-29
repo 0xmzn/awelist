@@ -96,7 +96,7 @@ func TestReconciler_Reconcile(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotLinks := reconciler.Reconcile(tt.yamlList, tt.jsonList)
+			gotLinks := reconciler.Reconcile(tt.yamlList, tt.jsonList, 24*time.Hour)
 
 			var gotURLs []string
 			for _, l := range gotLinks {

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"time"
 
 	"github.com/0xmzn/awelist/internal/types"
 	"github.com/gosimple/slug"
@@ -23,10 +24,10 @@ func NewOrchestrator(logger *slog.Logger, reconciler Reconciler, providers ...Pr
 	}
 }
 
-func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.AwesomeList) ([]types.ProviderMetrics, map[string]string, error) {
+func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.AwesomeList, ttl time.Duration) ([]types.ProviderMetrics, map[string]string, error) {
 	o.setSlugs(yamlList)
 
-	allLinks := o.reconciler.Reconcile(yamlList, jsonList)
+	allLinks := o.reconciler.Reconcile(yamlList, jsonList, ttl)
 	fmt.Printf("Attempting to enrich %d links\n", len(allLinks))
 
 	providerMap := make(map[Provider][]string)

@@ -13,7 +13,7 @@ func NewReconciler() Reconciler {
 	return Reconciler{}
 }
 
-func (r *Reconciler) Reconcile(yamlList types.AwesomeList, jsonList types.AwesomeList) []*types.Link {
+func (r *Reconciler) Reconcile(yamlList types.AwesomeList, jsonList types.AwesomeList, ttl time.Duration) []*types.Link {
 	currentState := make(map[string]*types.Link)
 	if jsonList != nil {
 		for _, link := range jsonList.Flatten() {
@@ -32,7 +32,7 @@ func (r *Reconciler) Reconcile(yamlList types.AwesomeList, jsonList types.Awesom
 		} else {
 			link.RepoMetadata = existing.RepoMetadata
 
-			if link.RepoMetadata == nil || time.Since(link.RepoMetadata.EnrichedAt) > 24*time.Hour {
+			if link.RepoMetadata == nil || time.Since(link.RepoMetadata.EnrichedAt) > ttl {
 				staleLinks = append(staleLinks, link)
 			}
 		}

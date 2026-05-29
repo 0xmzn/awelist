@@ -9,7 +9,9 @@ import (
 	"github.com/0xmzn/awelist/internal/types"
 )
 
-type EnrichCmd struct{}
+type EnrichCmd struct {
+	TTL time.Duration `kong:"long='ttl',help='How long before a cached enrichment is considered stale.',default='24h'"`
+}
 
 func (c *EnrichCmd) Run(deps *Dependencies) error {
 	enricher := deps.Enricher
@@ -31,7 +33,7 @@ func (c *EnrichCmd) Run(deps *Dependencies) error {
 		jsonList = lock.List
 	}
 
-	metrics, failedLinks, err := enricher.EnrichList(list, jsonList)
+	metrics, failedLinks, err := enricher.EnrichList(list, jsonList, c.TTL)
 	if err != nil {
 		return err
 	}
