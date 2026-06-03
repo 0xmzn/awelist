@@ -2,6 +2,7 @@ package cli
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -27,6 +28,9 @@ func (cmd *GenerateCmd) Run(deps *Dependencies) error {
 
 	lock, err := store.LoadLockFile()
 	if err != nil {
+		if !errors.Is(err, os.ErrNotExist) {
+			return fmt.Errorf("failed to load lock file: %w", err)
+		}
 		fmt.Fprintf(os.Stderr, "No lock file found, performing generation without enrichment\n")
 		list, err = store.LoadAwesomeFile()
 		if err != nil {
@@ -41,17 +45,20 @@ func (cmd *GenerateCmd) Run(deps *Dependencies) error {
 		return err
 	}
 
-	var writer io.Writer = os.Stdout
-	if cmd.OutputFile != "" {
-		f, err := os.Create(cmd.OutputFile)
-		if err != nil {
-			return fmt.Errorf("could not create output file: %w", err)
-		}
-		defer f.Close()
-		writer = f
-		log.Debug("writing output to file", "path", cmd.OutputFile)
+	if cmd.OutputFile == "" {
+		_, err = io.Copy(os.Stdout, &buf)
+		return err
 	}
 
-	_, err = io.Copy(writer, &buf)
+	f, err := os.Create(cmd.OutputFile)
+	if err != nil {
+		return fmt.Errorf("could not create output file: %w", err)
+	}
+	log.Debug("writing output to file", "path", cmd.OutputFile)
+
+	_, err = io.Copy(f, &buf)
+	if closeErr := f.Close(); closeErr != nil && err == nil {
+		return fmt.Errorf("could not close output file: %w", closeErr)
+	}
 	return err
 }

@@ -20,13 +20,16 @@ type GitlabProvider struct {
 	logger *slog.Logger
 }
 
-func NewGitlabProvider(token string, logger *slog.Logger) *GitlabProvider {
-	c, _ := gitlab.NewClient(token)
+func NewGitlabProvider(token string, logger *slog.Logger) (*GitlabProvider, error) {
+	c, err := gitlab.NewClient(token)
+	if err != nil {
+		return nil, err
+	}
 	return &GitlabProvider{
 		token:  token,
 		logger: logger.With("component", "gitlab-provider"),
 		client: c,
-	}
+	}, nil
 }
 
 func (p *GitlabProvider) Name() string {
@@ -129,9 +132,18 @@ func (p *GitlabProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) 
 			remainingStr := resp.Header.Get("RateLimit-Remaining")
 			resetStr := resp.Header.Get("RateLimit-Reset")
 
-			limit, _ := strconv.Atoi(limitStr)
-			remaining, _ := strconv.Atoi(remainingStr)
-			resetEpoch, _ := strconv.ParseInt(resetStr, 10, 64)
+			limit, err := strconv.Atoi(limitStr)
+			if err != nil {
+				p.logger.Debug("could not parse RateLimit-Limit header", "value", limitStr)
+			}
+			remaining, err := strconv.Atoi(remainingStr)
+			if err != nil {
+				p.logger.Debug("could not parse RateLimit-Remaining header", "value", remainingStr)
+			}
+			resetEpoch, err := strconv.ParseInt(resetStr, 10, 64)
+			if err != nil {
+				p.logger.Debug("could not parse RateLimit-Reset header", "value", resetStr)
+			}
 
 			return nil, &ErrProviderRateLimit{
 				ID:        p.Name(),
@@ -165,7 +177,10 @@ func (p *GitlabProvider) extractMetadataFromProject(project *gitlab.Project) typ
 }
 
 func (p *GitlabProvider) getPath(rawURL string) (string, error) {
-	u, _ := url.Parse(rawURL)
+	u, err := url.Parse(rawURL)
+	if err != nil {
+		return "", fmt.Errorf("invalid url: %w", err)
+	}
 	path := strings.Trim(u.Path, "/")
 	parts := strings.Split(path, "/")
 

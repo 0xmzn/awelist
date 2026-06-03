@@ -156,7 +156,10 @@ func (p *GithubProvider) extractMetadataFromRepo(repo *github.Repository) types.
 }
 
 func (p *GithubProvider) parseURL(rawURL string) (owner, repo string, err error) {
-	u, _ := url.Parse(rawURL)
+	u, err := url.Parse(rawURL)
+	if err != nil {
+		return "", "", fmt.Errorf("invalid url: %w", err)
+	}
 	path := strings.Trim(u.Path, "/")
 	parts := strings.Split(path, "/")
 

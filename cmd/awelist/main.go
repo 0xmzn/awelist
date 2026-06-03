@@ -27,16 +27,23 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stderr, loggerOpts))
 	store := store.New(app.AwesomeFile, app.AwesomeLock)
 	mngr := list.NewManager()
-	enricher := enricher.NewOrchestrator(logger, enricher.NewReconciler(), enricher.NewGithubProvider(ghToken, logger), enricher.NewGitlabProvider(glToken, logger))
+
+	glProvider, err := enricher.NewGitlabProvider(glToken, logger)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: failed to initialize GitLab provider: %v\n", err)
+		os.Exit(1)
+	}
+
+	orch := enricher.NewOrchestrator(logger, enricher.NewReconciler(), enricher.NewGithubProvider(ghToken, logger), glProvider)
 
 	deps := &cli.Dependencies{
 		Logger:      logger,
 		Store:       store,
 		ListManager: mngr,
-		Enricher:    enricher,
+		Enricher:    orch,
 	}
 
-	err := ctx.Run(deps)
+	err = ctx.Run(deps)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
