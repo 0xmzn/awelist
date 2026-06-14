@@ -168,10 +168,15 @@ func (p *GitlabProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) 
 }
 
 func (p *GitlabProvider) extractMetadataFromProject(project *gitlab.Project) types.GitRepoMetadata {
+	var lastUpdate time.Time
+	if project.LastActivityAt != nil {
+		lastUpdate = *project.LastActivityAt
+	}
+
 	return types.GitRepoMetadata{
 		Stars:      int(project.StarCount),
 		IsArchived: project.Archived,
-		LastUpdate: *project.LastActivityAt,
+		LastUpdate: lastUpdate,
 		EnrichedAt: time.Now(),
 	}
 }

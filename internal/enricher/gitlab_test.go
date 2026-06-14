@@ -40,6 +40,21 @@ func TestGitlabProvider_enrichSingle(t *testing.T) {
 			expectedStars: 150,
 		},
 		{
+			name: "Success - Missing last_activity_at",
+			url:  "https://gitlab.com/user/repo-no-activity",
+			mockSetup: func() {
+				gock.New("https://gitlab.com").
+					Get("/api/v4/projects/user/repo-no-activity").
+					Reply(200).
+					JSON(map[string]any{
+						"star_count": 5,
+						"archived":   false,
+					})
+			},
+			wantErr:       false,
+			expectedStars: 5,
+		},
+		{
 			name: "Failure - Rate Limit Exceeded",
 			url:  "https://gitlab.com/busy/repo",
 			mockSetup: func() {
