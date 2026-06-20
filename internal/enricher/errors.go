@@ -17,10 +17,10 @@ func (e *ErrProviderRateLimit) Error() string {
 }
 
 type ErrProviderAuth struct {
-	ID       string
-	Username string
+	ID     string
+	Reason string
 }
 
 func (e *ErrProviderAuth) Error() string {
-	return fmt.Sprintf("%s: %s authentication failed", e.ID, e.Username)
+	return fmt.Sprintf("%s: authentication failed: %s", e.ID, e.Reason)
 }

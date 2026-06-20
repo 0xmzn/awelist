@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/0xmzn/awelist/internal/types"
-	"github.com/google/go-github/v82/github"
 )
 
 func newLink(url string) *types.Link {
@@ -70,7 +69,7 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 			name:          "github",
 			canHandleFunc: func(u string) bool { return true },
 			enrichFunc: func(urls []string) (*ProviderAttemptResult, error) {
-				return &ProviderAttemptResult{EnrichedUrls: nil}, &github.RateLimitError{Message: "limit reached"}
+				return &ProviderAttemptResult{EnrichedUrls: nil}, errors.New("limit reached")
 			},
 		}
 
