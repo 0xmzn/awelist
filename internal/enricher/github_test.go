@@ -2,8 +2,6 @@ package enricher
 
 import (
 	"errors"
-	"io"
-	"log/slog"
 	"net/http"
 	"testing"
 
@@ -11,18 +9,15 @@ import (
 	"github.com/shurcooL/githubv4"
 )
 
-func newTestGithubProvider(logger *slog.Logger, batchSize int) *GithubProvider {
+func newTestGithubProvider(batchSize int) *GithubProvider {
 	return &GithubProvider{
 		token:     "test-token",
 		gqlClient: githubv4.NewClient(&http.Client{Transport: &gock.Transport{}}),
-		logger:    logger,
 		batchSize: batchSize,
 	}
 }
 
 func TestGithubProvider_Enrich(t *testing.T) {
-	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
-
 	t.Run("Successfully enrich multiple repos in a single batch", func(t *testing.T) {
 		defer gock.Off()
 
@@ -37,7 +32,7 @@ func TestGithubProvider_Enrich(t *testing.T) {
 				},
 			})
 
-		provider := newTestGithubProvider(logger, 50)
+		provider := newTestGithubProvider(50)
 
 		urls := []string{
 			"https://github.com/user/repo-a",
@@ -90,7 +85,7 @@ func TestGithubProvider_Enrich(t *testing.T) {
 				},
 			})
 
-		provider := newTestGithubProvider(logger, 1)
+		provider := newTestGithubProvider(1)
 
 		urls := []string{
 			"https://github.com/user/repo-a",
@@ -130,7 +125,7 @@ func TestGithubProvider_Enrich(t *testing.T) {
 				},
 			})
 
-		provider := newTestGithubProvider(logger, 50)
+		provider := newTestGithubProvider(50)
 
 		urls := []string{
 			"https://github.com/user/repo-missing",
@@ -166,7 +161,7 @@ func TestGithubProvider_Enrich(t *testing.T) {
 				},
 			})
 
-		provider := newTestGithubProvider(logger, 1)
+		provider := newTestGithubProvider(1)
 
 		urls := []string{
 			"https://github.com/user/repo-a",
@@ -201,7 +196,7 @@ func TestGithubProvider_Enrich(t *testing.T) {
 				},
 			})
 
-		provider := newTestGithubProvider(logger, 50)
+		provider := newTestGithubProvider(50)
 
 		urls := []string{"https://github.com/user/repo-a"}
 
@@ -224,7 +219,7 @@ func TestGithubProvider_Enrich(t *testing.T) {
 			Reply(401).
 			JSON(map[string]string{"message": "Bad credentials"})
 
-		provider := newTestGithubProvider(logger, 50)
+		provider := newTestGithubProvider(50)
 
 		urls := []string{"https://github.com/user/repo-a"}
 

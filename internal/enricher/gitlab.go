@@ -3,9 +3,9 @@ package enricher
 import (
 	"errors"
 	"fmt"
-	"log/slog"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -14,26 +14,35 @@ import (
 	gitlab "gitlab.com/gitlab-org/api/client-go"
 )
 
+var gitlabReservedPaths = map[string]bool{
+	"dashboard": true,
+	"projects":  true,
+	"groups":    true,
+	"users":     true,
+	"help":      true,
+	"explore":   true,
+	"stats":     true,
+	"search":    true,
+}
+
 type GitlabProvider struct {
 	token  string
 	client *gitlab.Client
-	logger *slog.Logger
 }
 
-func NewGitlabProvider(token string, logger *slog.Logger) (*GitlabProvider, error) {
+func NewGitlabProvider(token string) (*GitlabProvider, error) {
 	c, err := gitlab.NewClient(token)
 	if err != nil {
 		return nil, err
 	}
 	return &GitlabProvider{
 		token:  token,
-		logger: logger.With("component", "gitlab-provider"),
 		client: c,
 	}, nil
 }
 
 func (p *GitlabProvider) Name() string {
-	return "gitlab-provider"
+	return "GitLab"
 }
 
 func (p *GitlabProvider) CanHandle(rawURL string) bool {
@@ -53,18 +62,7 @@ func (p *GitlabProvider) CanHandle(rawURL string) bool {
 		return false
 	}
 
-	reserved := map[string]bool{
-		"dashboard": true,
-		"projects":  true,
-		"groups":    true,
-		"users":     true,
-		"help":      true,
-		"explore":   true,
-		"stats":     true,
-		"search":    true,
-	}
-
-	if reserved[parts[0]] {
+	if gitlabReservedPaths[parts[0]] {
 		return false
 	}
 
@@ -74,6 +72,19 @@ func (p *GitlabProvider) CanHandle(rawURL string) bool {
 func (p *GitlabProvider) Enrich(urls []string) (*ProviderAttemptResult, error) {
 	results := make(map[string]*types.GitRepoMetadata)
 	skipped := make(map[string]string)
+
+	if p.token == "" {
+		fmt.Fprintln(os.Stderr, "warning: GITLAB_TOKEN not set, skipping GitLab enrichment")
+		for _, u := range urls {
+			skipped[u] = "GITLAB_TOKEN not set"
+		}
+		return &ProviderAttemptResult{
+			Metrics:      types.ProviderMetrics{Provider: p.Name(), Attempted: len(urls), Failed: len(urls)},
+			EnrichedUrls: results,
+			SkippedUrls:  skipped,
+		}, nil
+	}
+
 	totalLinkCount := len(urls)
 	successfulLinks := 0
 	failedLinks := 0
@@ -98,7 +109,6 @@ func (p *GitlabProvider) Enrich(urls []string) (*ProviderAttemptResult, error) {
 				}, rateLimitErr
 			}
 
-			p.logger.Debug("skipping url", "url", u, "error", err)
 			skipped[u] = err.Error()
 			continue
 		}
@@ -132,18 +142,9 @@ func (p *GitlabProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) 
 			remainingStr := resp.Header.Get("RateLimit-Remaining")
 			resetStr := resp.Header.Get("RateLimit-Reset")
 
-			limit, err := strconv.Atoi(limitStr)
-			if err != nil {
-				p.logger.Debug("could not parse RateLimit-Limit header", "value", limitStr)
-			}
-			remaining, err := strconv.Atoi(remainingStr)
-			if err != nil {
-				p.logger.Debug("could not parse RateLimit-Remaining header", "value", remainingStr)
-			}
-			resetEpoch, err := strconv.ParseInt(resetStr, 10, 64)
-			if err != nil {
-				p.logger.Debug("could not parse RateLimit-Reset header", "value", resetStr)
-			}
+			limit, _ := strconv.Atoi(limitStr)
+			remaining, _ := strconv.Atoi(remainingStr)
+			resetEpoch, _ := strconv.ParseInt(resetStr, 10, 64)
 
 			return nil, &ErrProviderRateLimit{
 				ID:        p.Name(),
@@ -153,14 +154,6 @@ func (p *GitlabProvider) enrichSingle(u string) (*types.GitRepoMetadata, error) 
 			}
 		}
 		return nil, err
-	}
-
-	if resp != nil {
-		remaining := resp.Header.Get("RateLimit-Remaining")
-		p.logger.Debug("fetched repository",
-			"repo", projectPath,
-			"remaining_api_calls", remaining,
-		)
 	}
 
 	meta := p.extractMetadataFromProject(project)

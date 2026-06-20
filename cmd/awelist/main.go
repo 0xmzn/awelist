@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log/slog"
 	"os"
 
 	"github.com/0xmzn/awelist/internal/cli"
@@ -14,30 +13,21 @@ import (
 func main() {
 	ctx, app := cli.Parse(os.Args[1:])
 
-	loggerOpts := &slog.HandlerOptions{
-		Level: slog.LevelWarn,
-	}
-	if app.Debug {
-		loggerOpts.Level = slog.LevelDebug
-	}
-
 	ghToken := os.Getenv("GITHUB_TOKEN")
 	glToken := os.Getenv("GITLAB_TOKEN")
 
-	logger := slog.New(slog.NewTextHandler(os.Stderr, loggerOpts))
 	store := store.New(app.AwesomeFile, app.AwesomeLock)
 	mngr := list.NewManager()
 
-	glProvider, err := enricher.NewGitlabProvider(glToken, logger)
+	glProvider, err := enricher.NewGitlabProvider(glToken)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: failed to initialize GitLab provider: %v\n", err)
 		os.Exit(1)
 	}
 
-	orch := enricher.NewOrchestrator(logger, enricher.NewReconciler(), enricher.NewGithubProvider(ghToken, logger), glProvider)
+	orch := enricher.NewOrchestrator(enricher.NewReconciler(), enricher.NewGithubProvider(ghToken), glProvider)
 
 	deps := &cli.Dependencies{
-		Logger:      logger,
 		Store:       store,
 		ListManager: mngr,
 		Enricher:    orch,

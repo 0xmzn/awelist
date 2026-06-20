@@ -33,7 +33,7 @@ func (c *EnrichCmd) Run(deps *Dependencies) error {
 		jsonList = lock.List
 	}
 
-	metrics, failedLinks, err := enricher.EnrichList(list, jsonList, c.TTL)
+	metrics, failedLinks, unhandled, err := enricher.EnrichList(list, jsonList, c.TTL)
 	if err != nil {
 		return err
 	}
@@ -43,6 +43,7 @@ func (c *EnrichCmd) Run(deps *Dependencies) error {
 			UpdatedAt:       time.Now(),
 			ProviderMetrics: metrics,
 			FailedLinks:     failedLinks,
+			UnhandledLinks:  unhandled,
 		},
 		List: list,
 	}
@@ -50,5 +51,31 @@ func (c *EnrichCmd) Run(deps *Dependencies) error {
 	if err = deps.Store.WriteLockFile(newLock); err != nil {
 		return err
 	}
+
+	printSummary(metrics, len(unhandled))
+	if len(failedLinks) > 0 {
+		fmt.Println("\nSome links failed. Run 'awelist report' for details.")
+	}
 	return nil
+}
+
+func printSummary(metrics []types.ProviderMetrics, unhandled int) {
+	var total, succeeded, failed int
+	for _, m := range metrics {
+		total += m.Attempted
+		succeeded += m.Successful
+		failed += m.Failed
+	}
+	total += unhandled
+
+	fmt.Printf("\nSummary: %d total | %d succeeded | %d failed | %d skipped\n",
+		total, succeeded, failed, unhandled)
+
+	for _, m := range metrics {
+		fmt.Printf("  - %s | Attempted: %d | Succeeded: %d | Failed: %d\n",
+			m.Provider, m.Attempted, m.Successful, m.Failed)
+	}
+	if unhandled > 0 {
+		fmt.Printf("  - Other | %d skipped (no supported source)\n", unhandled)
+	}
 }

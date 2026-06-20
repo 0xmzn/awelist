@@ -3,8 +3,8 @@ package enricher
 import (
 	"context"
 	"fmt"
-	"log/slog"
 	"net/url"
+	"os"
 	"reflect"
 	"strings"
 	"time"
@@ -45,24 +45,22 @@ type repoTarget struct {
 type GithubProvider struct {
 	token     string
 	gqlClient *githubv4.Client
-	logger    *slog.Logger
 	batchSize int
 }
 
-func NewGithubProvider(token string, logger *slog.Logger) *GithubProvider {
+func NewGithubProvider(token string) *GithubProvider {
 	src := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
 	httpClient := oauth2.NewClient(context.Background(), src)
 
 	return &GithubProvider{
 		token:     token,
-		logger:    logger.With("component", "github-provider"),
 		gqlClient: githubv4.NewClient(httpClient),
 		batchSize: defaultGithubBatchSize,
 	}
 }
 
 func (p *GithubProvider) Name() string {
-	return "github-provider"
+	return "GitHub"
 }
 
 var githubReservedPaths = map[string]bool{
@@ -97,7 +95,7 @@ func (p *GithubProvider) Enrich(urls []string) (*ProviderAttemptResult, error) {
 	skipped := make(map[string]string)
 
 	if p.token == "" {
-		p.logger.Warn("skipping GitHub enrichment: GITHUB_TOKEN not set")
+		fmt.Fprintln(os.Stderr, "warning: GITHUB_TOKEN not set, skipping GitHub enrichment")
 		for _, u := range urls {
 			skipped[u] = "GITHUB_TOKEN not set"
 		}
@@ -182,11 +180,14 @@ func (p *GithubProvider) enrichBatch(batch []repoTarget, lastRL rateLimitInfo, r
 				ResetAt:   lastRL.ResetAt.Time,
 			}
 		}
-		p.logger.Debug("batch returned partial errors", "error", err)
 	}
 
 	qv := queryPtr.Elem()
 	rl := qv.FieldByName("RateLimit").Interface().(rateLimitInfo)
+
+	if err != nil && rl.Limit == 0 {
+		return rateLimitInfo{}, fmt.Errorf("graphql query failed: %w", err)
+	}
 
 	for i, t := range batch {
 		repo := qv.FieldByName(fmt.Sprintf("R%d", i)).Interface().(*repoNode)

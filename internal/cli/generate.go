@@ -18,10 +18,7 @@ type GenerateCmd struct {
 }
 
 func (cmd *GenerateCmd) Run(deps *Dependencies) error {
-	log := deps.Logger
 	store := deps.Store
-
-	log.Debug("Running generate", "template", cmd.TemplateFile)
 
 	var list types.AwesomeList
 	var err error
@@ -54,7 +51,6 @@ func (cmd *GenerateCmd) Run(deps *Dependencies) error {
 	if err != nil {
 		return fmt.Errorf("could not create output file: %w", err)
 	}
-	log.Debug("writing output to file", "path", cmd.OutputFile)
 
 	_, err = io.Copy(f, &buf)
 	if closeErr := f.Close(); closeErr != nil && err == nil {

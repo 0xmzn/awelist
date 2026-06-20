@@ -43,4 +43,5 @@ type LockMetadata struct {
 	UpdatedAt       time.Time         `json:"updated_at"`
 	ProviderMetrics []ProviderMetrics `json:"provider_metrics,omitempty"`
 	FailedLinks     map[string]string `json:"failed_links,omitempty"`
+	UnhandledLinks  []string          `json:"unhandled_links,omitempty"`
 }

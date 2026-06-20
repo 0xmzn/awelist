@@ -3,7 +3,7 @@ package enricher
 import (
 	"errors"
 	"fmt"
-	"log/slog"
+	"os"
 	"time"
 
 	"github.com/0xmzn/awelist/internal/types"
@@ -13,18 +13,16 @@ import (
 type Orchestrator struct {
 	providers  []Provider
 	reconciler Reconciler
-	logger     *slog.Logger
 }
 
-func NewOrchestrator(logger *slog.Logger, reconciler Reconciler, providers ...Provider) *Orchestrator {
+func NewOrchestrator(reconciler Reconciler, providers ...Provider) *Orchestrator {
 	return &Orchestrator{
 		providers:  providers,
 		reconciler: reconciler,
-		logger:     logger.With("component", "orchestrator"),
 	}
 }
 
-func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.AwesomeList, ttl time.Duration) ([]types.ProviderMetrics, map[string]string, error) {
+func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.AwesomeList, ttl time.Duration) ([]types.ProviderMetrics, map[string]string, []string, error) {
 	o.setSlugs(yamlList)
 
 	allLinks := o.reconciler.Reconcile(yamlList, jsonList, ttl)
@@ -34,19 +32,24 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 	linkMap := make(map[string]*types.Link)
 	failedLinks := make(map[string]string)
 	var allMetrics []types.ProviderMetrics
+	var unhandled []string
 
 	for _, link := range allLinks {
 		linkMap[link.URL] = link
+		handled := false
 		for _, p := range o.providers {
 			if p.CanHandle(link.URL) {
 				providerMap[p] = append(providerMap[p], link.URL)
+				handled = true
 				break
 			}
+		}
+		if !handled {
+			unhandled = append(unhandled, link.URL)
 		}
 	}
 
 	for p, urls := range providerMap {
-		o.logger.Debug("enriching links via provider", "name", p.Name(), "count", len(urls))
 		fmt.Printf("Attempting to enrich %d links via %s\n", len(urls), p.Name())
 
 		results, err := p.Enrich(urls)
@@ -67,19 +70,19 @@ func (o *Orchestrator) EnrichList(yamlList types.AwesomeList, jsonList types.Awe
 
 		var ratelimitErr *ErrProviderRateLimit
 		if errors.As(err, &ratelimitErr) {
-			o.logger.Error("provider rate limit reached", "name", p.Name(), "error", err)
+			fmt.Fprintf(os.Stderr, "warning: %s rate limit reached: %v\n", p.Name(), err)
 			continue
 		}
 
 		if err != nil {
-			o.logger.Error("provider enrichment failed", "name", p.Name(), "error", err)
+			fmt.Fprintf(os.Stderr, "warning: %s enrichment failed: %v\n", p.Name(), err)
 			continue
 		}
 
 	}
 
-	fmt.Println("Enrichment attempts completed. Run 'awelist report' for more information")
-	return allMetrics, failedLinks, nil
+	fmt.Println("Enrichment complete.")
+	return allMetrics, failedLinks, unhandled, nil
 }
 
 func (o *Orchestrator) setSlugs(list types.AwesomeList) {

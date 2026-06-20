@@ -2,8 +2,6 @@ package enricher
 
 import (
 	"errors"
-	"io"
-	"log/slog"
 	"testing"
 	"time"
 
@@ -15,7 +13,6 @@ func newLink(url string) *types.Link {
 }
 
 func TestOrchestrator_EnrichList(t *testing.T) {
-	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
 	reconciler := NewReconciler()
 
 	t.Run("successfully routes links to correct providers", func(t *testing.T) {
@@ -46,8 +43,8 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 			},
 		}
 
-		orch := NewOrchestrator(logger, reconciler, ghProvider, glProvider)
-		_, _, err := orch.EnrichList(yamlList, nil, 24*time.Hour)
+		orch := NewOrchestrator(reconciler, ghProvider, glProvider)
+		_, _, _, err := orch.EnrichList(yamlList, nil, 24*time.Hour)
 
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
@@ -73,8 +70,8 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 			},
 		}
 
-		orch := NewOrchestrator(logger, reconciler, p)
-		_, _, err := orch.EnrichList(yamlList, nil, 24*time.Hour)
+		orch := NewOrchestrator(reconciler, p)
+		_, _, _, err := orch.EnrichList(yamlList, nil, 24*time.Hour)
 
 		if err != nil {
 			t.Errorf("Orchestrator should swallow rate limit errors, but returned: %v", err)
@@ -97,7 +94,7 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 			},
 		}
 
-		orch := NewOrchestrator(logger, reconciler, p)
+		orch := NewOrchestrator(reconciler, p)
 		orch.EnrichList(yamlList, nil, 24*time.Hour)
 
 		if yamlList[0].Links[0].RepoMetadata == nil {
@@ -129,7 +126,7 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 			},
 		}
 
-		orch := NewOrchestrator(logger, reconciler, p)
+		orch := NewOrchestrator(reconciler, p)
 		orch.EnrichList(yamlList, nil, 24*time.Hour)
 
 		meta := yamlList[0].Subcategories[0].Links[0].RepoMetadata
@@ -146,8 +143,8 @@ func TestOrchestrator_EnrichList(t *testing.T) {
 			canHandleFunc: func(u string) bool { return false },
 		}
 
-		orch := NewOrchestrator(logger, reconciler, p)
-		_, _, err := orch.EnrichList(yamlList, nil, 24*time.Hour)
+		orch := NewOrchestrator(reconciler, p)
+		_, _, _, err := orch.EnrichList(yamlList, nil, 24*time.Hour)
 
 		if err != nil {
 			t.Errorf("unexpected error: %v", err)

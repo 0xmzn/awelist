@@ -3,8 +3,6 @@ package enricher
 import (
 	"context"
 	"errors"
-	"io"
-	"log/slog"
 	"net/http"
 	"testing"
 
@@ -13,8 +11,6 @@ import (
 )
 
 func TestGitlabProvider_enrichSingle(t *testing.T) {
-	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
-
 	tests := []struct {
 		name          string
 		url           string
@@ -127,7 +123,6 @@ func TestGitlabProvider_enrichSingle(t *testing.T) {
 
 			provider := &GitlabProvider{
 				client: glClient,
-				logger: logger,
 			}
 
 			results, err := provider.enrichSingle(tt.url)

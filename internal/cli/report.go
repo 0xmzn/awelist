@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"sort"
 )
 
 type ReportCmd struct{}
@@ -14,22 +15,26 @@ func (cmd *ReportCmd) Run(deps *Dependencies) error {
 
 	fmt.Printf("Last enriched at: %s\n", lock.Metadata.UpdatedAt.Format("2006-01-02 15:04:05"))
 
-	if len(lock.Metadata.ProviderMetrics) > 0 {
-		fmt.Println("\nProvider Summary:")
-		for _, m := range lock.Metadata.ProviderMetrics {
-			fmt.Printf("  • %-16s | Attempted: %d | Success: %d | Failed: %d\n",
-				m.Provider, m.Attempted, m.Successful, m.Failed)
+	m := lock.Metadata
+	printSummary(m.ProviderMetrics, len(m.UnhandledLinks))
+
+	if len(m.UnhandledLinks) > 0 {
+		fmt.Println("\nUnsupported links:")
+		for _, url := range m.UnhandledLinks {
+			fmt.Printf("  - %s\n", url)
 		}
 	}
 
-	if len(lock.Metadata.FailedLinks) == 0 {
-		fmt.Println("\nNo failed links found.")
-		return nil
-	}
-
-	fmt.Printf("\nFound %d failed links during the last enrichment:\n", len(lock.Metadata.FailedLinks))
-	for url, reason := range lock.Metadata.FailedLinks {
-		fmt.Printf("  - %s\n    Reason: %s\n", url, reason)
+	if len(m.FailedLinks) > 0 {
+		fmt.Println("\nFailed links:")
+		keys := make([]string, 0, len(m.FailedLinks))
+		for url := range m.FailedLinks {
+			keys = append(keys, url)
+		}
+		sort.Strings(keys)
+		for _, url := range keys {
+			fmt.Printf("  - %s\n    Reason: %s\n", url, m.FailedLinks[url])
+		}
 	}
 
 	return nil
