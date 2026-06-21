@@ -1,35 +1,40 @@
 # `awelist`: A CLI Tool for Managing Awesome Lists
 
-**WORK IN PROGRESS**
 ---
 
-`awelist` is a command-line tool written in Go that helps automate the maintenance and publishing of "[Awesome Lists](https://github.com/sindresorhus/awesome)." It streamlines the process of keeping your lists up-to-date by fetching metadata and generating a consistent, well-formatted output file.
+`awelist` is a Go CLI that automates maintaining and publishing "[Awesome Lists](https://github.com/sindresorhus/awesome)." It fetches metadata for listed projects and generates a formatted output file.
 
-The initial proposal that lead to the birth of this tool can be found [here](https://github.com/avelino/awesome-go/issues/5662).  
+The initial proposal that led to this tool is [here](https://github.com/avelino/awesome-go/issues/5662).
 
 -----
 
 ## Features
 
-  * **Structured List Management**: Define your awesome list content in a structured **YAML file** (`awesome.yaml`).
-  * **Automatic Enrichment**: Automatically fetch and add metadata like **GitHub/GitLab stars** and archived status for each listed project.
-  * **Template-Based Generation**: Use custom go templates to generate various output formats, such as `README.md`, HTML, or whatever you feel like.
-  * **Easy Contributions**: Add new links or categories to your list directly from the command line without manually editing the YAML file.
+  * Define your list content in a structured YAML file (`awesome.yaml`).
+  * Fetch metadata like GitHub stars, archived status, and last commit date for each project.
+  * Use Go templates to generate whatever output you need.
+  * Add new links or categories from the command line without editing YAML by hand.
 
 -----
 
 ## Installation
 
+### Using `go install`
+
+```bash
+go install github.com/0xmzn/awelist/cmd/awelist@latest
+```
+
 ### Build from source
 
-1. **Clone the repository:**
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/0xmzn/awelist.git
 cd awelist
 ```
 
-2. **Build the tool:**
+2. Build the tool:
 
 ```bash
 go mod tidy
@@ -40,13 +45,34 @@ go build ./cmd/awelist
 
 ## Usage
 
-The tool has three main commands: `add`, `enrich`, and `generate`.
+The tool has four main commands: `add`, `enrich`, `generate` and `report`.
+
+```
+Usage: awelist <command> [flags]
+
+A CLI tool for managing awesome lists
+
+Flags:
+  -h, --help                   Show context-sensitive help.
+      --file="awesome.yaml"    Path to awesome.yaml.
+      --lock="awesome-lock.json"
+                               Path to awesome-lock.json.
+
+Commands:
+  add link        Add a new link to a category.
+  add category    Add a new subcategory to a category.
+  enrich          Enrich YAML file. on success, awesome-lock.json file will be
+                  created.
+  generate        Generate file from template. uses dry data if
+                  awesome-lock.json does not exist.
+  report          Show details from the last enrichment.
+
+Run "awelist <command> --help" for more information on a command.
+```
 
 ### Add a new link or category
 
-Use the `add` command to quickly append new items to your list.
-
-**CAUTION:** The `add` command rewrites the `awesome.yaml` file, which causes **all comments to be lost**. If you rely on comments in your YAML file, please add items manually instead.
+The `add` command appends new items to your list.
 
 #### Adding a link
 
@@ -54,7 +80,7 @@ Use the `add` command to quickly append new items to your list.
 awelist add link --title "Zap" --description "Blazing fast, structured, leveled logging in Go." --url "github.com/uber-go/zap" "Logging"
 ```
 
-*The `"Logging"` part specifies the path where the new link will be added. You don't have to worry about the exact name and formatting of the sub category (e.g. uppercase vs lowercase), awelist will manage it for you. Make sure to write the exact name of the category you're adding to.*
+`"Logging"` is the target category. Case and formatting don't matter (awelist normalizes them), but the category itself needs to exist in your list.
 
 #### Adding a category
 
@@ -62,7 +88,7 @@ awelist add link --title "Zap" --description "Blazing fast, structured, leveled 
 awelist add category --title "Logging" --description "All things logging" "Utilites"
 ```
 
-if you're trying to add a category to the top-level list, you can use the special `.` argument:
+To add a category to the top-level list, use `.` as the path:
 
 ```bash
 awelist add category --title "Logging" --description "All things logging" .
@@ -70,38 +96,55 @@ awelist add category --title "Logging" --description "All things logging" .
 
 ### Enrich the list with metadata
 
-The `enrich` command fetches data (like stars and last update dates) and saves an enriched version of your list in a new file, `awesome-lock.json`. Take a look at [awesome-lock.json](awesome-lock.json) for example.
+The `enrich` command fetches metadata for each link and writes the results to `awesome-lock.json`. See [awesome-lock.json](awesome-lock.json) for an example.
 
 ```bash
 awelist enrich
 ```
-By default, awelist uses `awesome.yaml` file in the current directory. You can specify which file to load data from using `--awesome-file,-f` which is a global flag.
+By default, awelist reads from `awesome.yaml` in the current directory. Use the `--file` global flag to specify a different file.
 
-#### API Keys:
+Cached enrichments go stale after 24 hours. Change this with `--ttl`:
 
-Awelist reads GitHub & GitLab API keys from environment variables to fetch repositories' metadata. You're only required provide API key for the provider you're using.
+```bash
+awelist enrich --ttl 48h
+```
+
+#### Supported providers
+
+Awelist supports two providers:
+
+| Provider | Detected URLs | Metadata Fetched |
+| :--- | :--- | :--- |
+| **GitHub** | `github.com/*` | Stars, archived status, last commit date |
+| **GitLab** | `gitlab.com/*` | Stars, archived status, last commit date |
+
+Links that don't match a supported provider are skipped and reported as unhandled.
+
+#### API keys
+
+Awelist reads API keys from environment variables. You only need a key for the provider you're using.
 
 - GitHub: `GITHUB_TOKEN`
 - GitLab: `GITLAB_TOKEN`
 
 ### Generate a new `README.md`
 
-Use the `generate` command with a template file to create your final output. By default, generate relies on `awesome-lock.json` to generate template files. If the file doesn't exist, awelist will generate an on-the-fly enriched list without any remote calls.
+The `generate` command takes a template file and produces your output. It uses `awesome-lock.json` as its data source. If that file doesn't exist, awelist builds the data on the fly without making any remote calls.
 ```bash
 awelist generate my-template.md > README.md
 ```
 
-Example template can be found under [templates/readme.template](templates/readme.template).
+See [templates/readme.template](templates/readme.template) for an example template.
 
 -----
 
-## Data Structure for Templating
+## Data structure for templating
 
-### 1. Structure of `awesome.yaml` (The Input)
+### 1. Structure of `awesome.yaml` (the input)
 
-[awesome.yaml](./awesome.yaml) is the source-of-truth of data used by awelist. It is an array of **Category** objects.
+[awesome.yaml](./awesome.yaml) is the source of truth for awelist. It's an array of Category objects.
 
-#### Category Fields (YAML Input)
+#### Category fields (YAML input)
 
 | Field | Type | Description |
 | :--- | :--- | :--- |
@@ -110,7 +153,7 @@ Example template can be found under [templates/readme.template](templates/readme
 | **Links** | `List of Link` | An optional list of projects. |
 | **Subcategories** | `List of Category` | An optional list of nested categories. |
 
-#### Link Fields (YAML Input)
+#### Link fields (YAML input)
 
 | Field | Type | Description |
 | :--- | :--- | :--- |
@@ -118,24 +161,25 @@ Example template can be found under [templates/readme.template](templates/readme
 | **Description** | `string` | A short description. |
 | **URL** | `string` | The project's URL. |
 
-### 2. Enriched Data for Templates (`awesome-lock.json`)
+### 2. Enriched data for templates (`awesome-lock.json`)
 
-Templates are executed against the enriched data loaded from `awesome-lock.json`. This structure is identical to the YAML input, but with new fields added to `Category` and `Link`.
+Templates run against the enriched data from `awesome-lock.json`. The structure is the same as the YAML input, with extra fields on Category and Link.
 
-#### Enriched Category Fields
+#### Enriched category fields
 | Field | Description | Go Template Access |
 | :--- | :--- | :--- |
 | `Slug` | A URL-friendly version of the Title (e.g., `logging`). | `{{ .Slug }}` |
 | *(All other Category fields are also available)* | | | |
 
-#### Enriched Link Fields
-Links gain a `RepoMetadata` object with the following fields:
+#### Enriched link fields
+Each link gets a `RepoMetadata` object with these fields:
 
 | Field | Description | Go Template Access |
 | :--- | :--- | :--- |
 | `RepoMetadata.Stars` | The number of stars (e.g., GitHub stargazers). | `{{ .RepoMetadata.Stars }}` |
 | `RepoMetadata.IsArchived` | Whether the repository is archived. | `{{ .RepoMetadata.IsArchived }}` |
-| `RepoMetadata.EnrichedAt` | Last time link was enriched | `{{ .RepoMetadata.EnrichedAt }}` |
+| `RepoMetadata.LastUpdate` | The date of the last commit on the default branch. | `{{ .RepoMetadata.LastUpdate }}` |
+| `RepoMetadata.EnrichedAt` | Last time link was enriched. | `{{ .RepoMetadata.EnrichedAt }}` |
 | *(All other Link fields are also available)* | | |
 
 ### Example
@@ -181,9 +225,10 @@ Links gain a `RepoMetadata` object with the following fields:
             "description": "TUI components for bubbletea.",
             "url": "https://github.com/charmbracelet/bubbles",
             "repo_metadata": {
-              "stars": 7688,
+              "stars": 8570,
               "is_archived": false,
-              "enriched_at": "2026-02-05T11:34:36.210692848+01:00"
+              "last_update": "2026-06-15T09:07:40Z",
+              "enriched_at": "2026-06-21T18:03:51.961707+02:00"
             }
           },
           {
@@ -191,9 +236,10 @@ Links gain a `RepoMetadata` object with the following fields:
             "description": "Go framework to build terminal apps, based on The Elm Architecture.",
             "url": "https://github.com/charmbracelet/bubbletea",
             "repo_metadata": {
-              "stars": 39085,
+              "stars": 43270,
               "is_archived": false,
-              "enriched_at": "2026-02-05T11:34:36.619674976+01:00"
+              "last_update": "2026-06-01T16:34:19Z",
+              "enriched_at": "2026-06-21T18:03:51.961709+02:00"
             }
           }
         ]
@@ -208,9 +254,10 @@ Links gain a `RepoMetadata` object with the following fields:
             "description": "Commander for modern Go CLI interactions.",
             "url": "https://github.com/spf13/cobra",
             "repo_metadata": {
-              "stars": 43083,
+              "stars": 44137,
               "is_archived": false,
-              "enriched_at": "2026-02-05T11:34:37.029426395+01:00"
+              "last_update": "2026-04-25T23:07:41Z",
+              "enriched_at": "2026-06-21T18:03:51.96171+02:00"
             }
           },
           {
@@ -218,9 +265,10 @@ Links gain a `RepoMetadata` object with the following fields:
             "description": "Drop-in replacement for Go's flag package, implementing POSIX/GNU-style --flags.",
             "url": "https://github.com/spf13/pflag",
             "repo_metadata": {
-              "stars": 2695,
+              "stars": 2743,
               "is_archived": false,
-              "enriched_at": "2026-02-05T11:34:37.439142461+01:00"
+              "last_update": "2026-06-06T14:20:53Z",
+              "enriched_at": "2026-06-21T18:03:51.961711+02:00"
             }
           }
         ]
