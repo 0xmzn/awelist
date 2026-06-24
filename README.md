@@ -1,7 +1,5 @@
 # `awelist`: A CLI Tool for Managing Awesome Lists
 
----
-
 `awelist` is a Go CLI that automates maintaining and publishing "[Awesome Lists](https://github.com/sindresorhus/awesome)." It fetches metadata for listed projects and generates a formatted output file.
 
 The initial proposal that led to this tool is [here](https://github.com/avelino/awesome-go/issues/5662).
